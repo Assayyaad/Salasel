@@ -3,8 +3,8 @@ import React from 'react';
 import FilterButton from './FilterButton';
 
 const filters = [
-    "filter 1", "filter 2", "filter 3", "filter 4", "filter 5", 
-    "filter 6", "filter 7", "filter 8", "filter 9"
+    "تصنيف 1", "تصنيف 2", "تصنيف 3", "تصنيف 4", "تصنيف 5", 
+    "تصنيف 6", "تصنيف 7", "تصنيف 8", "تصنيف 9"
 ];
 
 const FilterGrid = () => {
@@ -12,7 +12,7 @@ const FilterGrid = () => {
         <div className="relative mb-12">
             <div 
                 aria-label="Content filters" 
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3" 
+                className="flex flex-wrap justify-center gap-3" 
                 role="group"
             >
                 {filters.map((filter, index) => (

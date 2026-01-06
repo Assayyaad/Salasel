@@ -12,7 +12,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ text, isActive }) => {
 
     return (
         <button 
-            className={`px-5 py-2 rounded-full text-sm font-medium transition-all transform hover:-translate-y-0.5 ${
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all transform hover:-translate-y-0.5 cursor-pointer ${
                 isActive ? activeClasses : inactiveClasses
             }`}
         >
