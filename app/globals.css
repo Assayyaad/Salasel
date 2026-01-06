@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Round');
 @import "tailwindcss";
 
 @theme {
@@ -15,4 +16,8 @@ body {
   background-color: var(--color-background-dark);
   color: #ededed;
   font-family: var(--font-sans);
+}
+
+.material-icons-round {
+  font-family: 'Material Icons Round';
 }

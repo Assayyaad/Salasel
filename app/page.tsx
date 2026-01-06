@@ -1,21 +1,21 @@
-
-import PlaylistCard from "./components/PlaylistCard";
-import FilterGrid from "./components/FilterGrid";
+import PlaylistGrid from "./components/PlaylistGrid";
 import { Playlist } from './types';
 import fs from 'fs/promises';
 import path from 'path';
-import { transformPlaylistToCardProps } from './lib/datatransform';
+import { transformPlaylistToCardProps } from "./lib/datatransform";
+
+export const revalidate = 60; // Revalidate every 60 seconds
 
 async function getPlaylists(): Promise<Playlist[]> {
   const filePath = path.join(process.cwd(), 'public', 'salasil.json');
   const jsonData = await fs.readFile(filePath, 'utf-8');
   const data = JSON.parse(jsonData);
-  return data.courses;
+  return data.courses.slice(0, 22);
 }
 
 export default async function Home() {
   const playlists = await getPlaylists();
-  const playlistsToShow = playlists.slice(1, 22); 
+  const transformedPlaylists = playlists.map(transformPlaylistToCardProps);
 
   return (
     <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -25,15 +25,7 @@ export default async function Home() {
           استكشف عالمًا من المحتوى المنسق المصمم للوضوح والتركيز.
         </p>
       </div>
-      <FilterGrid /> {/* Assuming FilterGrid is still desired here */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-        {playlistsToShow.map((playlist) => (
-          <PlaylistCard
-            key={playlist["معرف قائمة التشغيل"]}
-            {...transformPlaylistToCardProps(playlist)}
-          />
-        ))}
-      </div>
+      <PlaylistGrid playlists={transformedPlaylists} />
     </main>
   );
 }

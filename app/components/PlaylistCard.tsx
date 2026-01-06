@@ -6,6 +6,7 @@ export interface PlaylistCardProps {
     description: string;
     imageUrl: string;
     playlistId: string;
+    tags: string[];
 }
 
 const PlaylistCard: React.FC<PlaylistCardProps> = ({ title, description, imageUrl, playlistId }) => {

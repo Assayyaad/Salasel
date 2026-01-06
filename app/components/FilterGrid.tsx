@@ -1,9 +1,7 @@
-"use client";
-import React from 'react';
 import FilterButton from './FilterButton';
 
 const filters = [
-    "تصنيف 1", "تصنيف 2", "تصنيف 3", "تصنيف 4", "تصنيف 5", 
+    "الكل", "تصنيف 1", "تصنيف 2", "تصنيف 3", "تصنيف 4", "تصنيف 5", 
     "تصنيف 6", "تصنيف 7", "تصنيف 8", "تصنيف 9"
 ];
 
@@ -15,11 +13,10 @@ const FilterGrid = () => {
                 className="flex flex-wrap justify-center gap-3" 
                 role="group"
             >
-                {filters.map((filter, index) => (
+                {filters.map((filter) => (
                     <FilterButton 
                         key={filter}
                         text={filter}
-                        isActive={index === 0}
                     />
                 ))}
             </div>
