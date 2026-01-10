@@ -14,16 +14,11 @@ interface ClientPlaylistPageProps {
 }
 
 const ClientPlaylistPage: React.FC<ClientPlaylistPageProps> = ({ id, initialPlaylist }) => {
-  // The component now initializes its state with the server-fetched data,
-  // ensuring no loading state on a hard refresh.
   const [playlistData, setPlaylistData] = useState<Playlist>(() => transformSinglePlaylist(initialPlaylist));
   
   const rawPlaylists = usePlaylistStore((state) => state.rawPlaylists);
 
   useEffect(() => {
-    // This effect will run if the user navigates client-side.
-    // It prioritizes the data in the store, which might be more up-to-date
-    // than the statically generated page's data.
     if (rawPlaylists.length > 0) {
       const foundPlaylist = rawPlaylists.find(
         (p) => p["معرف قائمة التشغيل"] === id
@@ -36,8 +31,6 @@ const ClientPlaylistPage: React.FC<ClientPlaylistPageProps> = ({ id, initialPlay
     }
   }, [rawPlaylists, id]);
 
-  // This loading state will now only appear briefly during client-side navigation
-  // if the store is not yet populated.
   if (!playlistData) {
     return <div className="text-white text-center py-12">...جار تحميل قائمة التشغيل</div>;
   }
