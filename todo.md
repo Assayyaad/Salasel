@@ -3,6 +3,7 @@
 This file tracks the major issues and tasks for the Salasel 2.0 project.
 
 ## High Priority
+
 - **[BUG]** Video does not load on initial client-side navigation to the playlist page. It only works after a hard reload. This is likely a component mounting or initialization issue with the video player.
 - **[BUG]** The video thumbnail is incorrectly displayed on top of the video player, obstructing the view.
 - **[REFACTOR]** The overall HTML layout and CSS for the playlist page needs to be reviewed and fixed to match the design.

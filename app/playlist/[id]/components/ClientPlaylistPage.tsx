@@ -1,38 +1,36 @@
-"use client";
+'use client'
 
-import React, { useEffect, useState } from 'react';
-import { usePlaylistStore } from '@/app/store/usePlaylistStore';
-import VideoPlayer from './VideoPlayer';
-import PlaylistSidebar from './PlaylistSidebar';
-import VideoDetailsTabs from './VideoDetailsTabs';
-import { transformSinglePlaylist } from '@/app/lib/datatransform';
-import { Playlist } from '@/app/types';
+import React, { useEffect, useState } from 'react'
+import { usePlaylistStore } from '@/app/store/usePlaylistStore'
+import VideoPlayer from './VideoPlayer'
+import PlaylistSidebar from './PlaylistSidebar'
+import VideoDetailsTabs from './VideoDetailsTabs'
+import { transformSinglePlaylist } from '@/app/lib/datatransform'
+import { Playlist } from '@/app/types'
 
 interface ClientPlaylistPageProps {
-  id: string;
-  initialPlaylist: Playlist;
+  id: string
+  initialPlaylist: Playlist
 }
 
 const ClientPlaylistPage: React.FC<ClientPlaylistPageProps> = ({ id, initialPlaylist }) => {
-  const [playlistData, setPlaylistData] = useState<Playlist>(() => transformSinglePlaylist(initialPlaylist));
-  
-  const rawPlaylists = usePlaylistStore((state) => state.rawPlaylists);
+  const [playlistData, setPlaylistData] = useState<Playlist>(() => transformSinglePlaylist(initialPlaylist))
+
+  const rawPlaylists = usePlaylistStore((state) => state.rawPlaylists)
 
   useEffect(() => {
     if (rawPlaylists.length > 0) {
-      const foundPlaylist = rawPlaylists.find(
-        (p) => p["معرف قائمة التشغيل"] === id
-      );
+      const foundPlaylist = rawPlaylists.find((p) => p['معرف قائمة التشغيل'] === id)
 
       if (foundPlaylist) {
-        const transformed = transformSinglePlaylist(foundPlaylist);
-        setPlaylistData(transformed);
+        const transformed = transformSinglePlaylist(foundPlaylist)
+        setPlaylistData(transformed)
       }
     }
-  }, [rawPlaylists, id]);
+  }, [rawPlaylists, id])
 
   if (!playlistData) {
-    return <div className="text-white text-center py-12">...جار تحميل قائمة التشغيل</div>;
+    return <div className="text-white text-center py-12">...جار تحميل قائمة التشغيل</div>
   }
 
   return (
@@ -47,7 +45,7 @@ const ClientPlaylistPage: React.FC<ClientPlaylistPageProps> = ({ id, initialPlay
       </div>
       <VideoDetailsTabs />
     </main>
-  );
-};
+  )
+}
 
-export default ClientPlaylistPage;
+export default ClientPlaylistPage

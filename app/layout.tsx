@@ -1,95 +1,93 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
+import './globals.css'
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+})
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
-  title: "سلاسل - تطبيق سلاسل تعليمية وتوعوية",
-  description: "تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك",
-  abstract: "تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك",
+  title: 'سلاسل - تطبيق سلاسل تعليمية وتوعوية',
+  description: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
+  abstract: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
   alternates: {
     languages: {
-      ar: "/",
+      ar: '/',
     },
   },
   appleWebApp: {
-    title: "سلاسل",
+    title: 'سلاسل',
   },
-  applicationName: "سلاسل",
-  themeColor: "#2e4b2c",
-  colorScheme: "dark",
-  metadataBase: new URL("https://salasel.app"),
-  category: "Education",
-  classification: "Education",
+  applicationName: 'سلاسل',
+  themeColor: '#2e4b2c',
+  colorScheme: 'dark',
+  metadataBase: new URL('https://salasel.app'),
+  category: 'Education',
+  classification: 'Education',
   icons: {
-    icon: "/img/logo.webp",
-    apple: "/img/logo.webp",
+    icon: '/img/logo.webp',
+    apple: '/img/logo.webp',
   },
-  manifest: "/manifest.json",
+  manifest: '/manifest.json',
   keywords: [],
   openGraph: {
-    title: "سلاسل - تطبيق سلاسل تعليمية وتوعوية",
-    description: "تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك",
-    url: "https://salasel.app/",
-    siteName: "سلاسل",
-    type: "website",
-    locale: "ar",
+    title: 'سلاسل - تطبيق سلاسل تعليمية وتوعوية',
+    description: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
+    url: 'https://salasel.app/',
+    siteName: 'سلاسل',
+    type: 'website',
+    locale: 'ar',
   },
   robots: {
-    "index": true,
-    "follow": true,
-    "max-image-preview": "large",
-    "max-video-preview": -1,
-    "max-snippet": -1,
+    'index': true,
+    'follow': true,
+    'max-image-preview': 'large',
+    'max-video-preview': -1,
+    'max-snippet': -1,
   },
   twitter: {
-    card: "summary_large_image",
-    title: "سلاسل - تطبيق سلاسل تعليمية وتوعوية",
-    description: "تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك",
-    site: "@SalaselApp",
+    card: 'summary_large_image',
+    title: 'سلاسل - تطبيق سلاسل تعليمية وتوعوية',
+    description: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
+    site: '@SalaselApp',
   },
   other: {
-    "preconnect": [
-      "https://img.youtube.com",
-      "https://youtube.com",
-      "https://www.youtube.com",
-      "https://fonts.googleapis.com",
-      "https://fonts.gstatic.com",
+    'preconnect': [
+      'https://img.youtube.com',
+      'https://youtube.com',
+      'https://www.youtube.com',
+      'https://fonts.googleapis.com',
+      'https://fonts.gstatic.com',
     ],
-    "dns-prefetch": [
-      "//img.youtube.com",
-      "//youtube.com",
-      "//www.youtube.com",
-      "//fonts.googleapis.com",
-      "//fonts.gstatic.com",
+    'dns-prefetch': [
+      '//img.youtube.com',
+      '//youtube.com',
+      '//www.youtube.com',
+      '//fonts.googleapis.com',
+      '//fonts.gstatic.com',
     ],
   },
-};
+}
 
-import NavBar from "./shared/components/NavBar";
+import NavBar from './shared/components/NavBar'
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NavBar />
         {children}
       </body>
     </html>
-  );
+  )
 }

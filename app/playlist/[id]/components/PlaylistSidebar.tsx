@@ -1,15 +1,16 @@
-"use client";
-import React, { useState } from 'react';
-import { Playlist as Course } from '@/app/types';
-import VideoContent from './VideoContent';
-import Notes from './Notes';
+'use client'
+
+import React, { useState } from 'react'
+import { Playlist as Course } from '@/app/types'
+import VideoContent from './VideoContent'
+import Notes from './Notes'
 
 interface PlaylistSidebarProps {
-  playlist: Course;
+  playlist: Course
 }
 
-const PlaylistSidebar = ({ playlist }: PlaylistSidebarProps) => {
-  const [activeTab, setActiveTab] = useState('content');
+const PlaylistSidebar: React.FC<PlaylistSidebarProps> = ({ playlist }) => {
+  const [activeTab, setActiveTab] = useState('content')
 
   return (
     <div className="lg:col-span-1 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm flex flex-col h-[600px]">
@@ -46,7 +47,7 @@ const PlaylistSidebar = ({ playlist }: PlaylistSidebarProps) => {
         {activeTab === 'notes' && <Notes />}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PlaylistSidebar;
+export default PlaylistSidebar

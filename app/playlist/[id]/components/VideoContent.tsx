@@ -1,11 +1,11 @@
-import React from 'react';
-import { Video } from '../types';
+import React from 'react'
+import { Video } from '../../../types'
 
 interface VideoContentProps {
-  videos: Video[];
+  videos: Video[]
 }
 
-const VideoContent = ({ videos }: VideoContentProps) => {
+const VideoContent: React.FC<VideoContentProps> = ({ videos }) => {
   return (
     <div className="flex-1 overflow-y-auto pr-1 space-y-2">
       {videos.map((video, index) => (
@@ -13,10 +13,7 @@ const VideoContent = ({ videos }: VideoContentProps) => {
           key={video['معرف الفيديو']}
           className="group flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer border border-transparent hover:border-border-light dark:hover:border-border-dark"
         >
-          <input
-            type="checkbox"
-            className="form-checkbox h-5 w-5 text-primary rounded-sm focus:ring-primary"
-          />
+          <input type="checkbox" className="form-checkbox h-5 w-5 text-primary rounded-sm focus:ring-primary" />
           <div className="flex-1">
             <p className="text-sm text-gray-700 dark:text-gray-300">
               {index + 1}. {video['عنوان']}
@@ -28,7 +25,7 @@ const VideoContent = ({ videos }: VideoContentProps) => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default VideoContent;
+export default VideoContent
