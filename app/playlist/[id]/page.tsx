@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { Playlist, SalasilData } from '@/app/types';
+import { Playlist, SalaselData } from '@/app/types';
 import ClientPlaylistPage from './components/ClientPlaylistPage';
 
 // Helper function to read the data for static generation
-async function getSalasilData(): Promise<SalasilData> {
-  const filePath = path.join(process.cwd(), 'public', 'salasil.json');
+async function getSalaselData(): Promise<SalaselData> {
+  const filePath = path.join(process.cwd(), 'public', 'salasel.json');
   const jsonData = await fs.promises.readFile(filePath, 'utf-8');
   return JSON.parse(jsonData);
 }
@@ -13,7 +13,7 @@ async function getSalasilData(): Promise<SalasilData> {
 // This Server-side function generates the list of all possible playlist pages
 // at build time, which is great for performance and SEO (ISR).
 export async function generateStaticParams() {
-  const data = await getSalasilData();
+  const data = await getSalaselData();
   // Generate paths for the first 22 playlists
   return data.courses.slice(0, 22).map((course) => ({
     id: course['معرف قائمة التشغيل'],
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 }
 
 async function getPlaylist(id: string): Promise<Playlist | undefined> {
-  const data = await getSalasilData();
+  const data = await getSalaselData();
   return data.courses.find(course => course['معرف قائمة التشغيل'] === id);
 }
 

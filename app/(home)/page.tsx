@@ -7,7 +7,7 @@ import StoreInitializer from "@/app/shared/components/StoreInitializer";
 export const revalidate = 60; // Revalidate every 60 seconds
 
 async function getPlaylists(): Promise<Playlist[]> {
-  const filePath = path.join(process.cwd(), 'public', 'salasil.json');
+  const filePath = path.join(process.cwd(), 'public', 'salasel.json');
   const jsonData = await fs.readFile(filePath, 'utf-8');
   const data = JSON.parse(jsonData);
   return data.courses.slice(0, 22);

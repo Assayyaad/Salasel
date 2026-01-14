@@ -25,6 +25,6 @@ export interface Playlist {
     "الفيديوهات": Video[];
 }
 
-export interface SalasilData {
+export interface SalaselData {
     courses: Playlist[];
 }

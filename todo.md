@@ -1,6 +1,6 @@
 # Project TODO List
 
-This file tracks the major issues and tasks for the Salasil 2.0 project.
+This file tracks the major issues and tasks for the Salasel 2.0 project.
 
 ## High Priority
 - **[BUG]** Video does not load on initial client-side navigation to the playlist page. It only works after a hard reload. This is likely a component mounting or initialization issue with the video player.
