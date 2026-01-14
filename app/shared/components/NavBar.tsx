@@ -38,7 +38,7 @@ const NavBar = () => {
                     <SearchBar />
                     <div className="flex items-center justify-end">
                         <a className="text-lg font-bold tracking-tight text-slate-900 dark:text-white" href="#">
-                            العنوان
+                            سلاسل
                         </a>
                     </div>
 
