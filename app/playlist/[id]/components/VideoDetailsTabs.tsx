@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { foundResults, searchTab, summaryTab, transcriptionTab } from '@/app/static'
 
 const VideoDetailsTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState('search')
@@ -16,7 +17,7 @@ const VideoDetailsTabs: React.FC = () => {
           }`}
           onClick={() => setActiveTab('search')}
         >
-          بحث
+          {searchTab}
         </button>
         <button
           className={`px-6 py-4 text-sm font-medium transition-colors ${
@@ -26,7 +27,7 @@ const VideoDetailsTabs: React.FC = () => {
           }`}
           onClick={() => setActiveTab('summary')}
         >
-          ملخص
+          {summaryTab}
         </button>
         <button
           className={`px-6 py-4 text-sm font-medium transition-colors ${
@@ -36,7 +37,7 @@ const VideoDetailsTabs: React.FC = () => {
           }`}
           onClick={() => setActiveTab('transcription')}
         >
-          النص
+          {transcriptionTab}
         </button>
       </div>
       <div className="p-6 md:p-8">
@@ -53,7 +54,7 @@ const VideoDetailsTabs: React.FC = () => {
               </span>
             </div>
             <div className="mb-4">
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">تم العثور على 3 نتائج</h3>
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">{foundResults}</h3>
               <div className="space-y-3">
                 <div className="flex items-center group bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary rounded-lg p-4 cursor-pointer transition-all shadow-sm hover:shadow-md">
                   <div className="mr-4 flex-shrink-0">
@@ -140,8 +141,8 @@ const VideoDetailsTabs: React.FC = () => {
             </div>
           </div>
         )}
-        {activeTab === 'summary' && <div>ملخص</div>}
-        {activeTab === 'transcription' && <div>النص</div>}
+        {activeTab === 'summary' && <div>{summaryTab}</div>}
+        {activeTab === 'transcription' && <div>{transcriptionTab}</div>}
       </div>
     </div>
   )

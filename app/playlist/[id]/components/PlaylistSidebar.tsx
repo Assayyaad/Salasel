@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Playlist as Course } from '@/app/types'
 import VideoContent from './VideoContent'
 import Notes from './Notes'
+import { contentTab, noContent, notesTab } from '@/app/static'
 
 interface PlaylistSidebarProps {
   playlist: Course
@@ -23,7 +24,7 @@ const PlaylistSidebar: React.FC<PlaylistSidebarProps> = ({ playlist }) => {
           }`}
           onClick={() => setActiveTab('content')}
         >
-          المحتوى
+          {contentTab}
         </button>
         <button
           className={`flex-1 py-3 text-sm font-medium transition-colors ${
@@ -33,7 +34,7 @@ const PlaylistSidebar: React.FC<PlaylistSidebarProps> = ({ playlist }) => {
           }`}
           onClick={() => setActiveTab('notes')}
         >
-          ملاحظات
+          {notesTab}
         </button>
       </div>
       <div className="flex-1 flex flex-col p-4 overflow-hidden">
@@ -41,7 +42,7 @@ const PlaylistSidebar: React.FC<PlaylistSidebarProps> = ({ playlist }) => {
           <VideoContent videos={playlist.الفيديوهات} />
         ) : activeTab === 'content' ? (
           <div className="flex items-center justify-center h-full">
-            <p className="text-gray-500">لا يوجد محتوى متاح.</p>
+            <p className="text-gray-500">{noContent}</p>
           </div>
         ) : null}
         {activeTab === 'notes' && <Notes />}

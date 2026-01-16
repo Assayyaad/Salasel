@@ -7,6 +7,7 @@ import PlaylistSidebar from './PlaylistSidebar'
 import VideoDetailsTabs from './VideoDetailsTabs'
 import { transformSinglePlaylist } from '@/app/lib/datatransform'
 import { Playlist } from '@/app/types'
+import { loading } from '@/app/static'
 
 interface ClientPlaylistPageProps {
   id: string
@@ -30,7 +31,7 @@ const ClientPlaylistPage: React.FC<ClientPlaylistPageProps> = ({ id, initialPlay
   }, [rawPlaylists, id])
 
   if (!playlistData) {
-    return <div className="text-white text-center py-12">...جار تحميل قائمة التشغيل</div>
+    return <div className="text-white text-center py-12">{loading}</div>
   }
 
   return (

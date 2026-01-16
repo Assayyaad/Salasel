@@ -3,15 +3,10 @@
 import React, { useState } from 'react'
 import SearchBar from './SearchBar'
 import Drawer from './Drawer'
+import { title, navs } from '@/app/static'
 
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-
-  const navs = [
-    { name: 'الرئيسية', href: '/' },
-    { name: 'مسار', href: '/masaar' },
-    { name: 'عنّا', href: '/about' },
-  ]
 
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true)
@@ -45,7 +40,7 @@ const NavBar: React.FC = () => {
           <SearchBar />
           <div className="flex items-center justify-end">
             <a className="text-lg font-bold tracking-tight text-slate-900 dark:text-white" href="#">
-              سلاسل
+              {title}
             </a>
           </div>
         </div>

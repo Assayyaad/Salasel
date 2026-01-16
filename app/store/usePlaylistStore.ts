@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { Playlist } from '@/app/types'
 import { PlaylistCardProps } from '@/app/(home)/components/PlaylistCard'
+import { filters } from '@/app/static'
 
 interface PlaylistState {
   // State variables
@@ -17,7 +18,7 @@ interface PlaylistState {
 export const usePlaylistStore = create<PlaylistState>((set) => ({
   rawPlaylists: [],
   cardPlaylists: [],
-  activeFilter: 'الكل',
+  activeFilter: filters[0],
 
   setRawPlaylists: (playlists) => set({ rawPlaylists: playlists }),
   setCardPlaylists: (playlists) => set({ cardPlaylists: playlists }),

@@ -1,18 +1,6 @@
 import React from 'react'
 import FilterButton from './FilterButton'
-
-const filters = [
-  'الكل',
-  'تصنيف 1',
-  'تصنيف 2',
-  'تصنيف 3',
-  'تصنيف 4',
-  'تصنيف 5',
-  'تصنيف 6',
-  'تصنيف 7',
-  'تصنيف 8',
-  'تصنيف 9',
-]
+import { filters } from '@/app/static'
 
 const FilterGrid: React.FC = () => {
   return (

@@ -5,6 +5,7 @@ import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import 'videojs-youtube'
 import { Playlist as Course, Video } from '../../../types'
+import { by, noVideos } from '@/app/static'
 
 interface VideoPlayerProps {
   playlist: Course
@@ -77,7 +78,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist }) => {
   if (!currentVideo) {
     return (
       <div className="lg:col-span-2 flex flex-col gap-6 items-center justify-center bg-black rounded-xl aspect-video">
-        <p className="text-white">لا توجد فيديوهات في قائمة التشغيل هذه.</p>
+        <p className="text-white">{noVideos}</p>
       </div>
     )
   }
@@ -94,7 +95,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist }) => {
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{currentVideo['عنوان']}</h1>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              تقديم <span className="font-medium text-primary">{playlist['المقدمين']}</span>
+              {by} <span className="font-medium text-primary">{playlist['المقدمين']}</span>
             </p>
           </div>
           <div className="flex gap-2">

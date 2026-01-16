@@ -4,13 +4,14 @@ import React from 'react'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import FilterGrid from './FilterGrid'
 import PlaylistCard from './PlaylistCard'
+import { filters } from '@/app/static'
 
 const PlaylistGrid: React.FC = () => {
   // This component now gets all its data directly from the client-side store
   const { activeFilter, cardPlaylists } = usePlaylistStore()
 
   const filteredPlaylists = cardPlaylists.filter((playlistCard) => {
-    if (activeFilter === 'الكل') {
+    if (activeFilter === filters[0]) {
       return true
     }
     // The 'tags' property exists on the 'PlaylistCardProps' type in the store

@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { searchPlaceholder } from '@/app/static'
 
 const SearchBar: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ const SearchBar: React.FC = () => {
         </div>
         <input
           className="block w-full pl-3 pr-10 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md leading-5 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200"
-          placeholder="ابحث عن محتوى..."
+          placeholder={searchPlaceholder}
           type="text"
         />
       </div>

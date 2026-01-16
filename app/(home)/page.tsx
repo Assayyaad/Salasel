@@ -3,6 +3,7 @@ import { Playlist } from '../types'
 import fs from 'fs/promises'
 import path from 'path'
 import StoreInitializer from '@/app/shared/components/StoreInitializer'
+import { title, description } from '@/app/static'
 
 export const revalidate = 60 // Revalidate every 60 seconds
 
@@ -20,8 +21,8 @@ export default async function Home() {
     <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <StoreInitializer playlists={data} />
       <div className="text-center mb-10">
-        <h1 className="text-6xl font-bold tracking-tight text-white mb-2">سلاسل</h1>
-        <p className="text-slate-400 mt-4 max-w-2xl mx-auto">استكشف عالمًا من المحتوى المنسق المصمم للوضوح والتركيز.</p>
+        <h1 className="text-6xl font-bold tracking-tight text-white mb-2">{title}</h1>
+        <p className="text-slate-400 mt-4 max-w-2xl mx-auto">{description}</p>
       </div>
       <PlaylistGrid />
     </main>
