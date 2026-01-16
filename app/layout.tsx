@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "./shared/components/NavBar";
@@ -26,8 +26,6 @@ export const metadata: Metadata = {
     title: 'سلاسل',
   },
   applicationName: 'سلاسل',
-  themeColor: '#2e4b2c',
-  colorScheme: 'dark',
   metadataBase: new URL('https://salasel.app'),
   category: 'Education',
   classification: 'Education',
@@ -74,6 +72,11 @@ export const metadata: Metadata = {
       '//fonts.gstatic.com',
     ],
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#2e4b2c',
+  colorScheme: 'dark',
 }
 
 export default function RootLayout({
