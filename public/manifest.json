@@ -1,0 +1,24 @@
+{
+  "name": "سلاسل",
+  "short_name": "سلاسل",
+  "description": "تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك",
+  "icons": [
+    {
+      "src": "/img/logo.webp",
+      "type": "image/webp",
+      "sizes": "500x500",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/logo.png",
+      "type": "image/png",
+      "sizes": "500x500",
+      "purpose": "any maskable"
+    }
+  ],
+  "scope": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#2e4b2c",
+  "background_color": "#b0c59e"
+}

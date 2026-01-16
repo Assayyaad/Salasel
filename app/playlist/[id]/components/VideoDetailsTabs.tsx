@@ -1,8 +1,9 @@
-"use client";
-import React, { useState } from 'react';
+'use client'
 
-const VideoDetailsTabs = () => {
-  const [activeTab, setActiveTab] = useState('search');
+import React, { useState } from 'react'
+
+const VideoDetailsTabs: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('search')
 
   return (
     <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm overflow-hidden">
@@ -52,16 +53,12 @@ const VideoDetailsTabs = () => {
               </span>
             </div>
             <div className="mb-4">
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
-                تم العثور على 3 نتائج
-              </h3>
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">تم العثور على 3 نتائج</h3>
               <div className="space-y-3">
                 <div className="flex items-center group bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary rounded-lg p-4 cursor-pointer transition-all shadow-sm hover:shadow-md">
                   <div className="mr-4 flex-shrink-0">
                     <div className="bg-primary/10 text-primary w-12 h-12 rounded-full flex items-center justify-center">
-                      <span className="material-icons-round">
-                        play_circle_outline
-                      </span>
+                      <span className="material-icons-round">play_circle_outline</span>
                     </div>
                   </div>
                   <div className="flex-1">
@@ -82,17 +79,13 @@ const VideoDetailsTabs = () => {
                     </p>
                   </div>
                   <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="material-icons-round text-gray-400">
-                      chevron_right
-                    </span>
+                    <span className="material-icons-round text-gray-400">chevron_right</span>
                   </div>
                 </div>
                 <div className="flex items-center group bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary rounded-lg p-4 cursor-pointer transition-all shadow-sm hover:shadow-md">
                   <div className="mr-4 flex-shrink-0">
                     <div className="bg-primary/10 text-primary w-12 h-12 rounded-full flex items-center justify-center">
-                      <span className="material-icons-round">
-                        play_circle_outline
-                      </span>
+                      <span className="material-icons-round">play_circle_outline</span>
                     </div>
                   </div>
                   <div className="flex-1">
@@ -113,17 +106,13 @@ const VideoDetailsTabs = () => {
                     </p>
                   </div>
                   <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="material-icons-round text-gray-400">
-                      chevron_right
-                    </span>
+                    <span className="material-icons-round text-gray-400">chevron_right</span>
                   </div>
                 </div>
                 <div className="flex items-center group bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary rounded-lg p-4 cursor-pointer transition-all shadow-sm hover:shadow-md">
                   <div className="mr-4 flex-shrink-0">
                     <div className="bg-primary/10 text-primary w-12 h-12 rounded-full flex items-center justify-center">
-                      <span className="material-icons-round">
-                        play_circle_outline
-                      </span>
+                      <span className="material-icons-round">play_circle_outline</span>
                     </div>
                   </div>
                   <div className="flex-1">
@@ -144,9 +133,7 @@ const VideoDetailsTabs = () => {
                     </p>
                   </div>
                   <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="material-icons-round text-gray-400">
-                      chevron_right
-                    </span>
+                    <span className="material-icons-round text-gray-400">chevron_right</span>
                   </div>
                 </div>
               </div>
@@ -157,7 +144,7 @@ const VideoDetailsTabs = () => {
         {activeTab === 'transcription' && <div>النص</div>}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default VideoDetailsTabs;
+export default VideoDetailsTabs

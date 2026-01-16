@@ -1,50 +1,57 @@
-"use client";
-import React, { useEffect, useRef, useState } from 'react';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';
-import 'videojs-youtube';
-import { Playlist as Course, Video } from '../types';
+'use client'
+
+import React, { useEffect, useRef, useState } from 'react'
+import videojs from 'video.js'
+import 'video.js/dist/video-js.css'
+import 'videojs-youtube'
+import { Playlist as Course, Video } from '../../../types'
 
 interface VideoPlayerProps {
-  playlist: Course;
+  playlist: Course
 }
 
-const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
-  const videoNode = useRef<HTMLVideoElement>(null);
-  const playerRef = useRef<any>(null);
-  const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist }) => {
+  const videoNode = useRef<HTMLVideoElement>(null)
+  const playerRef = useRef<any>(null)
+  const [currentVideo, setCurrentVideo] = useState<Video | null>(null)
 
   // This effect synchronizes the internal state with the playlist prop.
   // It runs when the playlist prop changes, updating the video to the first one in the new playlist.
   useEffect(() => {
     if (playlist && playlist.الفيديوهات && playlist.الفيديوهات.length > 0) {
-      setCurrentVideo(playlist.الفيديوهات[0]);
+      setCurrentVideo(playlist.الفيديوهات[0])
     } else {
-      setCurrentVideo(null);
+      setCurrentVideo(null)
     }
-  }, [playlist]);
+  }, [playlist])
 
   useEffect(() => {
-    if (!currentVideo || !videoNode.current) return;
+    if (!currentVideo || !videoNode.current) return
 
     if (!playerRef.current) {
       // The DOM element needs a `data-vjs-player` attribute for Video.js to recognize it
-      const player = playerRef.current = videojs(videoNode.current, {
-        autoplay: false,
-        controls: true,
-        responsive: true,
-        fluid: true,
-        techOrder: ['youtube'],
-        sources: [{
-          src: currentVideo.youtubeUrl || '',
-          type: 'video/youtube',
-        }],
-      }, () => {
-        console.log('player is ready');
-      });
+      const player = (playerRef.current = videojs(
+        videoNode.current,
+        {
+          autoplay: false,
+          controls: true,
+          responsive: true,
+          fluid: true,
+          techOrder: ['youtube'],
+          sources: [
+            {
+              src: currentVideo.youtubeUrl || '',
+              type: 'video/youtube',
+            },
+          ],
+        },
+        () => {
+          console.log('player is ready')
+        },
+      ))
     } else {
-      const player = playerRef.current;
-      player.src({ src: currentVideo.youtubeUrl || '', type: 'video/youtube' });
+      const player = playerRef.current
+      player.src({ src: currentVideo.youtubeUrl || '', type: 'video/youtube' })
     }
 
     // Cleanup function
@@ -53,26 +60,26 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
         // playerRef.current.dispose();
         // playerRef.current = null;
       }
-    };
-  }, [currentVideo]);
-  
+    }
+  }, [currentVideo])
+
   // Dispose the player when the component unmounts
   useEffect(() => {
-    const player = playerRef.current;
+    const player = playerRef.current
     return () => {
       if (player && !player.isDisposed()) {
-        player.dispose();
-        playerRef.current = null;
+        player.dispose()
+        playerRef.current = null
       }
-    };
-  }, []);
+    }
+  }, [])
 
   if (!currentVideo) {
     return (
       <div className="lg:col-span-2 flex flex-col gap-6 items-center justify-center bg-black rounded-xl aspect-video">
         <p className="text-white">لا توجد فيديوهات في قائمة التشغيل هذه.</p>
       </div>
-    );
+    )
   }
 
   return (
@@ -85,9 +92,7 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
       <div className="flex flex-col gap-2 p-2">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
-              {currentVideo['عنوان']}
-            </h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{currentVideo['عنوان']}</h1>
             <p className="text-lg text-gray-600 dark:text-gray-400">
               تقديم <span className="font-medium text-primary">{playlist['المقدمين']}</span>
             </p>
@@ -103,7 +108,7 @@ const VideoPlayer = ({ playlist }: VideoPlayerProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default VideoPlayer;
+export default VideoPlayer

@@ -1,15 +1,21 @@
-"use client";
-import React from 'react';
+'use client'
+
+import React from 'react'
 
 interface DrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  direction?: 'rtl' | 'ltr';
+  isOpen: boolean
+  onClose: () => void
+  children: React.ReactNode
+  direction?: 'rtl' | 'ltr'
 }
 
+<<<<<<< HEAD
 const Drawer = ({ isOpen, onClose, children, direction = 'rtl' }: DrawerProps) => {
   const drawerClasses = `fixed top-0 ${direction === 'rtl' ? 'right-0' : 'left-0'} h-full bg-surface-dark w-64 z-[9999] transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : direction === 'rtl' ? 'translate-x-full' : '-translate-x-full'}`;
+=======
+const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, children, direction = 'rtl' }) => {
+  const drawerClasses = `fixed top-0 ${direction === 'rtl' ? 'right-0' : 'left-0'} h-full bg-[#1C2739] w-64 z-[9999] transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : direction === 'rtl' ? 'translate-x-full' : '-translate-x-full'}`
+>>>>>>> 389875c87462a1fa36510b57d71b8edb221276ff
 
   return (
     <>
@@ -26,7 +32,7 @@ const Drawer = ({ isOpen, onClose, children, direction = 'rtl' }: DrawerProps) =
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Drawer;
+export default Drawer
