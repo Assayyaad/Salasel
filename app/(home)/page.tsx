@@ -1,8 +1,7 @@
 import PlaylistGrid from "./components/PlaylistGrid";
-import { Playlist } from './types';
+import { Playlist } from '../types';
 import fs from 'fs/promises';
 import path from 'path';
-import { transformPlaylistToCardProps } from "./lib/datatransform";
 import StoreInitializer from "@/app/shared/components/StoreInitializer";
 
 export const revalidate = 60; // Revalidate every 60 seconds
