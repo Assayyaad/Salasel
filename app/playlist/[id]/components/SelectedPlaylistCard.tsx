@@ -50,7 +50,7 @@ const SelectedPlaylistCard = ({ playlist }: { playlist: Playlist }) => {
                         </button>
                     </div>
                 </div>
-                <div className="lg:w-1/2 relative bg-gray-100 dark:bg-gray-800 h-[350px]">
+                <div className="lg:w-1/2 relative bg-gray-100 dark:bg-gray-800 aspect-video">
                     {isLoading && <div className="shimmer-wrapper"></div>}
                     <Image
                         alt={playlist.name}
