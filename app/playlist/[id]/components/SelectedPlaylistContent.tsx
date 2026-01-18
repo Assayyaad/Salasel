@@ -13,11 +13,11 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
   }
 
   return (
-    <div className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div dir="rtl" className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
       <div className="bg-gray-50 dark:bg-gray-800/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-        <h2 className="text-xl font-bold text-text-light dark:text-text-dark">Course Content</h2>
+        <h2 className="text-xl font-bold text-text-light dark:text-text-dark">محتويات السلسلة</h2>
         <span className="text-sm text-muted-light dark:text-muted-dark font-medium">
-          {playlist.videos.length} Lessons
+          {playlist.videos.length} حلقات
         </span>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
