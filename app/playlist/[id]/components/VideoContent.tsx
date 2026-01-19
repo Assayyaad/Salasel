@@ -1,6 +1,6 @@
 import type { Video } from '@/app/types'
 import React from 'react'
-import ContentCard from './ContentCard'
+import SidebarContentCard from './SidebarContentCard'
 
 interface VideoContentProps {
   videos: Video[];
@@ -12,7 +12,7 @@ const VideoContent: React.FC<VideoContentProps> = ({ videos, currentVideoId, pla
   return (
     <div className="flex-1 overflow-y-auto pr-1 space-y-2">
       {videos.map((video, index) => (
-        <ContentCard
+        <SidebarContentCard
           key={video.id}
           lessonNumber={index + 1}
           title={video.title}
@@ -21,7 +21,6 @@ const VideoContent: React.FC<VideoContentProps> = ({ videos, currentVideoId, pla
           highlight={video.id === currentVideoId}
           completed={false} // This can be connected to user state later
           playlistId={playlistId}
-          showImage={false}
         />
       ))}
     </div>

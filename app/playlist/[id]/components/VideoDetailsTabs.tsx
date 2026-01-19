@@ -42,7 +42,7 @@ const VideoDetailsTabs: React.FC = () => {
       </div>
       <div className="p-6 md:p-8">
         {activeTab === 'search' && (
-          <div className="max-w-xl mx-auto mb-8">
+          <div className="mb-8">
             <div className="relative">
               <input
                 className="w-full bg-gray-50 dark:bg-gray-900 border border-border-light dark:border-border-dark rounded-full py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-shadow shadow-sm"

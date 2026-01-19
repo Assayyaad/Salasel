@@ -35,7 +35,7 @@ const SelectedPlaylistPage = async ({ params: paramsPromise }: { params: Promise
   }
 
   return (
-    <main dir="rtl" className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <main dir="rtl" className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8 space-y-8">
       <SelectedPlaylistCard playlist={playlist} firstVideoId={firstVideoId} />
       <SelectedPlaylistContent playlist={playlist} />
     </main>

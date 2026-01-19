@@ -10,23 +10,18 @@ import { getSalaselData } from '@/app/lib/datatransform';
 // This is a server-side data fetching function
 async function getPlaylistAndVideo(playlistId: string, videoId: string): Promise<{ playlist: Playlist; video: Video } | null> {
     try {
-        console.log(`Searching for playlistId: ${playlistId}, videoId: ${videoId}`);
         const { courses } = getSalaselData();
         const playlist = courses.find(p => p.id === playlistId);
 
         if (!playlist) {
-            console.error(`Playlist with id ${playlistId} not found.`);
             return null;
         }
-        console.log('Found playlist:', playlist.name);
 
         const video = playlist.videos.find(v => v.id === videoId);
 
         if (!video) {
-            console.error(`Video with id ${videoId} not found in playlist ${playlistId}.`);
             return null;
         }
-        console.log('Found video:', video.title);
 
         return { playlist, video };
     } catch (error) {
@@ -52,7 +47,7 @@ const VideoPlayerPage = async ({ params: paramsPromise }: { params: Promise<{ id
     // With the recent refactor, it now directly takes the 'video' and 'playlist' objects.
 
     return (
-        <main dir='ltr' className="w-full max-w-full mx-auto p-4 md:p-6 lg:p-8">
+        <main dir='ltr' className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 {/* Main Content: Video Player and Details */}
                 <div className="lg:col-span-2 flex flex-col gap-6">
@@ -67,6 +62,7 @@ const VideoPlayerPage = async ({ params: paramsPromise }: { params: Promise<{ id
             </div>
         </main>
     );
+
 };
 
 export default VideoPlayerPage;

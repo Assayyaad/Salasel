@@ -15,7 +15,7 @@ const PlaylistSidebar: React.FC<PlaylistSidebarProps> = ({ playlist, currentVide
   const [activeTab, setActiveTab] = useState('content')
 
   return (
-    <div className="lg:col-span-1 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm flex flex-col h-[600px]">
+    <div className="lg:col-span-1 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm flex flex-col h-full">
       <div className="flex border-b border-border-light dark:border-border-dark">
         <button
           className={`flex-1 py-3 text-sm font-medium transition-colors ${

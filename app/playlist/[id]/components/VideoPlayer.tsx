@@ -70,13 +70,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, playlist }) => {
   }
 
   return (
-    <div className="lg:col-span-2 flex flex-col gap-6">
+    <div className="lg:col-span-2 flex flex-col gap-0">
       <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
         <div data-vjs-player>
           <video ref={videoNode} className="video-js vjs-big-play-centered" />
         </div>
       </div>
-      <div className="flex flex-col gap-2 p-2">
+      <div dir="rtl" className="flex flex-col gap-2 p-2">
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{video.title}</h1>

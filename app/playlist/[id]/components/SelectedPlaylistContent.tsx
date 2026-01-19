@@ -29,7 +29,6 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
             duration={video.duration}
             videoId={video.id}
             playlistId={playlist.id}
-            showImage={true}
           />
         ))}
       </div>
