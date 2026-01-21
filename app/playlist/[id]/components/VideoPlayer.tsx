@@ -2,9 +2,7 @@
 
 import type { Playlist, Video } from '@/app/types'
 import React, { useEffect, useRef } from 'react'
-import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
-import 'videojs-youtube'
 import { by, noVideos } from '@/app/static'
 
 interface VideoPlayerProps {
@@ -17,36 +15,43 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, playlist }) => {
   const playerRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!video || !videoNode.current) {
-      return;
-    }
+    const initVideoJs = async () => {
+      const videojs = (await import('video.js')).default;
+      await import('videojs-youtube');
 
-    const videoSrc = `https://www.youtube.com/watch?v=${video.id}`;
+      if (!video || !videoNode.current) {
+        return;
+      }
 
-    if (!playerRef.current) {
-      const player = (playerRef.current = videojs(
-        videoNode.current,
-        {
-          autoplay: false,
-          controls: true,
-          responsive: true,
-          fluid: true,
-          techOrder: ['youtube'],
-          sources: [
-            {
-              src: videoSrc,
-              type: 'video/youtube',
-            },
-          ],
-        },
-        () => {
-          console.log('player is ready');
-        }
-      ));
-    } else {
-      const player = playerRef.current;
-      player.src({ src: videoSrc, type: 'video/youtube' });
-    }
+      const videoSrc = `https://www.youtube.com/watch?v=${video.id}`;
+
+      if (!playerRef.current) {
+        const player = (playerRef.current = videojs(
+          videoNode.current,
+          {
+            autoplay: false,
+            controls: true,
+            responsive: true,
+            fluid: true,
+            techOrder: ['youtube'],
+            sources: [
+              {
+                src: videoSrc,
+                type: 'video/youtube',
+              },
+            ],
+          },
+          () => {
+            console.log('player is ready');
+          }
+        ));
+      } else {
+        const player = playerRef.current;
+        player.src({ src: videoSrc, type: 'video/youtube' });
+      }
+    };
+
+    initVideoJs();
 
   }, [video]);
 

@@ -1,7 +1,5 @@
-// app/playlist/[id]/[videoplayerid]/page.tsx
 import { notFound } from 'next/navigation';
 import { Playlist, Video } from '@/app/types';
-
 import VideoPlayer from '../components/VideoPlayer';
 import VideoDetailsTabs from '../components/VideoDetailsTabs';
 import PlaylistSidebar from '../components/PlaylistSidebar';
