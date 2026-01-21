@@ -45,7 +45,7 @@ const VideoPlayerPage = async ({ params: paramsPromise }: { params: Promise<{ id
     // With the recent refactor, it now directly takes the 'video' and 'playlist' objects.
 
     return (
-        <main dir='rtl' className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4">
+        <main dir='rtl' className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-16">
             <div className="grid grid-cols-1 gap-6 lg:gap-8">
                 {/* Top Section: Video Player and Playlist Sidebar */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
