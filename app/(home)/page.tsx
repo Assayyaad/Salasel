@@ -1,6 +1,7 @@
 import type { Playlist } from '../types'
 
 import PlaylistGrid from './components/PlaylistGrid'
+import SearchBar from '@/app/shared/components/SearchBar'
 import { title, description } from '@/app/static'
 import { getSalaselData } from '../lib/datatransform'
 
@@ -15,6 +16,9 @@ export default function Home() {
       <div className="text-center mb-10">
         <h1 className="text-6xl font-bold tracking-tight text-white mb-2">{title}</h1>
         <p className="text-slate-400 mt-4 max-w-2xl mx-auto">{description}</p>
+        <div className="mt-6 max-w-md mx-auto">
+          <SearchBar />
+        </div>
       </div>
       <PlaylistGrid playlists={data} />
     </main>
