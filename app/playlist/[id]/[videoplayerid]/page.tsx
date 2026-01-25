@@ -51,7 +51,7 @@ const VideoPlayerPage = async ({ params: paramsPromise }: { params: Promise<{ id
 
                     {/* Sidebar: Playlist Content */}
                     <div className="lg:col-span-1">
-                        <PlaylistSidebar playlist={playlist} currentVideoId={video.id} />
+                        <PlaylistSidebar />
                     </div>
                 </div>
 

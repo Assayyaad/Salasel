@@ -87,19 +87,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, playlist }) => {
       <div dir="rtl" className="flex flex-col gap-2 p-2">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{video.title}</h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
-              {by} <span className="font-medium text-primary">{playlist.participants.join(', ')}</span>
-            </p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{video.title}</h1>
+            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <span>من سلسلة: </span>
+                <span className="font-semibold text-primary">{playlist.name}</span>
+                <span className="mx-2">|</span>
+                <span>قناة: </span>
+                <span className="font-semibold text-primary">{playlist.channel}</span>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <button className="p-2 text-gray-500 hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
-              <span className="material-icons-round">share</span>
-            </button>
-            <button className="p-2 text-gray-500 hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
-              <span className="material-icons-round">bookmark_border</span>
-            </button>
-          </div>
+          {/* Icons have been removed from here */}
         </div>
       </div>
     </div>
