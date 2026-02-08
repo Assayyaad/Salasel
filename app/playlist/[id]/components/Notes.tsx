@@ -9,10 +9,10 @@ const Notes: React.FC = () => {
           placeholder="اكتب ملاحظتك هنا..."
         ></textarea>
         <div className="flex justify-end mt-2">
-            <button className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-white bg-gray-600 dark:bg-gray-700 border border-transparent rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors shadow-sm">
-                <span className="material-icons-round text-base">add</span>
-                أضف ملاحظة
-            </button>
+          <button className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-white bg-gray-600 dark:bg-gray-700 border border-transparent rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors shadow-sm">
+            <span className="material-icons-round text-base">add</span>
+            أضف ملاحظة
+          </button>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto pr-1 space-y-4">

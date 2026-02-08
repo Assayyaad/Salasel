@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Round');
 @import 'tailwindcss';
 
-@theme{
+@theme {
   --color-primary: #0d9488;
   --color-primary-hover: #0f766e;
   --color-background-light: #f8fafc;

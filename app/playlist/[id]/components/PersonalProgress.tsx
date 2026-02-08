@@ -1,80 +1,71 @@
-'use client';
-import { Playlist } from '@/app/types';
-import Link from 'next/link';
-import React, { useMemo, useState, useEffect } from 'react';
-import { useProgressStore } from '@/app/store/useProgressStore';
+'use client'
+import { Playlist } from '@/app/types'
+import Link from 'next/link'
+import React, { useMemo, useState, useEffect } from 'react'
+import { useProgressStore } from '@/app/store/useProgressStore'
 
-const PersonalProgress = ({ playlist }: { playlist: Playlist } ) => {
-  const { completedVideos, notes, videoProgress: videoProgressMap } = useProgressStore();
-  const [isClient, setIsClient] = useState(false);
+const PersonalProgress = ({ playlist }: { playlist: Playlist }) => {
+  const { completedVideos, notes, videoProgress: videoProgressMap } = useProgressStore()
+  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    setIsClient(true)
+  }, [])
 
   const playlistCompletedVideos = useMemo(() => {
-    if (!isClient) return new Set();
-    return new Set(completedVideos[playlist.id] || []);
-  }, [isClient, completedVideos, playlist.id]);
+    if (!isClient) return new Set()
+    return new Set(completedVideos[playlist.id] || [])
+  }, [isClient, completedVideos, playlist.id])
 
   const playlistProgress = useMemo(() => {
     if (!isClient || !playlist.videos || playlist.videos.length === 0) {
-      return 0;
+      return 0
     }
-    return Math.round((playlistCompletedVideos.size / playlist.videos.length) * 100);
-  }, [isClient, playlistCompletedVideos, playlist.videos]);
+    return Math.round((playlistCompletedVideos.size / playlist.videos.length) * 100)
+  }, [isClient, playlistCompletedVideos, playlist.videos])
 
   const notesCount = useMemo(() => {
-    if (!isClient) return 0;
+    if (!isClient) return 0
     const count = playlist.videos.reduce((acc, video) => {
-        return acc + (notes[video.id]?.length || 0);
-    }, 0);
-    return count;
-  }, [isClient, notes, playlist.videos]);
+      return acc + (notes[video.id]?.length || 0)
+    }, 0)
+    return count
+  }, [isClient, notes, playlist.videos])
 
   const { nextVideo, continueWatchingId } = useMemo(() => {
-    if (!isClient) return { nextVideo: "...", continueWatchingId: playlist.videos.length > 0 ? playlist.videos[0].id : "" };
-    const firstUnwatchedVideo = playlist.videos.find(video => !playlistCompletedVideos.has(video.id));
+    if (!isClient)
+      return { nextVideo: '...', continueWatchingId: playlist.videos.length > 0 ? playlist.videos[0].id : '' }
+    const firstUnwatchedVideo = playlist.videos.find((video) => !playlistCompletedVideos.has(video.id))
     if (firstUnwatchedVideo) {
-      return { nextVideo: firstUnwatchedVideo.title, continueWatchingId: firstUnwatchedVideo.id };
+      return { nextVideo: firstUnwatchedVideo.title, continueWatchingId: firstUnwatchedVideo.id }
     }
     if (playlist.videos.length > 0) {
-        return { nextVideo: playlist.videos[0].title, continueWatchingId: playlist.videos[0].id };
+      return { nextVideo: playlist.videos[0].title, continueWatchingId: playlist.videos[0].id }
     }
-    return { nextVideo: "...", continueWatchingId: "" };
-  }, [isClient, playlist.videos, playlistCompletedVideos]);
+    return { nextVideo: '...', continueWatchingId: '' }
+  }, [isClient, playlist.videos, playlistCompletedVideos])
 
-  const videoProgress = isClient ? videoProgressMap[continueWatchingId] || 0 : 0;
+  const videoProgress = isClient ? videoProgressMap[continueWatchingId] || 0 : 0
 
   if (!isClient) {
     // You can render a loading skeleton here if you want
-    return null;
+    return null
   }
 
   return (
     <div className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
-      <h2 className="text-xl font-bold text-text-light dark:text-text-dark mb-4">
-        التقدم الشخصي
-      </h2>
+      <h2 className="text-xl font-bold text-text-light dark:text-text-dark mb-4">التقدم الشخصي</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Next Video */}
         <div className="flex flex-col space-y-2">
-          <span className="text-sm font-semibold text-muted-light dark:text-muted-dark">
-            التالي للمشاهدة
-          </span>
-          <span className="text-base font-bold text-text-light dark:text-text-dark">
-            {nextVideo}
-          </span>
+          <span className="text-sm font-semibold text-muted-light dark:text-muted-dark">التالي للمشاهدة</span>
+          <span className="text-base font-bold text-text-light dark:text-text-dark">{nextVideo}</span>
         </div>
 
         {/* Notes Count */}
         <div className="flex flex-col space-y-2">
-          <span className="text-sm font-semibold text-muted-light dark:text-muted-dark">
-            مجموع الملاحظات
-          </span>
-          <span className="text-base font-bold text-text-light dark:text-text-dark">
-            {notesCount}
-          </span>
+          <span className="text-sm font-semibold text-muted-light dark:text-muted-dark">مجموع الملاحظات</span>
+          <span className="text-base font-bold text-text-light dark:text-text-dark">{notesCount}</span>
         </div>
 
         {/* Progress Bars */}
@@ -113,7 +104,7 @@ const PersonalProgress = ({ playlist }: { playlist: Playlist } ) => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PersonalProgress;
+export default PersonalProgress

@@ -36,4 +36,3 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist }) => {
 }
 
 export default PlaylistCard
-

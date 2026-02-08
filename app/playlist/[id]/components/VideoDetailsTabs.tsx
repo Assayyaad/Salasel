@@ -41,9 +41,15 @@ const VideoDetailsTabs: React.FC = () => {
         </button>
       </div>
       <div className="p-6 md:p-8">
-        {activeTab === 'search' && <div className="text-center text-gray-500 dark:text-gray-400 py-8">غير متوفر حاليًا</div>}
-        {activeTab === 'summary' && <div className="text-center text-gray-500 dark:text-gray-400 py-8">غير متوفر حاليًا</div>}
-        {activeTab === 'transcription' && <div className="text-center text-gray-500 dark:text-gray-400 py-8">غير متوفر حاليًا</div>}
+        {activeTab === 'search' && (
+          <div className="text-center text-gray-500 dark:text-gray-400 py-8">غير متوفر حاليًا</div>
+        )}
+        {activeTab === 'summary' && (
+          <div className="text-center text-gray-500 dark:text-gray-400 py-8">غير متوفر حاليًا</div>
+        )}
+        {activeTab === 'transcription' && (
+          <div className="text-center text-gray-500 dark:text-gray-400 py-8">غير متوفر حاليًا</div>
+        )}
       </div>
     </div>
   )

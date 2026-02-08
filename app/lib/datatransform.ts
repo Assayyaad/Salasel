@@ -1,11 +1,4 @@
-import {
-  Categories,
-  ContentTypes,
-  Playlist,
-  PresentationTypes,
-  SalaselData,
-  Video,
-} from '@/app/types'
+import { Categories, ContentTypes, Playlist, PresentationTypes, SalaselData, Video } from '@/app/types'
 import jsonData from '@/public/salasel.json'
 
 // This is the "plug in and plug out" function
@@ -41,10 +34,7 @@ export function transformSinglePlaylist(originalPlaylist: any): Playlist {
   }
 }
 
-function transformJsonVideo(
-  originalVideo: any,
-  playlistId: string,
-): Video {
+function transformJsonVideo(originalVideo: any, playlistId: string): Video {
   return {
     id: originalVideo['معرف الفيديو'],
     playlistId: playlistId,
@@ -67,14 +57,16 @@ function mapCategories(categories: string): Categories[] {
   if (!categories) {
     return []
   }
-  return categories.split(',').map((c) => {
-    const trimmed = c.trim()
-    if (trimmed === 'فطرة' || trimmed === 'دين' || trimmed === 'نفس') {
-      return trimmed as Categories
-    }
-    // Handle cases where the category is not one of the allowed values
-    // For now, we'll filter them out, but you might want to handle this differently
-    return null
-  })
-  .filter((c) => c !== null) as Categories[]
+  return categories
+    .split(',')
+    .map((c) => {
+      const trimmed = c.trim()
+      if (trimmed === 'فطرة' || trimmed === 'دين' || trimmed === 'نفس') {
+        return trimmed as Categories
+      }
+      // Handle cases where the category is not one of the allowed values
+      // For now, we'll filter them out, but you might want to handle this differently
+      return null
+    })
+    .filter((c) => c !== null) as Categories[]
 }

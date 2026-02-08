@@ -42,4 +42,3 @@ export const foundResults = 'عُثر على نتائج'
 export function getVideoThumbnailUrl(videoId: string | undefined): string {
   return videoId ? `https://img.youtube.com/vi/${videoId}/sddefault.jpg` : '/next.svg'
 }
-

@@ -19,25 +19,25 @@ async function getPlaylist(id: string): Promise<Playlist | undefined> {
 }
 
 const SelectedPlaylistPage = async ({ params: paramsPromise }: { params: Promise<{ id: string }> }) => {
-  const params = await paramsPromise;
+  const params = await paramsPromise
   const playlist = await getPlaylist(params.id)
 
   if (!playlist) {
     return <div>Playlist not found</div>
   }
 
-  const firstVideoId = playlist.videos?.[0]?.id;
+  const firstVideoId = playlist.videos?.[0]?.id
 
   // You might want a more graceful handling if no videos are present,
   // but for now, we'll return a message.
   if (!firstVideoId) {
-    return <div>No videos found in this playlist.</div>;
+    return <div>No videos found in this playlist.</div>
   }
 
   return (
     <>
       <SelectedPlaylistCard playlist={playlist} firstVideoId={firstVideoId} />
-      <PersonalProgress playlist={playlist}/>
+      <PersonalProgress playlist={playlist} />
       <SelectedPlaylistContent playlist={playlist} />
     </>
   )
