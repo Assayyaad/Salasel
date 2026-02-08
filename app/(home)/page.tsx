@@ -3,13 +3,12 @@ import type { Playlist } from '../types'
 import PlaylistGrid from './components/PlaylistGrid'
 import SearchBar from '@/app/shared/components/SearchBar'
 import { title, description } from '@/app/static'
-import { getSalaselData } from '../lib/datatransform'
+import playlists from '@/public/playlists.json'
 
 export const revalidate = 3600 // Revalidate every hour
 
 export default function Home() {
-  const { courses } = getSalaselData()
-  const data: Playlist[] = courses.slice(0, 22) // change 22 just for dev purposes.
+  const data: Playlist[] = (playlists as Playlist[]).slice(0, 22) // change 22 just for dev purposes.
   // later we need to implement more courses to display as the user scroll to the bottom. (recommended)
   // OR, display all courses
 

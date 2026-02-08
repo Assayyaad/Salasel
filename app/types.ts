@@ -67,7 +67,3 @@ export enum PresentationTypes {
   /** سؤال وجواب: محتوى متقطع عبر عدة أسئلة */
   QnA = 4,
 }
-
-export interface SalaselData {
-  courses: Playlist[]
-}

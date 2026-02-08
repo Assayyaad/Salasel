@@ -1,21 +1,20 @@
+import type { Playlist } from '@/app/types'
+
 import SelectedPlaylistCard from './components/SelectedPlaylistCard'
 import SelectedPlaylistContent from './components/SelectedPlaylistContent'
 import PersonalProgress from './components/PersonalProgress'
-import { Playlist } from '@/app/types'
-import { getSalaselData } from '@/app/lib/datatransform'
+import playlists from '@/public/playlists.json'
 
 export const revalidate = 3600 // Revalidate every hour
 
 export async function generateStaticParams() {
-  const { courses } = getSalaselData()
-  return courses.map((playlist) => ({
-    id: playlist.id,
+  return (playlists as Playlist[]).map((pl) => ({
+    id: pl.id,
   }))
 }
 
 async function getPlaylist(id: string): Promise<Playlist | undefined> {
-  const { courses } = getSalaselData()
-  return courses.find((course) => course.id === id)
+  return (playlists as Playlist[]).find((pl) => pl.id === id)
 }
 
 const SelectedPlaylistPage = async ({ params: paramsPromise }: { params: Promise<{ id: string }> }) => {

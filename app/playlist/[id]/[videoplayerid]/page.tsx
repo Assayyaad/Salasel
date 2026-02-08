@@ -1,12 +1,13 @@
 'use client'
 
+import type { Playlist, Video } from '@/app/types'
+
 import { useEffect, useState } from 'react'
 import { useParams, notFound } from 'next/navigation'
-import { Playlist, Video } from '@/app/types'
-import { getSalaselData } from '@/app/lib/datatransform'
 import VideoDetailsTabs from '../components/VideoDetailsTabs'
 import PlaylistSidebar from '../components/PlaylistSidebar'
 import VideoPlayer from '../components/VideoPlayer'
+import playlists from '@/public/playlists.json'
 
 const VideoPlayerPage = () => {
   const params = useParams()
@@ -22,8 +23,7 @@ const VideoPlayerPage = () => {
     }
 
     try {
-      const { courses } = getSalaselData()
-      const currentPlaylist = courses.find((p) => p.id === id)
+      const currentPlaylist = (playlists as Playlist[]).find((p) => p.id === id)
 
       if (!currentPlaylist) {
         notFound()
