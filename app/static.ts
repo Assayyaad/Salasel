@@ -1,19 +1,10 @@
+import type { Categories } from './types'
+
 /**
  * Static list of filters used in the application.
  * First filter is the default "All" filter.
  */
-export const filters = Object.freeze([
-  'الكل',
-  'تصنيف 1',
-  'تصنيف 2',
-  'تصنيف 3',
-  'تصنيف 4',
-  'تصنيف 5',
-  'تصنيف 6',
-  'تصنيف 7',
-  'تصنيف 8',
-  'تصنيف 9',
-])
+export const filters: Readonly<(Categories | 'الكل')[]> = Object.freeze(['الكل', 'دين', 'فطرة', 'نفس'])
 
 export const title = 'سلاسل'
 export const description = 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك'
