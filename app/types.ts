@@ -15,7 +15,7 @@ export interface Playlist {
   /** معرف السلسلة من يوتيوب */
   id: string
   /** القناة التي قدمت مقاطع السلسلة */
-  channel: Channels
+  channel: string
   /** اسم السلسلة */
   name: string
   /** وصف مختصر لمحتوى السلسلة */
@@ -41,8 +41,6 @@ export interface Playlist {
   /** بيانات مقاطع السلسلة */
   videos: Video[]
 }
-
-export type Channels = 'فاهم بودكاست'
 
 export type Languages = 'ar' | 'en'
 
