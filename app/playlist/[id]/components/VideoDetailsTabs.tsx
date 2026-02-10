@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { foundResults, searchTab, summaryTab, transcriptionTab } from '@/app/static'
+import { searchTab, summaryTab, transcriptionTab } from '@/app/static'
 
 const VideoDetailsTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState('search')

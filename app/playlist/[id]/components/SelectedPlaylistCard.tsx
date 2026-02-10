@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { Playlist } from '@/app/types'
 import Link from 'next/link'
 
-const SelectedPlaylistCard = ({ playlist, firstVideoId }: { playlist: Playlist; firstVideoId: string }) => {
+const SelectedPlaylistCard = ({ playlist }: { playlist: Playlist }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   if (!playlist) {

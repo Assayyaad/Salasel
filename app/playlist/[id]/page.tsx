@@ -35,7 +35,7 @@ const SelectedPlaylistPage = async ({ params: paramsPromise }: { params: Promise
 
   return (
     <>
-      <SelectedPlaylistCard playlist={playlist} firstVideoId={firstVideoId} />
+      <SelectedPlaylistCard playlist={playlist} />
       <PersonalProgress playlist={playlist} />
       <SelectedPlaylistContent playlist={playlist} />
     </>
