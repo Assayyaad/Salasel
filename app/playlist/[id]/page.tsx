@@ -39,7 +39,7 @@ const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ param
 
   return (
     <>
-      <SelectedPlaylistCard playlist={playlist} firstVideo={videos[0]} />
+      <SelectedPlaylistCard playlist={playlist} />
       <PersonalProgress playlist={playlist} videos={videos} />
       <SelectedPlaylistContent playlist={playlist} videos={videos} />
     </>

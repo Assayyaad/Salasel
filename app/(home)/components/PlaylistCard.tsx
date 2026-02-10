@@ -1,4 +1,4 @@
-import type { Playlist, Video } from '@/app/types'
+import type { Playlist } from '@/app/types'
 
 import React from 'react'
 import Image from 'next/image'
@@ -7,12 +7,11 @@ import { videoThumbnailUrl } from '@/app/utils'
 
 interface PlaylistCardProps {
   playlist: Playlist
-  firstVideo: Video
 }
 
-const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, firstVideo }) => {
-  const { id, channel, name, description } = playlist
-  const imageUrl = videoThumbnailUrl(firstVideo.id)
+const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist }) => {
+  const { id, channel, name, description, thumbnailId } = playlist
+  const imageUrl = videoThumbnailUrl(thumbnailId)
 
   return (
     <Link href={`/playlist/${id}`}>

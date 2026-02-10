@@ -22,6 +22,8 @@ export interface Playlist {
   description: string
   /** الأشخاص الظاهرين في محتوى مقاطع السلسلة */
   participants: string[]
+  /** معرف المقطع المستخدم للصورة المصغرة */
+  thumbnailId: string
   /** لغة محتوى السلسلة */
   language: Languages
   /** نوع محتوى السلسلة */

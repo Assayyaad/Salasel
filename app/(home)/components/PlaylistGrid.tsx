@@ -1,6 +1,6 @@
 'use client'
 
-import type { Playlist, Video } from '@/app/types'
+import type { Playlist } from '@/app/types'
 
 import React from 'react'
 import PlaylistCard from './PlaylistCard'
@@ -9,10 +9,9 @@ import { filters } from '@/app/static'
 
 interface PlaylistGridProps {
   playlists: Playlist[]
-  videosMap: Record<string, Video>
 }
 
-const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, videosMap }) => {
+const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists }) => {
   const { activeFilter } = usePlaylistStore()
 
   const filteredPlaylists = playlists.filter((playlist) => {
@@ -25,7 +24,7 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, videosMap }) => 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
       {filteredPlaylists.map((playlist) => (
-        <PlaylistCard key={playlist.id} playlist={playlist} firstVideo={videosMap[playlist.id]} />
+        <PlaylistCard key={playlist.id} playlist={playlist} />
       ))}
     </div>
   )

@@ -1,25 +1,17 @@
-import type { Playlist, Video } from '../types'
+import type { Playlist } from '../types'
 
 import PlaylistGrid from './components/PlaylistGrid'
 import SearchBar from '@/app/shared/components/SearchBar'
 import playlists from '@/public/playlists.json'
 import FilterGrid from './components/FilterGrid'
 import { title, description } from '@/app/static'
-import { getPlaylistVideos } from '@/app/utils'
 
 export const revalidate = 3600 // Revalidate every hour
 
-export default async function Home() {
+export default function Home() {
   const data: Playlist[] = (playlists as Playlist[]).slice(0, 22) // change 22 just for dev purposes.
   // later we need to implement more courses to display as the user scroll to the bottom. (recommended)
   // OR, display all courses
-
-  // Load videos for all playlists
-  const videosMap: Record<string, Video> = {}
-  for (const playlist of data) {
-    const videos = await getPlaylistVideos(playlist.id)
-    videosMap[playlist.id] = videos[0]
-  }
 
   return (
     <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -31,7 +23,7 @@ export default async function Home() {
         </div>
       </div>
       <FilterGrid />
-      <PlaylistGrid playlists={data} videosMap={videosMap} />
+      <PlaylistGrid playlists={data} />
     </main>
   )
 }
