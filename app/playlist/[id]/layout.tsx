@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { goBack } from '@/app/static'
 
 export interface PlaylistLayoutProps {
   children: React.ReactNode
@@ -18,7 +19,7 @@ export const PlaylistLayout: React.FC<PlaylistLayoutProps> = ({ children }) => {
           className="inline-flex items-center text-sm font-medium text-slate-400 hover:text-white transition-colors cursor-pointer"
         >
           <span className="material-icons-round mr-2">arrow_forward</span>
-          العودة للخلف
+          {goBack}
         </button>
       </div>
       {children}

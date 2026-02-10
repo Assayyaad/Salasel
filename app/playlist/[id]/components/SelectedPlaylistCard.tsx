@@ -11,6 +11,19 @@ import {
   getPresentationStyleLabel,
   videoThumbnailUrl,
 } from '@/app/utils'
+import {
+  loading,
+  withParticipation,
+  videosLabel,
+  videoLabel,
+  durationLabel,
+  typeLabel,
+  styleLabel,
+  categoriesLabel,
+  classesLabel,
+  startDateLabel,
+  endDateLabel,
+} from '@/app/static'
 
 export interface SelectedPlaylistCardProps {
   playlist: Playlist
@@ -20,7 +33,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
   const [isLoading, setIsLoading] = useState(true)
 
   if (!playlist) {
-    return <div>جاري التحميل...</div> // Or some other loading state
+    return <div>{loading}</div> // Or some other loading state
   }
 
   const imageUrl = videoThumbnailUrl(playlist.thumbnailId)
@@ -38,7 +51,9 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
           </h1>
           <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">{playlist.description}</p>
           <div className="text-sm text-muted-light dark:text-muted-dark font-medium">
-            <span>بمشاركة: {playlist.participants.join(', ')}</span>
+            <span>
+              {withParticipation} {playlist.participants.join(', ')}
+            </span>
           </div>
 
           {/* 2. New Multi-column metadata list */}
@@ -46,21 +61,23 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">ondemand_video</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">المقاطع</span>
-                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.episodesCount} مقطع</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{videosLabel}</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">
+                  {playlist.episodesCount} {videoLabel}
+                </span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">schedule</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">المدة</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{durationLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.duration}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">question_mark</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">النوع</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{typeLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
                   {getContentTypeLabel(playlist.type)}
                 </span>
@@ -69,7 +86,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">mic</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">الأسلوب</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{styleLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
                   {getPresentationStyleLabel(playlist.style)}
                 </span>
@@ -78,14 +95,14 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">category</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">التصانيف</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{categoriesLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.categories.join(', ')}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">group</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">الفئات</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{classesLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
                   {playlist.classes.map((c) => getClassLabel(c)).join(', ')}
                 </span>
@@ -94,14 +111,14 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">event</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">تاريخ البداية</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{startDateLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{formatDate(playlist.startDate)}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">event_available</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">تاريخ النهاية</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{endDateLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{formatDate(playlist.endDate)}</span>
               </span>
             </div>

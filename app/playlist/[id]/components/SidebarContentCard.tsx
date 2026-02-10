@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { episodeLabel } from '@/app/static'
 
 interface SidebarContentCardProps {
   lessonNumber: number
@@ -35,7 +36,9 @@ const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
       <div className="grid grid-cols-[1fr_auto] items-center gap-3">
         <div className="flex items-center">
           <div className="mr-3">
-            <p className="text-xs font-medium text-primary mb-0.5">الحلقة {lessonNumber}</p>
+            <p className="text-xs font-medium text-primary mb-0.5">
+              {episodeLabel} {lessonNumber}
+            </p>
             <h3 className="text-sm font-semibold text-text-light dark:text-text-dark truncate group-hover:text-primary transition-colors">
               {title}
             </h3>

@@ -6,6 +6,7 @@ import SelectedPlaylistContent from './components/SelectedPlaylistContent'
 import PersonalProgress from './components/PersonalProgress'
 import { getPlaylistVideos } from '@/app/utils'
 import playlists from '@/public/playlists.json'
+import { playlistNotFound, noVideosFound } from '@/app/static'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -28,13 +29,13 @@ const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ param
   const playlist = await getPlaylist(params.id)
 
   if (!playlist) {
-    return <div>Playlist not found</div>
+    return <div>{playlistNotFound}</div>
   }
 
   // Load videos for this playlist
   const videos = await getPlaylistVideos(playlist.id)
   if (videos.length === 0) {
-    return <div>No videos found in this playlist.</div>
+    return <div>{noVideosFound}</div>
   }
 
   return (

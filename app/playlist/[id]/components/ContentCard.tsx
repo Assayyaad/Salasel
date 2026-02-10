@@ -4,6 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { videoThumbnailUrl } from '@/app/utils'
+import { watchStatusCompleted, watchStatusInProgress, watchStatusNotStarted } from '@/app/static'
 
 type WatchStatus = 'completed' | 'in-progress' | 'not-started'
 
@@ -20,20 +21,20 @@ const WatchStatusIcon: React.FC<{ status: WatchStatus }> = ({ status }) => {
   switch (status) {
     case 'completed':
       return (
-        <span className="material-icons-round text-green-500" title="مكتمل">
+        <span className="material-icons-round text-green-500" title={watchStatusCompleted}>
           check_circle
         </span>
       )
     case 'in-progress':
       return (
-        <span className="material-icons-round text-xs text-yellow-500" title="قيد المشاهدة">
+        <span className="material-icons-round text-xs text-yellow-500" title={watchStatusInProgress}>
           hourglass_bottom
         </span>
       )
     case 'not-started':
     default:
       return (
-        <span className="material-icons-round text-gray-400" title="لم تتم مشاهدته">
+        <span className="material-icons-round text-gray-400" title={watchStatusNotStarted}>
           radio_button_unchecked
         </span>
       )

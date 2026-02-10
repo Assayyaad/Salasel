@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import ContentCard from './ContentCard'
 import { Playlist, Video } from '@/app/types'
 import { useProgressStore } from '@/app/store/useProgressStore'
+import { loading, playlistContents } from '@/app/static'
 
 interface SelectedPlaylistContentProps {
   playlist: Playlist
@@ -36,7 +37,7 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
   }
 
   if (!playlist) {
-    return <div>Loading...</div>
+    return <div>{loading}</div>
   }
 
   if (!isClient) {
@@ -50,7 +51,7 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
       className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
     >
       <div className="bg-gray-50 dark:bg-gray-800/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-bold text-text-light dark:text-text-dark">محتويات السلسلة</h2>
+        <h2 className="text-xl font-bold text-text-light dark:text-text-dark">{playlistContents}</h2>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         {videos.map((v) => (

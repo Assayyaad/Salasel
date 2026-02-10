@@ -8,6 +8,7 @@ import PlaylistSidebar from '../components/PlaylistSidebar'
 import VideoPlayer from '../components/VideoPlayer'
 import { fetchPlaylistVideos } from '@/app/utils'
 import playlists from '@/public/playlists.json'
+import { loading } from '@/app/static'
 
 const VideoPlayerPage: React.FC = () => {
   const params = useParams()
@@ -62,7 +63,7 @@ const VideoPlayerPage: React.FC = () => {
   if (loading) {
     return (
       <main dir="rtl" className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-16">
-        <div className="text-center p-10">Loading...</div>
+        <div className="text-center p-10">{loading}</div>
       </main>
     )
   }
