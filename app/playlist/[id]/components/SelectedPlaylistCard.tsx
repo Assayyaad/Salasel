@@ -28,7 +28,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
         <div className="p-6 lg:w-1/2 flex flex-col justify-center space-y-4">
           {/* 1. Reordered Information */}
           <h1 className="text-3xl font-extrabold text-text-light dark:text-text-dark mb-2 tracking-tight">
-            {playlist.name}
+            {playlist.channel} | {playlist.name}
           </h1>
           <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">{playlist.description}</p>
           <div className="text-sm text-muted-light dark:text-muted-dark font-medium">

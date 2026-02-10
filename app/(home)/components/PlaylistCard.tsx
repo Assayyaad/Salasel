@@ -10,14 +10,16 @@ interface PlaylistCardProps {
 }
 
 const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist }) => {
-  const { name, description, id, videos } = playlist
+  const { id, channel, name, description, videos } = playlist
   const imageUrl = videoThumbnailUrl(videos[0]?.id)
 
   return (
     <Link href={`/playlist/${id}`}>
       <article className="group cursor-pointer">
         <div className="mb-4" dir="rtl">
-          <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">{name}</h3>
+          <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
+            {channel} | {name}
+          </h3>
           <p className="text-sm text-slate-400">{description}</p>
         </div>
         <div className="aspect-video w-full overflow-hidden rounded-lg bg-slate-800 relative shadow-sm group-hover:shadow-lg transition-shadow duration-300">
