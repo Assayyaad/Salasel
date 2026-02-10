@@ -78,7 +78,7 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist }) => {
           {/* Video Progress */}
           <div>
             <div className="flex justify-between text-xs font-semibold text-muted-light dark:text-muted-dark mb-1">
-              <span>تقدم الفيديو الحالي</span>
+              <span>تقدم المقطع الحالي</span>
               <span>{videoProgress}%</span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">

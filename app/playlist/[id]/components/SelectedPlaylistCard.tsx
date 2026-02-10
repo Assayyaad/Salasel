@@ -47,8 +47,8 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">ondemand_video</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">الفيديوهات</span>
-                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.episodesCount} فيديو</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">المقاطع</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.episodesCount} مقطع</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
