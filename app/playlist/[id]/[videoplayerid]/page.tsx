@@ -3,16 +3,20 @@
 import type { Playlist, Video } from '@/app/types'
 
 import React, { useEffect, useState } from 'react'
-import { useParams, notFound } from 'next/navigation'
+import { useParams, notFound, useRouter, useSearchParams } from 'next/navigation'
 import PlaylistSidebar from '../components/PlaylistSidebar'
 import VideoPlayer from '../components/VideoPlayer'
 import { fetchPlaylistVideos } from '@/app/utils'
 import playlists from '@/public/playlists.json'
 import { loading } from '@/app/static'
+import { useProgressStore } from '@/app/store/useProgressStore'
 
 const VideoPlayerPage: React.FC = () => {
   const params = useParams()
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const { id, videoplayerid } = params
+  const { videoTimestamps } = useProgressStore()
 
   const [playlist, setPlaylist] = useState<Playlist | null>(null)
   const [video, setVideo] = useState<Video | null>(null)
@@ -59,6 +63,32 @@ const VideoPlayerPage: React.FC = () => {
 
     loadData()
   }, [id, videoplayerid])
+
+  // Add timestamp to URL if not present
+  useEffect(() => {
+    if (typeof videoplayerid !== 'string') return
+
+    const hasTimestamp = searchParams.get('t')
+    if (!hasTimestamp && videoTimestamps[videoplayerid]) {
+      const timestamp = videoTimestamps[videoplayerid]
+      // Convert seconds to MM:SS or HH:MM:SS format
+      const hours = Math.floor(timestamp / 3600)
+      const minutes = Math.floor((timestamp % 3600) / 60)
+      const seconds = Math.floor(timestamp % 60)
+
+      let timestampStr = ''
+      if (hours > 0) {
+        timestampStr = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+      } else {
+        timestampStr = `${minutes}:${seconds.toString().padStart(2, '0')}`
+      }
+
+      // Update URL with timestamp parameter
+      const newSearchParams = new URLSearchParams(searchParams.toString())
+      newSearchParams.set('t', timestampStr)
+      router.replace(`?${newSearchParams.toString()}`, { scroll: false })
+    }
+  }, [videoplayerid, searchParams, videoTimestamps, router])
 
   if (loading) {
     return (

@@ -30,7 +30,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, playlist }) => {
   const videoNode = useRef<HTMLVideoElement>(null)
   const playerRef = useRef<any>(null)
   const searchParams = useSearchParams()
-  const { setVideoProgress, toggleVideoCompleted, completedVideos } = useProgressStore()
+  const { setVideoProgress, toggleVideoCompleted, completedVideos, setVideoTimestamp } = useProgressStore()
   const { setCurrentTime } = useVideoPlayerStore()
   const lastUpdateTime = useRef(0)
 
@@ -85,6 +85,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, playlist }) => {
               const progress = (currentTime / duration) * 100
               if (!isNaN(progress) && progress > 0) {
                 setVideoProgress(video.id, Math.round(progress))
+                setVideoTimestamp(video.id, Math.round(currentTime))
                 lastUpdateTime.current = now
 
                 // Mark as completed if threshold reached and not already completed

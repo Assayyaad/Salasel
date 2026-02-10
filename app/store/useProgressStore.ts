@@ -10,8 +10,10 @@ interface ProgressState {
   completedVideos: Record<string, Set<string>> // playlistId -> Set<videoId>
   notes: Record<string, Note[]> // videoId -> array of notes
   videoProgress: Record<string, number> // videoId -> progress percentage
+  videoTimestamps: Record<string, number> // videoId -> timestamp in seconds
   toggleVideoCompleted: (playlistId: string, videoId: string) => void
   setVideoProgress: (videoId: string, progress: number) => void
+  setVideoTimestamp: (videoId: string, timestamp: number) => void
   addNote: (videoId: string, note: Note) => void
   removeNote: (videoId: string, timestamp: number) => void
 }
@@ -22,6 +24,7 @@ export const useProgressStore = create<ProgressState>()(
       completedVideos: {},
       notes: {},
       videoProgress: {},
+      videoTimestamps: {},
       toggleVideoCompleted: (playlistId, videoId) =>
         set((state) => {
           const playlistCompleted = new Set(state.completedVideos[playlistId] || [])
@@ -42,6 +45,13 @@ export const useProgressStore = create<ProgressState>()(
           videoProgress: {
             ...state.videoProgress,
             [videoId]: progress,
+          },
+        })),
+      setVideoTimestamp: (videoId, timestamp) =>
+        set((state) => ({
+          videoTimestamps: {
+            ...state.videoTimestamps,
+            [videoId]: timestamp,
           },
         })),
       addNote: (videoId, note) =>
