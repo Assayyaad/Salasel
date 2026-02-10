@@ -4,6 +4,7 @@ import type { Playlist } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
+import Librecounter from '@/app/shared/components/Librecounter'
 import {
   formatDate,
   getClassLabel,
@@ -49,7 +50,9 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
           <h1 className="text-3xl font-extrabold text-text-light dark:text-text-dark mb-2 tracking-tight">
             {playlist.channel} | {playlist.name}
           </h1>
-          <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">{playlist.description}</p>
+          <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+            {playlist.description} <Librecounter />
+          </p>
           <div className="text-sm text-muted-light dark:text-muted-dark font-medium">
             <span>
               {withParticipation} {playlist.participants.join(', ')}

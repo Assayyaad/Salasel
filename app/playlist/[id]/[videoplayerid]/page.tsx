@@ -6,10 +6,9 @@ import React, { useEffect, useState } from 'react'
 import { useParams, notFound, useRouter, useSearchParams } from 'next/navigation'
 import PlaylistSidebar from '../components/PlaylistSidebar'
 import VideoPlayer from '../components/VideoPlayer'
+import { useProgressStore } from '@/app/store/useProgressStore'
 import { fetchPlaylistVideos } from '@/app/utils'
 import playlists from '@/public/playlists.json'
-import { loading } from '@/app/static'
-import { useProgressStore } from '@/app/store/useProgressStore'
 
 const VideoPlayerPage: React.FC = () => {
   const params = useParams()

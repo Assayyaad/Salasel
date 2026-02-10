@@ -5,8 +5,8 @@ import SelectedPlaylistCard from './components/SelectedPlaylistCard'
 import SelectedPlaylistContent from './components/SelectedPlaylistContent'
 import PersonalProgress from './components/PersonalProgress'
 import { getPlaylistVideos } from '@/app/utils'
-import playlists from '@/public/playlists.json'
 import { playlistNotFound, noVideosFound } from '@/app/static'
+import playlists from '@/public/playlists.json'
 
 export const revalidate = 3600 // Revalidate every hour
 
