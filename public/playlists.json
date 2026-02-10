@@ -11,38 +11,8 @@
     "categories": ["دين"],
     "duration": "07:10:19",
     "episodesCount": 4,
-    "startDate": "2024-02-24T03:00:00-00:00",
-    "endDate": "2024-03-28T03:00:00-00:00",
-    "videos": [
-      {
-        "id": "63_AOCldyXo",
-        "playlistId": "PLSFJcWy6euuDj6XSqBM-MmKhCyrXK_ywv",
-        "title": "الصلاة",
-        "duration": "2:12:48",
-        "date": "2024-02-24"
-      },
-      {
-        "id": "hK-9Be0prrA",
-        "playlistId": "PLSFJcWy6euuDj6XSqBM-MmKhCyrXK_ywv",
-        "title": "القرآن",
-        "duration": "1:49:16",
-        "date": "2024-03-06"
-      },
-      {
-        "id": "si994Z9BAr8",
-        "playlistId": "PLSFJcWy6euuDj6XSqBM-MmKhCyrXK_ywv",
-        "title": "الدعاء",
-        "duration": "1:25:49",
-        "date": "2024-03-20"
-      },
-      {
-        "id": "nkil1U1GxdA",
-        "playlistId": "PLSFJcWy6euuDj6XSqBM-MmKhCyrXK_ywv",
-        "title": "الذكر",
-        "duration": "1:42:26",
-        "date": "2024-03-28"
-      }
-    ]
+    "startDate": "2024-02-24",
+    "endDate": "2024-03-28"
   },
   {
     "id": "PLSFJcWy6euuBek1JZwJdqT_3rsUhXtmBv",
@@ -56,24 +26,8 @@
     "categories": ["دين"],
     "duration": "03:31:51",
     "episodesCount": 2,
-    "startDate": "2025-12-26T03:00:00-00:00",
-    "endDate": "2026-01-23T03:00:00-00:00",
-    "videos": [
-      {
-        "id": "T-JJcn_GXTc",
-        "playlistId": "PLSFJcWy6euuBek1JZwJdqT_3rsUhXtmBv",
-        "title": "الرياء",
-        "duration": "2:12:24",
-        "date": "2025-12-26"
-      },
-      {
-        "id": "qoiMDzxlImE",
-        "playlistId": "PLSFJcWy6euuBek1JZwJdqT_3rsUhXtmBv",
-        "title": "الحسد",
-        "duration": "1:19:27",
-        "date": "2026-01-23"
-      }
-    ]
+    "startDate": "2025-12-26",
+    "endDate": "2026-01-23"
   },
   {
     "id": "PLSFJcWy6euuAZPTasEUJRSrKEp85h6HPY",
@@ -87,52 +41,8 @@
     "categories": ["دين"],
     "duration": "10:46:03",
     "episodesCount": 6,
-    "startDate": "2024-11-29T03:00:00-00:00",
-    "endDate": "2024-00-00T03:00:00-00:00",
-    "videos": [
-      {
-        "id": "agFMbV32JIc",
-        "playlistId": "PLSFJcWy6euuAZPTasEUJRSrKEp85h6HPY",
-        "title": "التحرر من الغفلة",
-        "duration": "1:39:08",
-        "date": "2024-11-29"
-      },
-      {
-        "id": "DdxrQV_bkkY",
-        "playlistId": "PLSFJcWy6euuAZPTasEUJRSrKEp85h6HPY",
-        "title": "التحرر من التفاهة",
-        "duration": "1:46:23",
-        "date": "2024-12-14"
-      },
-      {
-        "id": "f8croUJLd3Y",
-        "playlistId": "PLSFJcWy6euuAZPTasEUJRSrKEp85h6HPY",
-        "title": "التحرر من سلوك القطيع",
-        "duration": "1:43:56",
-        "date": "2024-12-27"
-      },
-      {
-        "id": "-W6ijtUgXiU",
-        "playlistId": "PLSFJcWy6euuAZPTasEUJRSrKEp85h6HPY",
-        "title": "التحرر من العادة",
-        "duration": "1:47:57",
-        "date": "2025-01-10"
-      },
-      {
-        "id": "f0AHyAhNulc",
-        "playlistId": "PLSFJcWy6euuAZPTasEUJRSrKEp85h6HPY",
-        "title": "التحرر من التشتت",
-        "duration": "1:57:09",
-        "date": "2025-07-25"
-      },
-      {
-        "id": "zRvZtwTSM6Q",
-        "playlistId": "PLSFJcWy6euuAZPTasEUJRSrKEp85h6HPY",
-        "title": "التحرر من التحيزات العقلية",
-        "duration": "1:51:30",
-        "date": "2024-11-14"
-      }
-    ]
+    "startDate": "2024-11-29",
+    "endDate": "2024-00-00"
   },
   {
     "id": "PLSFJcWy6euuA_Ux76wLLUwR7HPpKL9rd-",
@@ -146,37 +56,7 @@
     "categories": ["دين"],
     "duration": "03:55:49",
     "episodesCount": 4,
-    "startDate": "2025-06-20T03:00:00-00:00",
-    "endDate": "2025-07-11T03:00:00-00:00",
-    "videos": [
-      {
-        "id": "9d9nm9QlNsY",
-        "playlistId": "PLSFJcWy6euuA_Ux76wLLUwR7HPpKL9rd-",
-        "title": "الإلحاد الروحي",
-        "duration": "1:07:59",
-        "date": "2025-06-20"
-      },
-      {
-        "id": "LHBYxTd-RL4",
-        "playlistId": "PLSFJcWy6euuA_Ux76wLLUwR7HPpKL9rd-",
-        "title": "الإلحاد المادي",
-        "duration": "1:16:56",
-        "date": "2025-06-28"
-      },
-      {
-        "id": "n_OLehMGvm0",
-        "playlistId": "PLSFJcWy6euuA_Ux76wLLUwR7HPpKL9rd-",
-        "title": "الإلحاد الباطني",
-        "duration": "50:29",
-        "date": "2025-07-04"
-      },
-      {
-        "id": "FP_Uv4zq_X0",
-        "playlistId": "PLSFJcWy6euuA_Ux76wLLUwR7HPpKL9rd-",
-        "title": "توهم الإلحاد (الوسواس القهري)",
-        "duration": "40:25",
-        "date": "2025-07-11"
-      }
-    ]
+    "startDate": "2025-06-20",
+    "endDate": "2025-07-11"
   }
 ]

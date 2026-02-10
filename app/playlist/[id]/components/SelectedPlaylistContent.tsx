@@ -2,14 +2,15 @@
 
 import React, { useState, useEffect } from 'react'
 import ContentCard from './ContentCard'
-import { Playlist } from '@/app/types'
+import { Playlist, Video } from '@/app/types'
 import { useProgressStore } from '@/app/store/useProgressStore'
 
 interface SelectedPlaylistContentProps {
   playlist: Playlist
+  videos: Video[]
 }
 
-const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist }) => {
+const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist, videos }) => {
   const { completedVideos, videoProgress, notes, toggleVideoCompleted } = useProgressStore()
   const [isClient, setIsClient] = useState(false)
 
@@ -52,15 +53,15 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
         <h2 className="text-xl font-bold text-text-light dark:text-text-dark">محتويات السلسلة</h2>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        {playlist.videos.map((video) => (
+        {videos.map((v) => (
           <ContentCard
-            key={video.id}
-            title={video.title}
-            videoId={video.id}
-            playlistId={playlist.id}
-            status={getStatus(video.id)}
-            notesCount={getNotesCount(video.id)}
-            onToggle={() => toggleVideoCompleted(playlist.id, video.id)}
+            key={v.id}
+            title={v.title}
+            videoId={v.id}
+            playlistId={v.playlistId}
+            status={getStatus(v.id)}
+            notesCount={getNotesCount(v.id)}
+            onToggle={() => toggleVideoCompleted(v.playlistId, v.id)}
           />
         ))}
       </div>

@@ -4,6 +4,7 @@ import React from 'react'
 import SelectedPlaylistCard from './components/SelectedPlaylistCard'
 import SelectedPlaylistContent from './components/SelectedPlaylistContent'
 import PersonalProgress from './components/PersonalProgress'
+import { getPlaylistVideos } from '@/app/utils'
 import playlists from '@/public/playlists.json'
 
 export const revalidate = 3600 // Revalidate every hour
@@ -30,18 +31,17 @@ const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ param
     return <div>Playlist not found</div>
   }
 
-  // You might want a more graceful handling if no videos are present,
-  // but for now, we'll return a message.
-  const firstVideoId = playlist.videos?.[0]?.id
-  if (!firstVideoId) {
+  // Load videos for this playlist
+  const videos = await getPlaylistVideos(playlist.id)
+  if (videos.length === 0) {
     return <div>No videos found in this playlist.</div>
   }
 
   return (
     <>
-      <SelectedPlaylistCard playlist={playlist} />
-      <PersonalProgress playlist={playlist} />
-      <SelectedPlaylistContent playlist={playlist} />
+      <SelectedPlaylistCard playlist={playlist} firstVideo={videos[0]} />
+      <PersonalProgress playlist={playlist} videos={videos} />
+      <SelectedPlaylistContent playlist={playlist} videos={videos} />
     </>
   )
 }

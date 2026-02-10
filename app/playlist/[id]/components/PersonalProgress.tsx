@@ -2,14 +2,15 @@
 
 import React, { useMemo, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Playlist } from '@/app/types'
+import { Playlist, Video } from '@/app/types'
 import { useProgressStore } from '@/app/store/useProgressStore'
 
 export interface PersonalProgressProps {
   playlist: Playlist
+  videos: Video[]
 }
 
-const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist }) => {
+const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos }) => {
   const { completedVideos, notes, videoProgress: videoProgressMap } = useProgressStore()
   const [isClient, setIsClient] = useState(false)
 
@@ -23,32 +24,23 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist }) => {
   }, [isClient, completedVideos, playlist.id])
 
   const playlistProgress = useMemo(() => {
-    if (!isClient || !playlist.videos || playlist.videos.length === 0) {
+    if (!isClient) {
       return 0
     }
-    return Math.round((playlistCompletedVideos.size / playlist.videos.length) * 100)
-  }, [isClient, playlistCompletedVideos, playlist.videos])
+    return Math.round((playlistCompletedVideos.size / videos.length) * 100)
+  }, [isClient, playlistCompletedVideos, videos])
 
   const notesCount = useMemo(() => {
     if (!isClient) return 0
-    const count = playlist.videos.reduce((acc, video) => {
-      return acc + (notes[video.id]?.length || 0)
-    }, 0)
-    return count
-  }, [isClient, notes, playlist.videos])
+    return videos.reduce((acc, video) => acc + (notes[video.id]?.length || 0), 0)
+  }, [isClient, notes, videos])
 
   const { nextVideo, continueWatchingId } = useMemo(() => {
-    if (!isClient)
-      return { nextVideo: '...', continueWatchingId: playlist.videos.length > 0 ? playlist.videos[0].id : '' }
-    const firstUnwatchedVideo = playlist.videos.find((video) => !playlistCompletedVideos.has(video.id))
-    if (firstUnwatchedVideo) {
-      return { nextVideo: firstUnwatchedVideo.title, continueWatchingId: firstUnwatchedVideo.id }
-    }
-    if (playlist.videos.length > 0) {
-      return { nextVideo: playlist.videos[0].title, continueWatchingId: playlist.videos[0].id }
-    }
-    return { nextVideo: '...', continueWatchingId: '' }
-  }, [isClient, playlist.videos, playlistCompletedVideos])
+    if (!isClient) return { nextVideo: '...', continueWatchingId: videos[0].id }
+
+    const nextVideo = videos.find((v) => !playlistCompletedVideos.has(v.id)) || videos[0]
+    return { nextVideo: nextVideo.title, continueWatchingId: nextVideo.id }
+  }, [isClient, videos, playlistCompletedVideos])
 
   const videoProgress = isClient ? videoProgressMap[continueWatchingId] || 0 : 0
 

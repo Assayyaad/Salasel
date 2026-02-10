@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, notFound } from 'next/navigation'
 import PlaylistSidebar from '../components/PlaylistSidebar'
 import VideoPlayer from '../components/VideoPlayer'
+import { fetchPlaylistVideos } from '@/app/utils'
 import playlists from '@/public/playlists.json'
 
 const VideoPlayerPage: React.FC = () => {
@@ -21,29 +22,41 @@ const VideoPlayerPage: React.FC = () => {
       return
     }
 
-    try {
-      const currentPlaylist = (playlists as Playlist[]).find((p) => p.id === id)
+    const loadData = async () => {
+      try {
+        const currentPlaylist = (playlists as Playlist[]).find((p) => p.id === id)
 
-      if (!currentPlaylist) {
+        if (!currentPlaylist) {
+          notFound()
+          return
+        }
+
+        // Fetch videos for this playlist
+        const videos = await fetchPlaylistVideos(currentPlaylist.id)
+
+        if (videos.length === 0) {
+          notFound()
+          return
+        }
+
+        const currentVideo = videos.find((v) => v.id === videoplayerid)
+
+        if (!currentVideo) {
+          notFound()
+          return
+        }
+
+        setPlaylist(currentPlaylist)
+        setVideo(currentVideo)
+      } catch (error) {
+        console.error('Failed to fetch playlist and video data:', error)
         notFound()
-        return // DOES NOTHING
+      } finally {
+        setLoading(false)
       }
-
-      const currentVideo = currentPlaylist.videos.find((v) => v.id === videoplayerid)
-
-      if (!currentVideo) {
-        notFound()
-        return // DOES NOTHING
-      }
-
-      setPlaylist(currentPlaylist)
-      setVideo(currentVideo)
-    } catch (error) {
-      console.error('Failed to fetch playlist and video data:', error)
-      notFound()
-    } finally {
-      setLoading(false)
     }
+
+    loadData()
   }, [id, videoplayerid])
 
   if (loading) {

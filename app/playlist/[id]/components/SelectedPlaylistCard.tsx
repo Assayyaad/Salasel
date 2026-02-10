@@ -2,22 +2,22 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { Playlist } from '@/app/types'
+import { Playlist, Video } from '@/app/types'
 import { videoThumbnailUrl } from '@/app/utils'
 
 export interface SelectedPlaylistCardProps {
   playlist: Playlist
+  firstVideo: Video
 }
 
-const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist }) => {
+const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, firstVideo }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   if (!playlist) {
     return <div>جاري التحميل...</div> // Or some other loading state
   }
 
-  const videoId = playlist.videos?.[0]?.id
-  const imageUrl = videoThumbnailUrl(videoId)
+  const imageUrl = videoThumbnailUrl(firstVideo.id)
 
   return (
     <div

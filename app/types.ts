@@ -38,8 +38,6 @@ export interface Playlist {
   startDate: string
   /** تاريخ آخر حلقة */
   endDate: string
-  /** بيانات مقاطع السلسلة */
-  videos: Video[]
 }
 
 export type Languages = 'ar' | 'en'
