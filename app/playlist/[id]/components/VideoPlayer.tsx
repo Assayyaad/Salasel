@@ -102,20 +102,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, playlist }) => {
           <video ref={videoNode} className="video-js vjs-big-play-centered" />
         </div>
       </div>
-      <div dir="rtl" className="flex flex-col gap-2 p-2">
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{video.title}</h1>
-            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              <span>من سلسلة: </span>
-              <span className="font-semibold text-primary">{playlist.name}</span>
-              <span className="mx-2">|</span>
-              <span>قناة: </span>
-              <span className="font-semibold text-primary">{playlist.channel}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <h1 dir="rtl" className="mt-4 text-2xl font-bold text-gray-900 dark:text-white">
+        {playlist.channel} | {playlist.name} | {video.title}
+      </h1>
     </div>
   )
 }
