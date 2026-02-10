@@ -133,13 +133,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, playlist }) => {
   }, [searchParams])
 
   return (
-    <div className="lg:col-span-2 flex flex-col gap-0">
+    <div className="flex flex-col gap-4">
       <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
         <div data-vjs-player>
           <video ref={videoNode} className="video-js vjs-big-play-centered" />
         </div>
       </div>
-      <h1 dir="rtl" className="mt-4 text-2xl font-bold text-gray-900 dark:text-white">
+      <h1 dir="rtl" className="text-2xl font-bold text-gray-900 dark:text-white">
         {playlist.channel} | {playlist.name} | {video.title}
       </h1>
     </div>

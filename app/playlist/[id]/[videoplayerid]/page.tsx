@@ -61,19 +61,9 @@ const VideoPlayerPage: React.FC = () => {
 
   return (
     <main dir="rtl" className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-16">
-      <div className="grid grid-cols-1 gap-6 lg:gap-8">
-        {/* Top Section: Video Player and Playlist Sidebar */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-          {/* Main Content: Video Player */}
-          <div className="lg:col-span-2">
-            <VideoPlayer video={video} playlist={playlist} />
-          </div>
-
-          {/* Sidebar: Playlist Content */}
-          <div className="lg:col-span-1">
-            <PlaylistSidebar />
-          </div>
-        </div>
+      <div className="flex flex-col gap-6">
+        <VideoPlayer video={video} playlist={playlist} />
+        <PlaylistSidebar playlistId={playlist.id} videoId={video.id} />
       </div>
     </main>
   )
