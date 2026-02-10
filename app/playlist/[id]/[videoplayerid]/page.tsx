@@ -4,7 +4,6 @@ import type { Playlist, Video } from '@/app/types'
 
 import React, { useEffect, useState } from 'react'
 import { useParams, notFound } from 'next/navigation'
-import VideoDetailsTabs from '../components/VideoDetailsTabs'
 import PlaylistSidebar from '../components/PlaylistSidebar'
 import VideoPlayer from '../components/VideoPlayer'
 import playlists from '@/public/playlists.json'
@@ -75,9 +74,6 @@ const VideoPlayerPage: React.FC = () => {
             <PlaylistSidebar />
           </div>
         </div>
-
-        {/* Bottom Section: Video Details */}
-        <VideoDetailsTabs />
       </div>
     </main>
   )
