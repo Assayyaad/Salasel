@@ -29,9 +29,11 @@ export interface Playlist {
   /** نوع محتوى السلسلة */
   type: ContentTypes
   /** طريقة طرح محتوى السلسلة */
-  presentation: PresentationTypes
+  style: PresentationStyles
   /** تصانيف محتوى السلسلة */
   categories: Categories[]
+  /** فئات المحتوى موجه لها */
+  classes: Classes[]
   /** مدة السلسلة الإجمالية بالساعات */
   duration: string
   /** عدد حلقات السلسلة */
@@ -53,11 +55,20 @@ export enum ContentTypes {
   Awareness = 1,
 }
 
-export enum PresentationTypes {
+export enum PresentationStyles {
   /** سرد: تحدث الملقي بدون وجود جمهور */
   Narration = 0,
   /** محاضرة: تحدث الملقي أمام جمهور  */
   Lecture = 1,
   /** إذاعة: تحدث الملقي ضمن حوار أو نقاش مع آخرين */
   Podcast = 2,
+}
+
+export enum Classes {
+  /** أطفال: محتوى موجه للأطفال، سهل الفهم ولا يحتوي محتوى حساس */
+  Kids = 0,
+  /** آباء: محتوى عن التربية */
+  Parents = 1,
+  /** إناث: محتوى مخصص للإناث دون الذكور بغض النظر عن العمر */
+  Female = 2,
 }

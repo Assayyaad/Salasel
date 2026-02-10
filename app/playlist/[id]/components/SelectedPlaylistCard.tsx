@@ -1,9 +1,16 @@
 'use client'
 
+import type { Playlist } from '@/app/types'
+
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { Playlist } from '@/app/types'
-import { videoThumbnailUrl } from '@/app/utils'
+import {
+  formatDate,
+  getClassLabel,
+  getContentTypeLabel,
+  getPresentationStyleLabel,
+  videoThumbnailUrl,
+} from '@/app/utils'
 
 export interface SelectedPlaylistCardProps {
   playlist: Playlist
@@ -37,13 +44,6 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
           {/* 2. New Multi-column metadata list */}
           <div className="grid grid-cols-2 gap-x-6 gap-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-2">
-              <span className="material-icons-round text-base ml-1 text-primary">schedule</span>
-              <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">المدة</span>
-                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.duration}</span>
-              </span>
-            </div>
-            <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">ondemand_video</span>
               <span className="flex flex-col">
                 <span className="text-sm font-semibold text-text-light dark:text-text-dark">المقاطع</span>
@@ -51,17 +51,58 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
               </span>
             </div>
             <div className="flex items-center space-x-2">
-              <span className="material-icons-round text-base ml-1 text-primary">translate</span>
+              <span className="material-icons-round text-base ml-1 text-primary">schedule</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">اللغة</span>
-                <span className="text-xs text-muted-light dark:text-muted-dark">العربية</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">المدة</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.duration}</span>
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="material-icons-round text-base ml-1 text-primary">question_mark</span>
+              <span className="flex flex-col">
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">النوع</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">
+                  {getContentTypeLabel(playlist.type)}
+                </span>
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="material-icons-round text-base ml-1 text-primary">mic</span>
+              <span className="flex flex-col">
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">الأسلوب</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">
+                  {getPresentationStyleLabel(playlist.style)}
+                </span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">category</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">التصنيف</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">التصانيف</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.categories.join(', ')}</span>
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="material-icons-round text-base ml-1 text-primary">group</span>
+              <span className="flex flex-col">
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">الفئات</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">
+                  {playlist.classes.map((c) => getClassLabel(c)).join(', ')}
+                </span>
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="material-icons-round text-base ml-1 text-primary">event</span>
+              <span className="flex flex-col">
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">تاريخ البداية</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">{formatDate(playlist.startDate)}</span>
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="material-icons-round text-base ml-1 text-primary">event_available</span>
+              <span className="flex flex-col">
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">تاريخ النهاية</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">{formatDate(playlist.endDate)}</span>
               </span>
             </div>
           </div>
