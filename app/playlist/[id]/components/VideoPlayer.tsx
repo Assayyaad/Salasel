@@ -1,7 +1,9 @@
 'use client'
-import { useProgressStore } from '@/app/store/useProgressStore'
+
 import type { Playlist, Video } from '@/app/types'
+
 import React, { useEffect, useRef } from 'react'
+import { useProgressStore } from '@/app/store/useProgressStore'
 import 'video.js/dist/video-js.css'
 
 interface VideoPlayerProps {

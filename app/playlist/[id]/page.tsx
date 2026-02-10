@@ -1,5 +1,6 @@
 import type { Playlist } from '@/app/types'
 
+import React from 'react'
 import SelectedPlaylistCard from './components/SelectedPlaylistCard'
 import SelectedPlaylistContent from './components/SelectedPlaylistContent'
 import PersonalProgress from './components/PersonalProgress'
@@ -17,7 +18,11 @@ async function getPlaylist(id: string): Promise<Playlist | undefined> {
   return (playlists as Playlist[]).find((pl) => pl.id === id)
 }
 
-const SelectedPlaylistPage = async ({ params: paramsPromise }: { params: Promise<{ id: string }> }) => {
+export interface SelectedPlaylistPageProps {
+  params: Promise<{ id: string }>
+}
+
+const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ params: paramsPromise }) => {
   const params = await paramsPromise
   const playlist = await getPlaylist(params.id)
 
@@ -25,10 +30,9 @@ const SelectedPlaylistPage = async ({ params: paramsPromise }: { params: Promise
     return <div>Playlist not found</div>
   }
 
-  const firstVideoId = playlist.videos?.[0]?.id
-
   // You might want a more graceful handling if no videos are present,
   // but for now, we'll return a message.
+  const firstVideoId = playlist.videos?.[0]?.id
   if (!firstVideoId) {
     return <div>No videos found in this playlist.</div>
   }

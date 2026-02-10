@@ -1,11 +1,12 @@
 'use client'
 
+import type { Playlist } from '@/app/types'
+
 import React from 'react'
-import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import FilterGrid from './FilterGrid'
 import PlaylistCard from './PlaylistCard'
+import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { filters } from '@/app/static'
-import { Playlist } from '@/app/types' // Import Playlist type
 
 interface PlaylistGridProps {
   playlists: Playlist[]

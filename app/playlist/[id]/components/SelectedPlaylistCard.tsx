@@ -1,12 +1,15 @@
-// app/playlist/[id]/components/SelectedPlaylistCard.tsx
 'use client'
-import Image from 'next/image'
-import { usePlaylistStore } from '@/app/store/usePlaylistStore'
-import { useEffect, useState } from 'react'
-import { Playlist } from '@/app/types'
-import Link from 'next/link'
 
-const SelectedPlaylistCard = ({ playlist }: { playlist: Playlist }) => {
+import React, { useState } from 'react'
+import Image from 'next/image'
+import { Playlist } from '@/app/types'
+import { videoThumbnailUrl } from '@/app/utils'
+
+export interface SelectedPlaylistCardProps {
+  playlist: Playlist
+}
+
+const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   if (!playlist) {
@@ -14,7 +17,7 @@ const SelectedPlaylistCard = ({ playlist }: { playlist: Playlist }) => {
   }
 
   const videoId = playlist.videos?.[0]?.id
-  const imageUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : ''
+  const imageUrl = videoThumbnailUrl(videoId)
 
   return (
     <div

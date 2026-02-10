@@ -1,10 +1,15 @@
 'use client'
-import { Playlist } from '@/app/types'
-import Link from 'next/link'
+
 import React, { useMemo, useState, useEffect } from 'react'
+import Link from 'next/link'
+import { Playlist } from '@/app/types'
 import { useProgressStore } from '@/app/store/useProgressStore'
 
-const PersonalProgress = ({ playlist }: { playlist: Playlist }) => {
+export interface PersonalProgressProps {
+  playlist: Playlist
+}
+
+const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist }) => {
   const { completedVideos, notes, videoProgress: videoProgressMap } = useProgressStore()
   const [isClient, setIsClient] = useState(false)
 

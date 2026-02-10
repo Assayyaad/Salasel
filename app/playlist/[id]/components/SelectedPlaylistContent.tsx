@@ -1,9 +1,9 @@
 'use client'
-// app/playlist/[id]/components/SelectedPlaylistContent.tsx
+
+import React, { useState, useEffect } from 'react'
 import ContentCard from './ContentCard'
 import { Playlist } from '@/app/types'
 import { useProgressStore } from '@/app/store/useProgressStore'
-import React, { useState, useEffect } from 'react'
 
 interface SelectedPlaylistContentProps {
   playlist: Playlist

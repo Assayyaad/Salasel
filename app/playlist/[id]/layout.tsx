@@ -1,9 +1,13 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import React from 'react'
+import { useRouter } from 'next/navigation'
 
-export default function PlaylistLayout({ children }: { children: React.ReactNode }) {
+export interface PlaylistLayoutProps {
+  children: React.ReactNode
+}
+
+export const PlaylistLayout: React.FC<PlaylistLayoutProps> = ({ children }) => {
   const router = useRouter()
 
   return (
@@ -21,3 +25,5 @@ export default function PlaylistLayout({ children }: { children: React.ReactNode
     </main>
   )
 }
+
+export default PlaylistLayout

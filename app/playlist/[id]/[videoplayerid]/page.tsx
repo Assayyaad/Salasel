@@ -2,14 +2,14 @@
 
 import type { Playlist, Video } from '@/app/types'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, notFound } from 'next/navigation'
 import VideoDetailsTabs from '../components/VideoDetailsTabs'
 import PlaylistSidebar from '../components/PlaylistSidebar'
 import VideoPlayer from '../components/VideoPlayer'
 import playlists from '@/public/playlists.json'
 
-const VideoPlayerPage = () => {
+const VideoPlayerPage: React.FC = () => {
   const params = useParams()
   const { id, videoplayerid } = params
 
@@ -27,14 +27,14 @@ const VideoPlayerPage = () => {
 
       if (!currentPlaylist) {
         notFound()
-        return
+        return // DOES NOTHING
       }
 
       const currentVideo = currentPlaylist.videos.find((v) => v.id === videoplayerid)
 
       if (!currentVideo) {
         notFound()
-        return
+        return // DOES NOTHING
       }
 
       setPlaylist(currentPlaylist)

@@ -1,8 +1,9 @@
 'use client'
-// app/playlist/[id]/components/ContentCard.tsx
+
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { videoThumbnailUrl } from '@/app/utils'
 
 type WatchStatus = 'completed' | 'in-progress' | 'not-started'
 
@@ -45,7 +46,7 @@ const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, s
     onToggle(videoId)
   }
 
-  const imageUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+  const imageUrl = videoThumbnailUrl(videoId)
 
   const inProgressClasses = status === 'in-progress' ? 'bg-yellow-50/50 dark:bg-yellow-900/10' : ''
   const completedClasses = status === 'completed' ? 'bg-green-50/50 dark:bg-green-900/10' : ''
