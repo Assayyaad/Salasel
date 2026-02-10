@@ -4,6 +4,7 @@ import PlaylistGrid from './components/PlaylistGrid'
 import SearchBar from '@/app/shared/components/SearchBar'
 import { title, description } from '@/app/static'
 import playlists from '@/public/playlists.json'
+import FilterGrid from './components/FilterGrid'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -21,6 +22,7 @@ export default function Home() {
           <SearchBar />
         </div>
       </div>
+      <FilterGrid />
       <PlaylistGrid playlists={data} />
     </main>
   )
