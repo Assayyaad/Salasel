@@ -43,13 +43,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const videos: Video[] = JSON.parse(videoData)
 
         // Add video URLs
-        videos.forEach((video) => {
+        videos.forEach((v) => {
           entries.push({
-            url: `${baseUrl}/playlist/${pl.id}/${video.id}`,
+            url: `${baseUrl}/playlist/${pl.id}/${v.id}`,
             priority: 0.5,
             alternates: {
               languages: {
-                ar: `${baseUrl}/playlist/${pl.id}/${video.id}`,
+                ar: `${baseUrl}/playlist/${pl.id}/${v.id}`,
               },
             },
           })

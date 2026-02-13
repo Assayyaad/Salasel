@@ -17,7 +17,6 @@ import {
   loading,
   withParticipation,
   videosLabel,
-  videoLabel,
   durationLabel,
   typeLabel,
   styleLabel,
@@ -53,11 +52,14 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
           <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
             {playlist.description} <Librecounter />
           </p>
-          <div className="text-sm text-muted-light dark:text-muted-dark font-medium">
-            <span>
-              {withParticipation} {playlist.participants.join(', ')}
-            </span>
-          </div>
+
+          {playlist.participants.length > 0 && (
+            <div className="text-sm text-muted-light dark:text-muted-dark font-medium">
+              <span>
+                {withParticipation} {playlist.participants.join(', ')}
+              </span>
+            </div>
+          )}
 
           {/* 2. New Multi-column metadata list */}
           <div className="grid grid-cols-2 gap-x-6 gap-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -65,9 +67,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
               <span className="material-icons-round text-base ml-1 text-primary">ondemand_video</span>
               <span className="flex flex-col">
                 <span className="text-sm font-semibold text-text-light dark:text-text-dark">{videosLabel}</span>
-                <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {playlist.episodesCount} {videoLabel}
-                </span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.episodesCount}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
@@ -107,7 +107,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
               <span className="flex flex-col">
                 <span className="text-sm font-semibold text-text-light dark:text-text-dark">{classesLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {playlist.classes.map((c) => getClassLabel(c)).join(', ')}
+                  {playlist.classes.map((c) => getClassLabel(c)).join(', ') || '-'}
                 </span>
               </span>
             </div>

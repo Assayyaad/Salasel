@@ -45,7 +45,6 @@ export const startWatching = 'ابدأ المشاهدة'
 // Playlist Card labels
 export const withParticipation = 'بمشاركة:'
 export const videosLabel = 'المقاطع'
-export const videoLabel = 'مقطع'
 export const durationLabel = 'المدة'
 export const typeLabel = 'النوع'
 export const styleLabel = 'الأسلوب'

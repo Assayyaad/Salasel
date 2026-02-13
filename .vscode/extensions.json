@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "mechatroner.rainbow-csv",
+    "repreng.csv",
+    "editorconfig.editorconfig",
+    "usernamehw.errorlens",
+    "chamboug.js-auto-backticks",
+    "nhoizey.gremlins",
+    "yzhang.markdown-all-in-one",
+    "idered.npm",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "esbenp.prettier-vscode",
+    "yoavbls.pretty-ts-errors",
+    "tauri-apps.tauri-vscode",
+    "chakrounanas.turbo-console-log"
+  ]
+}

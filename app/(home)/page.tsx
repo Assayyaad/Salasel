@@ -10,9 +10,7 @@ import { title, description } from '@/app/static'
 export const revalidate = 3600 // Revalidate every hour
 
 export default function Home() {
-  const data: Playlist[] = (playlists as Playlist[]).slice(0, 22) // change 22 just for dev purposes.
-  // later we need to implement more courses to display as the user scroll to the bottom. (recommended)
-  // OR, display all courses
+  const data: Playlist[] = playlists as Playlist[]
 
   return (
     <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
