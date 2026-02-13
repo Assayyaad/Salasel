@@ -1,4 +1,4 @@
-import type { FetchedVideo } from './types'
+import type { CalculatedVideo } from './types'
 
 import { Classes, ContentTypes, PresentationStyles } from './types'
 import {
@@ -97,10 +97,10 @@ export function formatDate(seconds: number): string {
 /**
  * Load videos for a specific playlist (server-side)
  */
-export async function getPlaylistVideos(playlistId: string): Promise<FetchedVideo[]> {
+export async function getPlaylistVideos(playlistId: string): Promise<CalculatedVideo[]> {
   try {
     const videos = await import(`@/public/videos/${playlistId}.json`)
-    return videos.default as FetchedVideo[]
+    return videos.default as CalculatedVideo[]
   } catch (error) {
     console.error(`Failed to load videos for playlist ${playlistId}:`, error)
     return []
@@ -110,7 +110,7 @@ export async function getPlaylistVideos(playlistId: string): Promise<FetchedVide
 /**
  * Load videos for a specific playlist (client-side)
  */
-export async function fetchPlaylistVideos(playlistId: string): Promise<FetchedVideo[]> {
+export async function fetchPlaylistVideos(playlistId: string): Promise<CalculatedVideo[]> {
   try {
     const res = await fetch(`/videos/${playlistId}.json`)
     if (!res.ok) {
