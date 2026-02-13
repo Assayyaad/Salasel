@@ -11,6 +11,7 @@ import {
   getContentTypeLabel,
   getPresentationStyleLabel,
   videoThumbnailUrl,
+  fallbackThumbnailUrl,
 } from '@/app/utils'
 import {
   loading,
@@ -32,12 +33,11 @@ export interface SelectedPlaylistCardProps {
 
 const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist }) => {
   const [isLoading, setIsLoading] = useState(true)
+  const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
 
   if (!playlist) {
     return <div>{loading}</div> // Or some other loading state
   }
-
-  const imageUrl = videoThumbnailUrl(playlist.thumbnailId)
 
   return (
     <div
@@ -136,6 +136,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
             fill={true}
             priority
             onLoad={() => setIsLoading(false)}
+            onError={() => setImageUrl(fallbackThumbnailUrl(playlist.thumbnailId))}
           />
           <div
             className={`absolute inset-0 bg-gradient-to-l from-transparent to-black/10 dark:to-black/30 pointer-events-none transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}

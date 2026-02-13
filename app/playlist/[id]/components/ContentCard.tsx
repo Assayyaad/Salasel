@@ -1,9 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { videoThumbnailUrl } from '@/app/utils'
+import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 import { watchStatusCompleted, watchStatusInProgress, watchStatusNotStarted } from '@/app/static'
 
 type WatchStatus = 'completed' | 'in-progress' | 'not-started'
@@ -42,12 +42,12 @@ const WatchStatusIcon: React.FC<{ status: WatchStatus }> = ({ status }) => {
 }
 
 const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, status, notesCount, onToggle }) => {
+  const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
+
   const handleStatusClick = (e: React.MouseEvent) => {
     e.preventDefault() // Prevent navigation when clicking the icon
     onToggle(videoId)
   }
-
-  const imageUrl = videoThumbnailUrl(videoId)
 
   const inProgressClasses = status === 'in-progress' ? 'bg-yellow-50/50 dark:bg-yellow-900/10' : ''
   const completedClasses = status === 'completed' ? 'bg-green-50/50 dark:bg-green-900/10' : ''
@@ -61,7 +61,13 @@ const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, s
       <div className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-x-4">
         {/* Column 1: Thumbnail */}
         <div className="w-28 md:w-32 aspect-video bg-gray-200 dark:bg-gray-700 rounded-md overflow-hidden relative shadow-sm">
-          <Image alt={title} className="w-full h-full object-cover" src={imageUrl} fill={true} />
+          <Image
+            alt={title}
+            className="w-full h-full object-cover"
+            src={imageUrl}
+            fill={true}
+            onError={() => setImageUrl(fallbackThumbnailUrl(videoId))}
+          />
           <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
             <span className="material-icons-round text-white text-3xl drop-shadow-md">play_circle_outline</span>
           </div>

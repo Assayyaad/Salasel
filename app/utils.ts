@@ -17,6 +17,10 @@ export function videoThumbnailUrl(id: string): string {
   return `https://img.youtube.com/vi/${id}/sddefault.jpg`
 }
 
+export function fallbackThumbnailUrl(id: string): string {
+  return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
+}
+
 // Helper functions to convert enums to Arabic labels
 export function getContentTypeLabel(type: ContentTypes): string {
   switch (type) {

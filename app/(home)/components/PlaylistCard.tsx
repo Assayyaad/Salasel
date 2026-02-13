@@ -1,9 +1,9 @@
 import type { Playlist } from '@/app/types'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { videoThumbnailUrl } from '@/app/utils'
+import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 
 interface PlaylistCardProps {
   playlist: Playlist
@@ -11,7 +11,7 @@ interface PlaylistCardProps {
 
 const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist }) => {
   const { id, channel, name, description, thumbnailId } = playlist
-  const imageUrl = videoThumbnailUrl(thumbnailId)
+  const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(thumbnailId))
 
   return (
     <Link href={`/playlist/${id}`}>
@@ -29,6 +29,7 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist }) => {
             fill={true}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            onError={() => setImageUrl(fallbackThumbnailUrl(thumbnailId))}
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
         </div>
