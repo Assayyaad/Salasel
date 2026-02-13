@@ -1,29 +1,39 @@
-export interface Video {
+/** Video with fetched data */
+export interface FetchedVideo {
   /** معرف المقطع من يوتيوب */
   id: string
-  /** معرف سلسلة المقطع من يوتيوب */
-  playlistId: string
   /** عنوان المقطع */
   title: string
-  /** مدة المقطع بالدقائق */
-  duration: string
-  /** تاريخ نشر المقطع */
-  date: string
+  /** مدة المقطع بالثواني */
+  duration: number
+  /** تاريخ نشر المقطع بالثواني */
+  uploadedAt: number
 }
 
-export interface Playlist {
+/** Video with calculated data */
+export interface CalculatedVideo extends FetchedVideo {
+  /** معرف سلسلة المقطع من يوتيوب */
+  playlistId: string
+}
+
+/** Playlist with fetched data */
+export interface FetchedPlaylist {
   /** معرف السلسلة من يوتيوب */
   id: string
-  /** القناة التي قدمت مقاطع السلسلة */
-  channel: string
   /** اسم السلسلة */
   name: string
+  /** القناة التي قدمت مقاطع السلسلة */
+  channel: string
+  /** معرف المقطع المستخدم للصورة المصغرة */
+  thumbnailId: string
+}
+
+/** Playlist with manual data */
+export interface FilledPlaylist extends FetchedPlaylist {
   /** وصف مختصر لمحتوى السلسلة */
   description: string
   /** الأشخاص الظاهرين في محتوى مقاطع السلسلة */
   participants: string[]
-  /** معرف المقطع المستخدم للصورة المصغرة */
-  thumbnailId: string
   /** لغة محتوى السلسلة */
   language: Languages
   /** نوع محتوى السلسلة */
@@ -34,14 +44,24 @@ export interface Playlist {
   categories: Categories[]
   /** فئات المحتوى موجه لها */
   classes: Classes[]
-  /** مدة السلسلة الإجمالية بالساعات */
-  duration: string
+}
+
+/** Playlist with calculated data */
+export interface CalculatedPlaylist extends FilledPlaylist {
   /** عدد حلقات السلسلة */
-  episodesCount: number
+  videoCount: number
+  /** مدة السلسلة الإجمالية بالساعات */
+  duration: number
   /** تاريخ أول حلقة */
-  startDate: string
+  startDate: number
   /** تاريخ آخر حلقة */
-  endDate: string
+  endDate: number
+}
+
+export type StringifiedPlaylist = Record<keyof FilledPlaylist, string>
+export type StringifiedVideo = Record<keyof FetchedVideo, string> & {
+  duration: StrTime
+  uploadedAt: StrDate
 }
 
 export type Languages = 'ar' | 'en'
@@ -72,3 +92,8 @@ export enum Classes {
   /** إناث: محتوى مخصص للإناث دون الذكور بغض النظر عن العمر */
   Female = 2,
 }
+
+/** "HH:MM:SS" */
+export type StrTime = `${string}:${string}:${string}`
+/** "YYYY-MM-DD" */
+export type StrDate = `${string}-${string}-${string}`

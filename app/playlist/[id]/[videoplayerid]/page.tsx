@@ -1,6 +1,6 @@
 'use client'
 
-import type { Playlist, Video } from '@/app/types'
+import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 
 import React, { useEffect, useState } from 'react'
 import { useParams, notFound, useRouter, useSearchParams } from 'next/navigation'
@@ -17,8 +17,8 @@ const VideoPlayerPage: React.FC = () => {
   const { id, videoplayerid } = params
   const { videoTimestamps } = useProgressStore()
 
-  const [playlist, setPlaylist] = useState<Playlist | null>(null)
-  const [video, setVideo] = useState<Video | null>(null)
+  const [playlist, setPlaylist] = useState<CalculatedPlaylist | null>(null)
+  const [video, setVideo] = useState<CalculatedVideo | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const VideoPlayerPage: React.FC = () => {
 
     const loadData = async () => {
       try {
-        const currentPlaylist = (playlists as Playlist[]).find((p) => p.id === id)
+        const currentPlaylist = (playlists as CalculatedPlaylist[]).find((p) => p.id === id)
 
         if (!currentPlaylist) {
           notFound()

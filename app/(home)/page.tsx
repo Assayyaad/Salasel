@@ -1,4 +1,4 @@
-import type { Playlist } from '../types'
+import type { CalculatedPlaylist } from '../types'
 
 import PlaylistGrid from './components/PlaylistGrid'
 import SearchBar from '@/app/shared/components/SearchBar'
@@ -10,7 +10,7 @@ import { title, description } from '@/app/static'
 export const revalidate = 3600 // Revalidate every hour
 
 export default function Home() {
-  const data: Playlist[] = playlists as Playlist[]
+  const data: CalculatedPlaylist[] = playlists as CalculatedPlaylist[]
 
   return (
     <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

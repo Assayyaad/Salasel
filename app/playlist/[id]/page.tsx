@@ -1,4 +1,4 @@
-import type { Playlist } from '@/app/types'
+import type { CalculatedPlaylist } from '@/app/types'
 
 import React from 'react'
 import SelectedPlaylistCard from './components/SelectedPlaylistCard'
@@ -11,13 +11,13 @@ import playlists from '@/public/playlists.json'
 export const revalidate = 3600 // Revalidate every hour
 
 export async function generateStaticParams() {
-  return (playlists as Playlist[]).map((pl) => ({
+  return (playlists as CalculatedPlaylist[]).map((pl) => ({
     id: pl.id,
   }))
 }
 
-async function getPlaylist(id: string): Promise<Playlist | undefined> {
-  return (playlists as Playlist[]).find((pl) => pl.id === id)
+async function getPlaylist(id: string): Promise<CalculatedPlaylist | undefined> {
+  return (playlists as CalculatedPlaylist[]).find((pl) => pl.id === id)
 }
 
 export interface SelectedPlaylistPageProps {

@@ -1,6 +1,6 @@
 'use client'
 
-import type { Playlist } from '@/app/types'
+import type { CalculatedPlaylist } from '@/app/types'
 
 import React from 'react'
 import PlaylistCard from './PlaylistCard'
@@ -8,7 +8,7 @@ import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { filters } from '@/app/static'
 
 interface PlaylistGridProps {
-  playlists: Playlist[]
+  playlists: CalculatedPlaylist[]
 }
 
 const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists }) => {

@@ -1,4 +1,4 @@
-import type { Video } from './types'
+import type { CalculatedVideo } from './types'
 
 import fs from 'fs/promises'
 import path from 'path'
@@ -40,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       try {
         const videoFilePath = path.join(process.cwd(), 'public', 'videos', `${pl.id}.json`)
         const videoData = await fs.readFile(videoFilePath, 'utf-8')
-        const videos: Video[] = JSON.parse(videoData)
+        const videos: CalculatedVideo[] = JSON.parse(videoData)
 
         // Add video URLs
         videos.forEach((v) => {

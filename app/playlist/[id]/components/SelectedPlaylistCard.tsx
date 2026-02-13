@@ -1,6 +1,6 @@
 'use client'
 
-import type { Playlist } from '@/app/types'
+import type { CalculatedPlaylist } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
@@ -27,7 +27,7 @@ import {
 } from '@/app/static'
 
 export interface SelectedPlaylistCardProps {
-  playlist: Playlist
+  playlist: CalculatedPlaylist
 }
 
 const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist }) => {
@@ -67,14 +67,14 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
               <span className="material-icons-round text-base ml-1 text-primary">ondemand_video</span>
               <span className="flex flex-col">
                 <span className="text-sm font-semibold text-text-light dark:text-text-dark">{videosLabel}</span>
-                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.episodesCount}</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.videoCount}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">schedule</span>
               <span className="flex flex-col">
                 <span className="text-sm font-semibold text-text-light dark:text-text-dark">{durationLabel}</span>
-                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.duration}</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">{formatTime(playlist.duration)}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">

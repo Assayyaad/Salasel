@@ -1,6 +1,6 @@
 'use client'
 
-import type { Playlist, Video } from '@/app/types'
+import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 
 import React, { useEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
@@ -10,8 +10,8 @@ import { useVideoPlayerStore } from '@/app/store/useVideoPlayerStore'
 import 'video.js/dist/video-js.css'
 
 interface VideoPlayerProps {
-  video: Video
-  playlist: Playlist
+  video: CalculatedVideo
+  playlist: CalculatedPlaylist
 }
 
 // Helper function to convert timestamp to seconds

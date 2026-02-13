@@ -1,4 +1,4 @@
-import type { Video } from './types'
+import type { FetchedVideo } from './types'
 
 import { Classes, ContentTypes, PresentationStyles } from './types'
 import {
@@ -59,23 +59,48 @@ export function getClassLabel(classType: Classes): string {
   }
 }
 
-export function formatDate(dateString: string): string {
-  if (!dateString || dateString === '0000-00-00') return defaultLabel
+export function formatTime(seconds: number): string {
+  if (seconds <= 0) {
+    return defaultLabel
+  }
+
+  const hrs = Math.floor(seconds / 3600)
+  const mins = Math.floor((seconds % 3600) / 60)
+  const secs = seconds % 60
+
+  return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`
+
+  function pad(num: number): string {
+    return String(num).padStart(2, '0')
+  }
+}
+
+export function formatDate(seconds: number): string {
+  if (seconds <= 0) {
+    return defaultLabel
+  }
+
   try {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('ar-SA', { year: 'numeric', month: 'long', day: 'numeric' })
+    const date = new Date(seconds * 1000)
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }
+    const hijriStr = Intl.DateTimeFormat('ar-SA-u-ca-islamic', options).format(date)
+    return hijriStr
   } catch {
-    return dateString
+    return defaultLabel
   }
 }
 
 /**
  * Load videos for a specific playlist (server-side)
  */
-export async function getPlaylistVideos(playlistId: string): Promise<Video[]> {
+export async function getPlaylistVideos(playlistId: string): Promise<FetchedVideo[]> {
   try {
     const videos = await import(`@/public/videos/${playlistId}.json`)
-    return videos.default as Video[]
+    return videos.default as FetchedVideo[]
   } catch (error) {
     console.error(`Failed to load videos for playlist ${playlistId}:`, error)
     return []
@@ -85,7 +110,7 @@ export async function getPlaylistVideos(playlistId: string): Promise<Video[]> {
 /**
  * Load videos for a specific playlist (client-side)
  */
-export async function fetchPlaylistVideos(playlistId: string): Promise<Video[]> {
+export async function fetchPlaylistVideos(playlistId: string): Promise<FetchedVideo[]> {
   try {
     const res = await fetch(`/videos/${playlistId}.json`)
     if (!res.ok) {

@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Playlist, Video } from '@/app/types'
+import { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import {
   personalProgressTitle,
@@ -15,8 +15,8 @@ import {
 } from '@/app/static'
 
 export interface PersonalProgressProps {
-  playlist: Playlist
-  videos: Video[]
+  playlist: CalculatedPlaylist
+  videos: CalculatedVideo[]
 }
 
 const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos }) => {

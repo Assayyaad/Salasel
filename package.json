@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "cli": "node bin/cli.js",
     "lint": "eslint",
     "format": "prettier --write .",
     "prepare": "husky"
@@ -28,12 +29,17 @@
     "@types/node": "^20.19.33",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
+    "axios": "^1.13.5",
+    "cheerio": "^1.2.0",
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.6",
+    "fs-extra": "^11.3.3",
     "husky": "^9.1.7",
+    "inquirer": "^13.2.2",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "youtube-sr": "^4.3.12"
   }
 }

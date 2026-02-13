@@ -1,4 +1,4 @@
-import type { Playlist } from '@/app/types'
+import type { CalculatedPlaylist } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 
 interface PlaylistCardProps {
-  playlist: Playlist
+  playlist: CalculatedPlaylist
 }
 
 const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist }) => {

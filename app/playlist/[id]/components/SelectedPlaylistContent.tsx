@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from 'react'
 import ContentCard from './ContentCard'
-import { Playlist, Video } from '@/app/types'
+import { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import { loading, playlistContents } from '@/app/static'
 
 interface SelectedPlaylistContentProps {
-  playlist: Playlist
-  videos: Video[]
+  playlist: CalculatedPlaylist
+  videos: CalculatedVideo[]
 }
 
 const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist, videos }) => {
