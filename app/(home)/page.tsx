@@ -6,11 +6,15 @@ import Librecounter from '@/app/shared/components/Librecounter'
 import playlists from '@/public/playlists.json'
 import FilterGrid from './components/FilterGrid'
 import { title, description } from '@/app/static'
+import { searchPlaylists } from '@/app/utils'
 
-export const revalidate = 3600 // Revalidate every hour
-
-export default function Home() {
+export default async function Home({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const data: CalculatedPlaylist[] = playlists as CalculatedPlaylist[]
+
+  // Apply search filter if query exists
+  const resolvedSearchParams = await searchParams
+  const searchQuery = resolvedSearchParams.q || ''
+  const filteredPlaylists = searchPlaylists(data, searchQuery)
 
   return (
     <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -25,7 +29,7 @@ export default function Home() {
         </div>
       </div>
       <FilterGrid />
-      <PlaylistGrid playlists={data} />
+      <PlaylistGrid playlists={filteredPlaylists} />
     </main>
   )
 }

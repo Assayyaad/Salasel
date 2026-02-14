@@ -1,4 +1,4 @@
-import type { CalculatedVideo } from './types'
+import type { CalculatedPlaylist, CalculatedVideo } from './types'
 
 import { Classes, ContentTypes, PresentationStyles } from './types'
 import {
@@ -121,4 +121,37 @@ export async function fetchPlaylistVideos(playlistId: string): Promise<Calculate
     console.error(`Failed to fetch videos for playlist ${playlistId}:`, error)
     return []
   }
+}
+
+/**
+ * Search playlists by title and description
+ * @param playlists - Array of playlists to search
+ * @param query - Search query string
+ * @returns Filtered playlists (name matches first, then channel matches)
+ */
+export function searchPlaylists(playlists: CalculatedPlaylist[], query: string): CalculatedPlaylist[] {
+  if (!query.trim()) return playlists
+
+  const normalizedQuery = query.trim().toLowerCase()
+  const channelMatches: CalculatedPlaylist[] = []
+  const nameMatches: CalculatedPlaylist[] = []
+  const matchedIds = new Set<string>()
+
+  playlists.forEach((pl) => {
+    const name = pl.name.toLowerCase()
+    const channel = pl.channel.toLowerCase()
+
+    // البحث في العنوان
+    if (name.includes(normalizedQuery)) {
+      nameMatches.push(pl)
+      matchedIds.add(pl.id)
+    }
+    // البحث في القناة (بدون تكرار)
+    else if (channel.includes(normalizedQuery)) {
+      channelMatches.push(pl)
+      matchedIds.add(pl.id)
+    }
+  })
+
+  return [...nameMatches, ...channelMatches]
 }
