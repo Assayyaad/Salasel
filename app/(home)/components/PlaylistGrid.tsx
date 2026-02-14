@@ -1,35 +1,32 @@
 'use client'
 
+import type { CalculatedPlaylist } from '@/app/types'
+
 import React from 'react'
-import { usePlaylistStore } from '@/app/store/usePlaylistStore'
-import FilterGrid from './FilterGrid'
 import PlaylistCard from './PlaylistCard'
+import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { filters } from '@/app/static'
-import { Playlist } from '@/app/types' // Import Playlist type
 
 interface PlaylistGridProps {
-  playlists: Playlist[]
+  playlists: CalculatedPlaylist[]
 }
 
 const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists }) => {
   const { activeFilter } = usePlaylistStore()
 
-  const filteredPlaylists = playlists.filter((playlist) => {
+  const filteredPlaylists = playlists.filter((pl) => {
     if (activeFilter === filters[0]) {
       return true
     }
-    return playlist.categories.includes(activeFilter as any)
+    return pl.categories.includes(activeFilter as any)
   })
 
   return (
-    <>
-      <FilterGrid />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-        {filteredPlaylists.map((playlist) => (
-          <PlaylistCard key={playlist.id} playlist={playlist} />
-        ))}
-      </div>
-    </>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+      {filteredPlaylists.map((pl) => (
+        <PlaylistCard key={pl.id} playlist={pl} />
+      ))}
+    </div>
   )
 }
 

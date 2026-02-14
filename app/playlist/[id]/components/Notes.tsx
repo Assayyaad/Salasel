@@ -1,67 +1,193 @@
-import React from 'react'
+'use client'
 
-const Notes: React.FC = () => {
+import React, { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useNotesStore } from '@/app/store/useNotesStore'
+import { useVideoPlayerStore, formatTimestamp } from '@/app/store/useVideoPlayerStore'
+import {
+  notesDeleteConfirmation,
+  notesPlaceholder,
+  notesAddButton,
+  notesEmptyMessage,
+  notesUpdateTimestamp,
+  notesSaveButton,
+  notesCancelButton,
+} from '@/app/static'
+
+interface NotesProps {
+  playlistId: string
+  videoId: string
+}
+
+const Notes: React.FC<NotesProps> = ({ playlistId, videoId }) => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const { getVideoNotes, addNote, updateNote, deleteNote, loadNotes } = useNotesStore()
+  const { getCurrentTime } = useVideoPlayerStore()
+
+  const [notes, setNotes] = useState(getVideoNotes(playlistId, videoId))
+  const [newNoteContent, setNewNoteContent] = useState('')
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null)
+  const [editContent, setEditContent] = useState('')
+  const [editTimestamp, setEditTimestamp] = useState('')
+
+  useEffect(() => {
+    loadNotes()
+  }, [loadNotes])
+
+  useEffect(() => {
+    setNotes(getVideoNotes(playlistId, videoId))
+  }, [playlistId, videoId, getVideoNotes])
+
+  // Subscribe to store changes
+  useEffect(() => {
+    const unsubscribe = useNotesStore.subscribe((state) => {
+      setNotes(state.getVideoNotes(playlistId, videoId))
+    })
+    return unsubscribe
+  }, [playlistId, videoId])
+
+  const handleAddNote = () => {
+    if (!newNoteContent.trim()) return
+
+    const currentSeconds = getCurrentTime()
+    const timestamp = formatTimestamp(currentSeconds)
+    addNote(playlistId, videoId, timestamp, newNoteContent.trim())
+    setNewNoteContent('')
+  }
+
+  const handleEditNote = (noteId: string) => {
+    const note = notes.find((n) => n.id === noteId)
+    if (note) {
+      setEditingNoteId(noteId)
+      setEditContent(note.content)
+      setEditTimestamp(note.timestamp)
+    }
+  }
+
+  const handleSaveEdit = () => {
+    if (editingNoteId && editContent.trim()) {
+      updateNote(editingNoteId, editContent.trim(), editTimestamp.trim() || '00:00')
+      setEditingNoteId(null)
+      setEditContent('')
+      setEditTimestamp('')
+    }
+  }
+
+  const handleCancelEdit = () => {
+    setEditingNoteId(null)
+    setEditContent('')
+    setEditTimestamp('')
+  }
+
+  const handleUpdateTimestamp = () => {
+    const currentSeconds = getCurrentTime()
+    const timestamp = formatTimestamp(currentSeconds)
+    setEditTimestamp(timestamp)
+  }
+
+  const handleDeleteNote = (noteId: string) => {
+    if (confirm(notesDeleteConfirmation)) {
+      deleteNote(noteId)
+    }
+  }
+
+  const handleTimestampClick = (timestamp: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('t', timestamp)
+    router.push(`?${params.toString()}`, { scroll: false })
+  }
+
   return (
     <>
       <div className="mb-4">
         <textarea
-          className="w-full h-24 p-3 text-sm bg-gray-50 dark:bg-gray-900 border border-border-light dark:border-border-dark rounded-md focus:ring-1 focus:ring-primary focus:border-primary outline-none resize-none"
-          placeholder="اكتب ملاحظتك هنا..."
-        ></textarea>
-        <div className="flex justify-end mt-2">
-            <button className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-white bg-gray-600 dark:bg-gray-700 border border-transparent rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors shadow-sm">
-                <span className="material-icons-round text-base">add</span>
-                أضف ملاحظة
-            </button>
+          value={newNoteContent}
+          onChange={(e) => setNewNoteContent(e.target.value)}
+          className="w-full h-24 p-3 text-sm bg-gray-50 dark:bg-gray-900 border border-border-light dark:border-border-dark rounded-md focus:ring-1 focus:ring-primary focus:border-primary outline-none resize-none mb-2"
+          placeholder={notesPlaceholder}
+        />
+        <div className="flex justify-end">
+          <button
+            onClick={handleAddNote}
+            className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-white bg-gray-600 dark:bg-gray-700 border border-transparent rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors shadow-sm"
+          >
+            <span className="material-icons-round text-base">add</span>
+            {notesAddButton}
+          </button>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto pr-1 space-y-4">
-        <div className="group flex gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer border border-transparent hover:border-border-light dark:hover:border-border-dark">
-          <span className="text-primary font-mono text-xs font-semibold mt-1">02:03</span>
-          <div className="flex-1">
-            <p className="text-sm text-gray-700 dark:text-gray-300">
-              Key concept introduced: deep work vs shallow work.
-            </p>
-          </div>
-          <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button className="text-gray-400 hover:text-primary">
-              <span className="material-icons-round text-sm">edit</span>
-            </button>
-            <button className="text-gray-400 hover:text-red-500">
-              <span className="material-icons-round text-sm">delete</span>
-            </button>
-          </div>
-        </div>
-        <div className="group flex gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer border border-transparent hover:border-border-light dark:hover:border-border-dark">
-          <span className="text-primary font-mono text-xs font-semibold mt-1">13:55</span>
-          <div className="flex-1">
-            <p className="text-sm text-gray-700 dark:text-gray-300">
-              Remember to check the supplementary PDF for the graph.
-            </p>
-          </div>
-          <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button className="text-gray-400 hover:text-primary">
-              <span className="material-icons-round text-sm">edit</span>
-            </button>
-            <button className="text-gray-400 hover:text-red-500">
-              <span className="material-icons-round text-sm">delete</span>
-            </button>
-          </div>
-        </div>
-        <div className="group flex gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer border border-transparent hover:border-border-light dark:hover:border-border-dark">
-          <span className="text-primary font-mono text-xs font-semibold mt-1">21:10</span>
-          <div className="flex-1">
-            <p className="text-sm text-gray-700 dark:text-gray-300">The 20/20/20 rule is explained here.</p>
-          </div>
-          <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button className="text-gray-400 hover:text-primary">
-              <span className="material-icons-round text-sm">edit</span>
-            </button>
-            <button className="text-gray-400 hover:text-red-500">
-              <span className="material-icons-round text-sm">delete</span>
-            </button>
-          </div>
-        </div>
+        {notes.length === 0 ? (
+          <div className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">{notesEmptyMessage}</div>
+        ) : (
+          notes.map((note) => (
+            <div
+              key={note.id}
+              className="group flex gap-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors border border-transparent hover:border-border-light dark:hover:border-border-dark"
+            >
+              {editingNoteId === note.id ? (
+                <>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-primary font-mono text-xs font-semibold">{editTimestamp}</span>
+                    <button
+                      onClick={handleUpdateTimestamp}
+                      className="text-xs text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
+                      title={notesUpdateTimestamp}
+                    >
+                      <span className="material-icons-round text-sm">update</span>
+                    </button>
+                  </div>
+                  <div className="flex-1 flex flex-col gap-2">
+                    <textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                      className="w-full p-2 text-sm bg-gray-50 dark:bg-gray-900 border border-border-light dark:border-border-dark rounded focus:ring-1 focus:ring-primary outline-none resize-none"
+                      rows={3}
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleSaveEdit}
+                        className="px-3 py-1 text-xs bg-primary text-white rounded hover:bg-primary/90"
+                      >
+                        {notesSaveButton}
+                      </button>
+                      <button
+                        onClick={handleCancelEdit}
+                        className="px-3 py-1 text-xs bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
+                      >
+                        {notesCancelButton}
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span
+                    onClick={() => handleTimestampClick(note.timestamp)}
+                    className="text-primary font-mono text-xs font-semibold mt-1 cursor-pointer hover:underline"
+                  >
+                    {note.timestamp}
+                  </span>
+                  <div className="flex-1">
+                    <p
+                      className="text-sm text-gray-700 dark:text-gray-300"
+                      dangerouslySetInnerHTML={{ __html: note.content.replace(/\n/g, '<br>') }}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button onClick={() => handleEditNote(note.id)} className="text-gray-400 hover:text-primary">
+                      <span className="material-icons-round text-sm">edit</span>
+                    </button>
+                    <button onClick={() => handleDeleteNote(note.id)} className="text-gray-400 hover:text-red-500">
+                      <span className="material-icons-round text-sm">delete</span>
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </>
   )

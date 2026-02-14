@@ -1,23 +1,35 @@
-export interface Video {
+/** Video with fetched data */
+export interface FetchedVideo {
   /** معرف المقطع من يوتيوب */
   id: string
-  /** معرف سلسلة المقطع من يوتيوب */
-  playlistId: string
   /** عنوان المقطع */
   title: string
-  /** مدة المقطع بالدقائق */
-  duration: string
-  /** تاريخ نشر المقطع */
-  date: string
+  /** مدة المقطع بالثواني */
+  duration: number
+  /** تاريخ نشر المقطع بالثواني */
+  uploadedAt: number
 }
 
-export interface Playlist {
+/** Video with calculated data */
+export interface CalculatedVideo extends FetchedVideo {
+  /** معرف سلسلة المقطع من يوتيوب */
+  playlistId: string
+}
+
+/** Playlist with fetched data */
+export interface FetchedPlaylist {
   /** معرف السلسلة من يوتيوب */
   id: string
-  /** القناة التي قدمت مقاطع السلسلة */
-  channel: Channels
   /** اسم السلسلة */
   name: string
+  /** القناة التي قدمت مقاطع السلسلة */
+  channel: string
+  /** معرف المقطع المستخدم للصورة المصغرة */
+  thumbnailId: string
+}
+
+/** Playlist with manual data */
+export interface FilledPlaylist extends FetchedPlaylist {
   /** وصف مختصر لمحتوى السلسلة */
   description: string
   /** الأشخاص الظاهرين في محتوى مقاطع السلسلة */
@@ -27,22 +39,30 @@ export interface Playlist {
   /** نوع محتوى السلسلة */
   type: ContentTypes
   /** طريقة طرح محتوى السلسلة */
-  presentation: PresentationTypes
+  style: PresentationStyles
   /** تصانيف محتوى السلسلة */
   categories: Categories[]
-  /** مدة السلسلة الإجمالية بالساعات */
-  duration: string
-  /** عدد حلقات السلسلة */
-  episodesCount: number
-  /** تاريخ أول حلقة */
-  startDate: string
-  /** تاريخ آخر حلقة */
-  endDate: string
-  /** بيانات مقاطع السلسلة */
-  videos: Video[]
+  /** فئات المحتوى موجه لها */
+  classes: Classes[]
 }
 
-export type Channels = 'فاهم بودكاست'
+/** Playlist with calculated data */
+export interface CalculatedPlaylist extends FilledPlaylist {
+  /** عدد حلقات السلسلة */
+  videoCount: number
+  /** مدة السلسلة الإجمالية بالساعات */
+  duration: number
+  /** تاريخ أول حلقة */
+  startDate: number
+  /** تاريخ آخر حلقة */
+  endDate: number
+}
+
+export type StringifiedPlaylist = Record<keyof FilledPlaylist, string>
+export type StringifiedVideo = Record<keyof FetchedVideo, string> & {
+  duration: StrTime
+  uploadedAt: StrDate
+}
 
 export type Languages = 'ar' | 'en'
 
@@ -55,19 +75,25 @@ export enum ContentTypes {
   Awareness = 1,
 }
 
-export enum PresentationTypes {
+export enum PresentationStyles {
   /** سرد: تحدث الملقي بدون وجود جمهور */
   Narration = 0,
   /** محاضرة: تحدث الملقي أمام جمهور  */
   Lecture = 1,
   /** إذاعة: تحدث الملقي ضمن حوار أو نقاش مع آخرين */
   Podcast = 2,
-  /** مناظرة: جدال بين طرفين أو أكثر مختلفين حول قضية معينة */
-  Debate = 3,
-  /** سؤال وجواب: محتوى متقطع عبر عدة أسئلة */
-  QnA = 4,
 }
 
-export interface SalaselData {
-  courses: Playlist[]
+export enum Classes {
+  /** أطفال: محتوى موجه للأطفال، سهل الفهم ولا يحتوي محتوى حساس */
+  Kids = 0,
+  /** آباء: محتوى عن التربية */
+  Parents = 1,
+  /** إناث: محتوى مخصص للإناث دون الذكور بغض النظر عن العمر */
+  Female = 2,
 }
+
+/** "HH:MM:SS" */
+export type StrTime = `${string}:${string}:${string}`
+/** "YYYY-MM-DD" */
+export type StrDate = `${string}-${string}-${string}`

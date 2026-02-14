@@ -1,44 +1,48 @@
+import type { CalculatedPlaylist } from '@/app/types'
+
+import React from 'react'
 import SelectedPlaylistCard from './components/SelectedPlaylistCard'
 import SelectedPlaylistContent from './components/SelectedPlaylistContent'
 import PersonalProgress from './components/PersonalProgress'
-import { Playlist } from '@/app/types'
-import { getSalaselData } from '@/app/lib/datatransform'
+import { getPlaylistVideos } from '@/app/utils'
+import { playlistNotFound, noVideosFound } from '@/app/static'
+import playlists from '@/public/playlists.json'
 
 export const revalidate = 3600 // Revalidate every hour
 
 export async function generateStaticParams() {
-  const { courses } = getSalaselData()
-  return courses.map((playlist) => ({
-    id: playlist.id,
+  return (playlists as CalculatedPlaylist[]).map((pl) => ({
+    id: pl.id,
   }))
 }
 
-async function getPlaylist(id: string): Promise<Playlist | undefined> {
-  const { courses } = getSalaselData()
-  return courses.find((course) => course.id === id)
+async function getPlaylist(id: string): Promise<CalculatedPlaylist | undefined> {
+  return (playlists as CalculatedPlaylist[]).find((pl) => pl.id === id)
 }
 
-const SelectedPlaylistPage = async ({ params: paramsPromise }: { params: Promise<{ id: string }> }) => {
-  const params = await paramsPromise;
+export interface SelectedPlaylistPageProps {
+  params: Promise<{ id: string }>
+}
+
+const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ params: paramsPromise }) => {
+  const params = await paramsPromise
   const playlist = await getPlaylist(params.id)
 
   if (!playlist) {
-    return <div>Playlist not found</div>
+    return <div>{playlistNotFound}</div>
   }
 
-  const firstVideoId = playlist.videos?.[0]?.id;
-
-  // You might want a more graceful handling if no videos are present,
-  // but for now, we'll return a message.
-  if (!firstVideoId) {
-    return <div>No videos found in this playlist.</div>;
+  // Load videos for this playlist
+  const videos = await getPlaylistVideos(playlist.id)
+  if (videos.length === 0) {
+    return <div>{noVideosFound}</div>
   }
 
   return (
     <>
-      <SelectedPlaylistCard playlist={playlist} firstVideoId={firstVideoId} />
-      <PersonalProgress playlist={playlist}/>
-      <SelectedPlaylistContent playlist={playlist} />
+      <SelectedPlaylistCard playlist={playlist} />
+      <PersonalProgress playlist={playlist} videos={videos} />
+      <SelectedPlaylistContent playlist={playlist} videos={videos} />
     </>
   )
 }

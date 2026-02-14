@@ -1,7 +1,8 @@
 import { create } from 'zustand'
 import { filters } from '@/app/static'
 
-interface PlaylistState { // Keeping the name for now as it relates to playlist filtering
+interface PlaylistState {
+  // Keeping the name for now as it relates to playlist filtering
   activeFilter: string
   setActiveFilter: (filter: string) => void
 }
