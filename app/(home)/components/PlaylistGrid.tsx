@@ -5,20 +5,41 @@ import type { CalculatedPlaylist } from '@/app/types'
 import React from 'react'
 import PlaylistCard from './PlaylistCard'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
-import { filters } from '@/app/static'
 
 interface PlaylistGridProps {
   playlists: CalculatedPlaylist[]
 }
 
 const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists }) => {
-  const { activeFilter } = usePlaylistStore()
+  const { filters } = usePlaylistStore()
 
   const filteredPlaylists = playlists.filter((pl) => {
-    if (activeFilter === filters[0]) {
-      return true
+    // Language filter (mandatory)
+    if (pl.language !== filters.language) {
+      return false
     }
-    return pl.categories.includes(activeFilter as any)
+
+    // Content type filter (mandatory)
+    if (pl.type !== filters.contentType) {
+      return false
+    }
+
+    // Category filter (mandatory)
+    if (!pl.categories.includes(filters.category as any)) {
+      return false
+    }
+
+    // Presentation style filter (optional)
+    if (filters.presentationStyle !== 'all' && pl.style !== filters.presentationStyle) {
+      return false
+    }
+
+    // Class filter (optional)
+    if (filters.class !== 'all' && !pl.classes.includes(filters.class as any)) {
+      return false
+    }
+
+    return true
   })
 
   return (

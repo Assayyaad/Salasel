@@ -1,11 +1,25 @@
-import type { Categories } from './types'
+import type { Categories, Classes, ContentTypes, Languages, PresentationStyles } from './types'
 import type { Metadata, Viewport } from 'next'
 
-/**
- * Static list of filters used in the application.
- * First filter is the default "All" filter.
- */
-export const filters: Readonly<(Categories | 'الكل')[]> = Object.freeze(['الكل', 'دين', 'فطرة', 'نفس'])
+export const languages: Readonly<Record<Languages, string>> = Object.freeze({
+  ar: 'العربية',
+  en: 'English',
+})
+export const contents: Readonly<Record<ContentTypes, string>> = Object.freeze({
+  0: 'تعليمي',
+  1: 'توعوي',
+})
+export const categories: Readonly<Categories[]> = Object.freeze(['دين', 'فطرة', 'نفس'])
+export const presentations: Readonly<Record<PresentationStyles, string>> = Object.freeze({
+  0: 'سرد',
+  1: 'محاضرة',
+  2: 'إذاعة',
+})
+export const classes: Readonly<Record<Classes, string>> = Object.freeze({
+  0: 'أطفال',
+  1: 'آباء',
+  2: 'إناث',
+})
 
 export const title = 'سلاسل'
 export const description = 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك'
@@ -13,6 +27,14 @@ export const description = 'تطبيق سلاسل تعليمية وتوعوية 
 export const searchPlaceholder = 'ابحث عن سلسلة...'
 
 export const loading = 'يُحمّل...'
+
+// Filter labels
+export const filterLanguageLabel = 'اللغة'
+export const filterContentTypeLabel = 'نوع المحتوى'
+export const filterCategoryLabel = 'التصنيف'
+export const filterPresentationStyleLabel = 'الأسلوب'
+export const filterClassLabel = 'الفئة'
+export const filterAllOption = 'الكل'
 
 export const searchTab = 'بحث'
 export const summaryTab = 'ملخص'

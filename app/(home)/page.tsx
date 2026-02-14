@@ -4,9 +4,9 @@ import PlaylistGrid from './components/PlaylistGrid'
 import SearchBar from '@/app/shared/components/SearchBar'
 import Librecounter from '@/app/shared/components/Librecounter'
 import playlists from '@/public/playlists.json'
-import FilterGrid from './components/FilterGrid'
 import { title, description } from '@/app/static'
 import { searchPlaylists } from '@/app/utils'
+import FilterGrid from './components/FilterGrid'
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const data: CalculatedPlaylist[] = playlists as CalculatedPlaylist[]
@@ -28,7 +28,10 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           <SearchBar />
         </div>
       </div>
-      <FilterGrid />
+
+      <div className="relative mb-12">
+        <FilterGrid />
+      </div>
       <PlaylistGrid playlists={filteredPlaylists} />
     </main>
   )
