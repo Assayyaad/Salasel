@@ -4,12 +4,15 @@ import { Classes, ContentTypes, PresentationStyles } from './types'
 import {
   contentTypeEducational,
   contentTypeAwareness,
+  contentTypePurification,
   presentationStyleNarration,
   presentationStyleLecture,
   presentationStylePodcast,
+  presentationStyleStory,
   classKids,
-  classParents,
   classFemale,
+  classMarried,
+  classParents,
   defaultLabel,
 } from './static'
 
@@ -28,6 +31,8 @@ export function getContentTypeLabel(type: ContentTypes): string {
       return contentTypeEducational
     case ContentTypes.Awareness:
       return contentTypeAwareness
+    case ContentTypes.Purification:
+      return contentTypePurification
     default:
       return defaultLabel
   }
@@ -41,6 +46,8 @@ export function getPresentationStyleLabel(style: PresentationStyles): string {
       return presentationStyleLecture
     case PresentationStyles.Podcast:
       return presentationStylePodcast
+    case PresentationStyles.Story:
+      return presentationStyleStory
     default:
       return defaultLabel
   }
@@ -50,10 +57,12 @@ export function getClassLabel(classType: Classes): string {
   switch (classType) {
     case Classes.Kids:
       return classKids
-    case Classes.Parents:
-      return classParents
     case Classes.Female:
       return classFemale
+    case Classes.Married:
+      return classMarried
+    case Classes.Parents:
+      return classParents
     default:
       return defaultLabel
   }

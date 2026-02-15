@@ -32,22 +32,25 @@ const languages = Object.freeze({
 const contents = Object.freeze({
   Educational: 0,
   Awareness: 1,
+  Purification: 2,
 })
 
-/** @typedef {'Narration' | 'Lecture' | 'Podcast'} PresentationStyleKeys */
+/** @typedef {'Narration' | 'Lecture' | 'Podcast' | 'Story'} PresentationStyleKeys */
 /** @type {Readonly<Record<PresentationStyleKeys, PresentationStyles>>} */
 const presentations = Object.freeze({
   Narration: 0,
   Lecture: 1,
   Podcast: 2,
+  Story: 3,
 })
 
-/** @typedef {'Kids' | 'Parents' | 'Female'} ClassKeys */
+/** @typedef {'Kids' | 'Female'| 'Married' | 'Parents'} ClassKeys */
 /** @type {Readonly<Record<ClassKeys, Classes>>} */
 const classes = Object.freeze({
   Kids: 0,
-  Parents: 1,
-  Female: 2,
+  Female: 1,
+  Married: 2,
+  Parents: 3,
 })
 
 /** @typedef {'Fitrah' | 'Din' | 'Nafs'} CategoryKeys */

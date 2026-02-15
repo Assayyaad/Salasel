@@ -8,18 +8,37 @@ export const languages: Readonly<Record<Languages, string>> = Object.freeze({
 export const contents: Readonly<Record<ContentTypes, string>> = Object.freeze({
   0: 'تعليمي',
   1: 'توعوي',
+  2: 'تزكوي',
 })
 export const categories: Readonly<Categories[]> = Object.freeze(['دين', 'فطرة', 'نفس'])
 export const presentations: Readonly<Record<PresentationStyles, string>> = Object.freeze({
   0: 'سرد',
   1: 'محاضرة',
   2: 'إذاعة',
+  3: 'قصة',
 })
 export const classes: Readonly<Record<Classes, string>> = Object.freeze({
   0: 'أطفال',
-  1: 'آباء',
-  2: 'إناث',
+  1: 'إناث',
+  2: 'متزوجين',
+  3: 'آباء',
 })
+
+// Content type labels
+export const contentTypeEducational = contents[0]
+export const contentTypeAwareness = contents[1]
+export const contentTypePurification = contents[2]
+
+// Presentation style labels
+export const presentationStyleNarration = presentations[0]
+export const presentationStyleLecture = presentations[1]
+export const presentationStylePodcast = presentations[2]
+export const presentationStyleStory = presentations[3]
+// Class labels
+export const classKids = classes[0]
+export const classFemale = classes[1]
+export const classMarried = classes[2]
+export const classParents = classes[3]
 
 export const title = 'سلاسل'
 export const description = 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك'
@@ -85,20 +104,6 @@ export const goBack = 'العودة للخلف'
 // Error messages
 export const playlistNotFound = 'لم يُعثر على السلسلة'
 export const noVideosFound = 'لا مقاطع في السلسلة'
-
-// Content type labels
-export const contentTypeEducational = 'تعليمي'
-export const contentTypeAwareness = 'توعوي'
-
-// Presentation style labels
-export const presentationStyleNarration = 'سرد'
-export const presentationStyleLecture = 'محاضرة'
-export const presentationStylePodcast = 'إذاعة'
-
-// Class labels
-export const classKids = 'أطفال'
-export const classParents = 'آباء'
-export const classFemale = 'إناث'
 
 // Default/fallback label
 export const defaultLabel = '-'
