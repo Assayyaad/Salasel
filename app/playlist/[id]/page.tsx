@@ -1,32 +1,25 @@
-import type { CalculatedPlaylist } from '@/app/types'
+import type { SelectedPlaylistParams } from './params'
 
 import React from 'react'
 import SelectedPlaylistCard from './components/SelectedPlaylistCard'
 import SelectedPlaylistContent from './components/SelectedPlaylistContent'
 import PersonalProgress from './components/PersonalProgress'
+import { getPlaylist } from './utils'
 import { getPlaylistVideos } from '@/app/utils'
 import { playlistNotFound, noVideosFound } from '@/app/static'
-import playlists from '@/public/playlists.json'
+
+export { generateStaticParams } from './params'
+export { generateMetadata } from './meta'
 
 export const revalidate = 3600 // Revalidate every hour
 
-export async function generateStaticParams() {
-  return (playlists as CalculatedPlaylist[]).map((pl) => ({
-    id: pl.id,
-  }))
-}
-
-async function getPlaylist(id: string): Promise<CalculatedPlaylist | undefined> {
-  return (playlists as CalculatedPlaylist[]).find((pl) => pl.id === id)
-}
-
 export interface SelectedPlaylistPageProps {
-  params: Promise<{ id: string }>
+  params: Promise<SelectedPlaylistParams>
 }
 
-const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ params: paramsPromise }) => {
-  const params = await paramsPromise
-  const playlist = await getPlaylist(params.id)
+const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ params }) => {
+  const { id } = await params
+  const playlist = await getPlaylist(id)
 
   if (!playlist) {
     return <div>{playlistNotFound}</div>

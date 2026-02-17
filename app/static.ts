@@ -40,8 +40,8 @@ export const classFemale = classes[1]
 export const classMarried = classes[2]
 export const classParents = classes[3]
 
-export const title = 'سلاسل'
-export const description = 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك'
+export const appTitle = 'سلاسل'
+export const appDescription = 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك'
 
 export const searchPlaceholder = 'ابحث عن سلسلة...'
 
