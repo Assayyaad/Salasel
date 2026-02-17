@@ -50,7 +50,7 @@ export interface FilledPlaylist extends FetchedPlaylist {
 export interface CalculatedPlaylist extends FilledPlaylist {
   /** عدد حلقات السلسلة */
   videoCount: number
-  /** مدة السلسلة الإجمالية بالساعات */
+  /** مدة السلسلة الإجمالية بالثواني */
   duration: number
   /** تاريخ أول حلقة */
   startDate: number

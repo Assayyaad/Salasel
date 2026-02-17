@@ -40,9 +40,6 @@ export const classFemale = classes[1]
 export const classMarried = classes[2]
 export const classParents = classes[3]
 
-export const appTitle = 'سلاسل'
-export const appDescription = 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك'
-
 export const searchPlaceholder = 'ابحث عن سلسلة...'
 
 export const loading = 'يُحمّل...'
@@ -62,8 +59,8 @@ export const notesTab = 'ملاحظات'
 
 // Watch status labels
 export const watchStatusCompleted = 'شوهِد'
-export const watchStatusInProgress = 'قيد المشاهدة'
-export const watchStatusNotStarted = 'لم يُشاهد بعد'
+export const watchStatusInProgress = 'يُشاهد'
+export const watchStatusNotStarted = 'لم يُشاهد'
 
 // Notes component
 export const notesDeleteConfirmation = 'أمتأكد من حذف الملاحظة؟'
@@ -103,6 +100,7 @@ export const goBack = 'العودة للخلف'
 
 // Error messages
 export const playlistNotFound = 'لم يُعثر على السلسلة'
+export const videoNotFound = 'لم يُعثر على المقطع'
 export const noVideosFound = 'لا مقاطع في السلسلة'
 
 // Default/fallback label
@@ -113,20 +111,23 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 }
 
+export const appTitle = 'سلاسل'
+export const appFullTitle = 'سلاسل - تطبيق سلاسل تعليمية وتوعوية وتزكوية'
+export const appDescription = 'تطبيق سلاسل تعليمية وتوعوية وتزكوية لبناء إنسان متزن ومجتمع متماسك'
+
 export const metadata: Metadata = {
-  title: 'سلاسل - تطبيق سلاسل تعليمية وتوعوية',
-  description: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
-  abstract: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
+  title: appFullTitle,
+  description: appDescription,
   alternates: {
     languages: {
       ar: '/',
     },
   },
   appleWebApp: {
-    title: 'سلاسل',
+    title: appTitle,
   },
-  applicationName: 'سلاسل',
-  metadataBase: new URL('https://salasel.app'),
+  applicationName: appTitle,
+  metadataBase: new URL('https://salasel.app/'),
   category: 'Education',
   classification: 'Education',
   icons: {
@@ -136,10 +137,10 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   keywords: [],
   openGraph: {
-    title: 'سلاسل - تطبيق سلاسل تعليمية وتوعوية',
-    description: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
+    title: appFullTitle,
+    description: appDescription,
     url: 'https://salasel.app/',
-    siteName: 'سلاسل',
+    siteName: appTitle,
     type: 'website',
     locale: 'ar',
   },
@@ -152,8 +153,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'سلاسل - تطبيق سلاسل تعليمية وتوعوية',
-    description: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
+    title: appFullTitle,
+    description: appDescription,
     site: '@SalaselApp',
   },
   other: {

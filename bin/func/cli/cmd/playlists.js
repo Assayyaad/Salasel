@@ -9,6 +9,7 @@ const csvDb = require('../../db/csv.js')
 /**
  * Reads playlists and prompts user to select one
  * @returns {Promise<FilledPlaylist | undefined>}
+ * @private
  */
 async function selectPlaylist() {
   const url = await prompts.getPlaylistUrl()
