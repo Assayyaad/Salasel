@@ -1,4 +1,4 @@
-/** @import { Video } from '../../types.js' */
+/** @import { FetchedVideo } from '../../types.js' */
 
 const fs = require('fs-extra')
 const path = require('path')
@@ -85,7 +85,7 @@ async function downloadTranscript(videoId, captionsDir, languages = [], cooldown
 
 /**
  * Processes a single video transcript download
- * @param {Video} video - Video object
+ * @param {FetchedVideo} video - Video object
  * @param {string} captionsBaseDir - Base captions directory
  * @param {string[]} languages - Array of language codes to download
  * @param {number} cooldownMs - Cooldown between downloads
@@ -108,7 +108,7 @@ async function processVideoTranscript(video, captionsBaseDir, languages, cooldow
 /**
  * Downloads all available transcripts for videos in a playlist
  * @param {string} playlistId - Playlist ID
- * @param {Video[]} videos - Array of video objects
+ * @param {FetchedVideo[]} videos - Array of video objects
  * @param {string} captionsBaseDir - Base captions directory
  * @param {string[]} [languages=[]] - Array of language codes to download (empty array means all)
  * @param {number} [cooldownMs=2000] - Cooldown between downloads in milliseconds

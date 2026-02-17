@@ -1,4 +1,4 @@
-/** @import { FilledPlaylist, Languages, StringifiedPlaylist, StringifiedVideo, ContentTypes, PresentationStyles, Classes, Categories, StrTime, StrDate, FetchedVideo } from '../../types.js' */
+/** @import { FilledPlaylist, StringifiedPlaylist, StringifiedVideo, Categories, FetchedVideo } from '../../types.js' */
 
 const { timeToStr, timeToNum, dateToStr, dateToNum } = require('../util/format.js')
 const { contents, presentations, classes, languages } = require('../../static.js')

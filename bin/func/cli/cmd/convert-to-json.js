@@ -1,21 +1,20 @@
 const jsonDb = require('../../db/json.js')
+const { withCommandErrorHandling, logSuccess, logAction } = require('../../util/cmd.js')
 
 /**
  * Converts all CSV data to JSON format
  * @returns {Promise<void>}
  */
 async function convertToJson() {
-  try {
-    console.log('\nConverting CSV to JSON...')
+  await withCommandErrorHandling(async () => {
+    logAction('Converting CSV to JSON...')
     const summary = await jsonDb.convertCsvToJson()
 
     console.log('\n=== Conversion Summary ===')
-    console.log(`✓ Playlists converted: ${summary.playlistCount}`)
-    console.log(`✓ Videos converted: ${summary.videoCount}`)
+    logSuccess(`Playlists converted: ${summary.playlistCount}`)
+    logSuccess(`Videos converted: ${summary.videoCount}`)
     console.log('\nJSON files saved to data/json/ directory')
-  } catch (/** @type {any} */ error) {
-    console.error(`Failed to convert data: ${error.message}`)
-  }
+  }, 'Failed to convert data')
 }
 
 module.exports = {

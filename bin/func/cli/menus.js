@@ -3,7 +3,7 @@
 const { select } = require('@inquirer/prompts')
 const { addPlaylist, fillPlaylist, removePlaylist } = require('./cmd/playlists.js')
 const { downloadSingleTranscript, downloadMultipleTranscripts } = require('./cmd/transcripts.js')
-const { updateVideos, fetchVideos, cleanVideos } = require('./cmd/videos.js')
+const { cleanVideos, sortVideos, fetchVideos } = require('./cmd/videos.js')
 const { convertToJson } = require('./cmd/convert-to-json.js')
 
 /**
@@ -47,9 +47,14 @@ async function playlistMenu() {
  */
 async function videoMenu() {
   await handleMenuSelection('Video:', [
-    { value: 0, name: 'Update', description: 'Update videos metadata', func: updateVideos },
-    { value: 1, name: 'Fetch', description: 'Update default metadata from YouTube', func: fetchVideos },
-    { value: 2, name: 'Clean', description: 'Delete videos with missing playlists', func: cleanVideos },
+    {
+      value: 0,
+      name: 'Clean',
+      description: 'Clean videos: remove orphaned files, duplicates, validate data',
+      func: cleanVideos,
+    },
+    { value: 1, name: 'Sort', description: 'Sort videos by uploadedAt', func: sortVideos },
+    { value: 2, name: 'Fetch', description: 'Update default metadata from YouTube', func: fetchVideos },
   ])
 }
 

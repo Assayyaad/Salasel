@@ -1,9 +1,10 @@
-/** @import { Video } from '../../../types.js' */
+/** @import { FetchedVideo } from '../../../types.js' */
 
-const prompts = require('../prompts.js')
 const { extractVideoId, extractPlaylistId } = require('../../util/youtube.js')
 const { downloadTranscript, downloadPlaylistTranscripts } = require('../../util/transcript.js')
+const { withCommandErrorHandling, logSuccess, logAction } = require('../../util/cmd.js')
 const { ensureCaptionsDir } = require('../../db/captions.js')
+const prompts = require('../prompts.js')
 const csvDb = require('../../db/csv.js')
 
 /**
@@ -11,27 +12,25 @@ const csvDb = require('../../db/csv.js')
  * @returns {Promise<void>}
  */
 async function downloadSingleTranscript() {
-  try {
+  await withCommandErrorHandling(async () => {
     const url = await prompts.getVideoUrl()
     const videoId = extractVideoId(url)
 
     // Ask for language selection
     const languages = await prompts.getLanguageForTranscript()
 
-    console.log(`\nDownloading transcript for video: ${videoId}`)
+    logAction(`Downloading transcript for video: ${videoId}`)
     console.log(`Languages: ${languages.join(', ')}`)
 
     const captionsDir = await ensureCaptionsDir(videoId)
     const downloadedFiles = await downloadTranscript(videoId, captionsDir, languages)
 
     if (downloadedFiles.length > 0) {
-      console.log(`✓ Downloaded ${downloadedFiles.length} transcript file(s): ${downloadedFiles.join(', ')}`)
+      logSuccess(`Downloaded ${downloadedFiles.length} transcript file(s): ${downloadedFiles.join(', ')}`)
     } else {
       console.log('No transcripts found for this video in the selected language(s).')
     }
-  } catch (/** @type {any} */ error) {
-    console.error(`Failed to download transcript: ${error.message}`)
-  }
+  }, 'Failed to download transcript')
 }
 
 /**
@@ -39,7 +38,7 @@ async function downloadSingleTranscript() {
  * @returns {Promise<void>}
  */
 async function downloadMultipleTranscripts() {
-  try {
+  await withCommandErrorHandling(async () => {
     const url = await prompts.getPlaylistUrl()
     const id = extractPlaylistId(url)
 
@@ -52,7 +51,7 @@ async function downloadMultipleTranscripts() {
       return
     }
 
-    const videos = await csvDb.readPlaylistVideos(storedPlaylist.id)
+    const videos = await csvDb.readVideos(storedPlaylist.id)
 
     if (videos.length === 0) {
       console.log('No videos found for this playlist.')
@@ -90,15 +89,13 @@ async function downloadMultipleTranscripts() {
     console.log(`Languages: ${languages.join(', ')}`)
 
     await downloadTranscriptsForPlaylist(storedPlaylist.id, videosToProcess, languages)
-  } catch (/** @type {any} */ error) {
-    console.error(`Failed to download playlist transcripts: ${error.message}`)
-  }
+  }, 'Failed to download playlist transcripts')
 }
 
 /**
  * Helper function to download transcripts for a playlist
  * @param {string} playlistId - Playlist ID
- * @param {Video[]} videos - Array of video objects
+ * @param {FetchedVideo[]} videos - Array of video objects
  * @param {string[]} languages - Array of language codes to download
  * @returns {Promise<void>}
  * @private

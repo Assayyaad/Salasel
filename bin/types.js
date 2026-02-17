@@ -35,10 +35,3 @@ module.exports = {}
  *  @property {string} description
  *  @property {Function} func
  */
-
-/**
- * Playlist with videos result
- * @typedef {Object} FetchedPlaylistWithVideos
- * @property {FetchedPlaylist} playlist
- * @property {FetchedVideo[]} videos
- */
