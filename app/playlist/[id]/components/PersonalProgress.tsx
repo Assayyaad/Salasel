@@ -15,11 +15,11 @@ import {
   startWatching,
 } from '@/app/static'
 
-export type PersonalProgressPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
+export type PersonalProgressPlaylist = Pick<CalculatedPlaylist, 'id' | 'name' | 'videoCount'>
 export type PersonalProgressVideo = Pick<CalculatedVideo, 'id' | 'title'>
 export interface PersonalProgressProps {
   playlist: PersonalProgressPlaylist
-  videos: PersonalProgressVideo[]
+  videos: Record<string, PersonalProgressVideo>
 }
 
 const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos }) => {
@@ -39,18 +39,41 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos })
     if (!isClient) {
       return 0
     }
-    return Math.round((playlistCompletedVideos.size / videos.length) * 100)
-  }, [isClient, playlistCompletedVideos, videos])
+    return Math.round((playlistCompletedVideos.size / playlist.videoCount) * 100)
+  }, [isClient, playlistCompletedVideos, playlist.videoCount])
 
   const notesCount = useMemo(() => {
-    if (!isClient) return 0
-    return videos.reduce((acc, video) => acc + (notes[video.id]?.length || 0), 0)
+    let count = 0
+    if (!isClient) return count
+    for (const id in videos) {
+      if (!Object.hasOwn(videos, id)) continue
+
+      const v = videos[id]
+      count += notes[v.id]?.length || 0
+    }
+    return count
   }, [isClient, notes, videos])
 
   const { nextVideo, continueWatchingId } = useMemo(() => {
-    if (!isClient) return { nextVideo: '...', continueWatchingId: videos[0].id }
+    const vKeys = Object.keys(videos)
+    if (!isClient || vKeys.length === 0) return { nextVideo: '...', continueWatchingId: vKeys[0] || '' }
 
-    const nextVideo = videos.find((v) => !playlistCompletedVideos.has(v.id)) || videos[0]
+    let nextVideo: PersonalProgressVideo | undefined
+    for (const id in videos) {
+      if (!Object.hasOwn(videos, id)) continue
+
+      const v = videos[id]
+      if (!playlistCompletedVideos.has(v.id)) {
+        nextVideo = v
+        break
+      }
+    }
+
+    if (!nextVideo) {
+      // All videos completed, default to first video
+      nextVideo = videos[vKeys[0]]
+    }
+
     return { nextVideo: nextVideo.title, continueWatchingId: nextVideo.id }
   }, [isClient, videos, playlistCompletedVideos])
 

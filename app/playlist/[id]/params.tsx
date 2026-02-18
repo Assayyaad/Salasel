@@ -5,5 +5,13 @@ export interface SelectedPlaylistParams {
 }
 
 export function generateStaticParams(): SelectedPlaylistParams[] {
-  return getPlaylists().map((pl) => ({ id: pl.id }))
+  const playlists = getPlaylists()
+  const params: SelectedPlaylistParams[] = []
+
+  for (const id in playlists) {
+    if (!Object.hasOwn(playlists, id)) continue
+    params.push({ id })
+  }
+
+  return params
 }

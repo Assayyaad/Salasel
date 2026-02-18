@@ -2,7 +2,7 @@
 
 import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ReactNode } from 'react'
 import ContentCard from '@/app/playlist/[id]/components/ContentCard'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import { loading, playlistContents } from '@/app/static'
@@ -11,7 +11,7 @@ export type SelectedPlaylistContentPlaylist = Pick<CalculatedPlaylist, 'id' | 'n
 export type SelectedPlaylistContentVideo = Pick<CalculatedVideo, 'id' | 'title' | 'playlistId'>
 export interface SelectedPlaylistContentProps {
   playlist: SelectedPlaylistContentPlaylist
-  videos: SelectedPlaylistContentVideo[]
+  videos: Record<string, SelectedPlaylistContentVideo>
 }
 
 const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist, videos }) => {
@@ -48,6 +48,24 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
     return null
   }
 
+  const cards: ReactNode[] = []
+  for (const id in videos) {
+    if (!Object.hasOwn(videos, id)) continue
+
+    const v = videos[id]
+    cards.push(
+      <ContentCard
+        key={v.id}
+        title={v.title}
+        videoId={v.id}
+        playlistId={v.playlistId}
+        status={getStatus(v.id)}
+        notesCount={getNotesCount(v.id)}
+        onToggle={() => toggleVideoCompleted(v.playlistId, v.id)}
+      />,
+    )
+  }
+
   return (
     <div
       dir="rtl"
@@ -56,19 +74,7 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
       <div className="bg-gray-50 dark:bg-gray-800/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
         <h2 className="text-xl font-bold text-text-light dark:text-text-dark">{playlistContents}</h2>
       </div>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        {videos.map((v) => (
-          <ContentCard
-            key={v.id}
-            title={v.title}
-            videoId={v.id}
-            playlistId={v.playlistId}
-            status={getStatus(v.id)}
-            notesCount={getNotesCount(v.id)}
-            onToggle={() => toggleVideoCompleted(v.playlistId, v.id)}
-          />
-        ))}
-      </div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">{cards}</div>
     </div>
   )
 }

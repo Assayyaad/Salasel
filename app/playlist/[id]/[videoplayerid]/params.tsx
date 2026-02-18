@@ -6,15 +6,17 @@ export interface VideoPlayerParams {
 }
 
 export async function generateStaticParams(): Promise<VideoPlayerParams[]> {
+  const playlists = getPlaylists()
   const params: VideoPlayerParams[] = []
 
-  for (const pl of getPlaylists()) {
-    const videos = await getVideos(pl.id)
-    for (const v of videos) {
-      params.push({
-        id: pl.id,
-        videoplayerid: v.id,
-      })
+  for (const plId in playlists) {
+    if (!Object.hasOwn(playlists, plId)) continue
+
+    const videos = await getVideos(plId)
+
+    for (const vId in videos) {
+      if (!Object.hasOwn(videos, vId)) continue
+      params.push({ id: plId, videoplayerid: vId })
     }
   }
 

@@ -26,7 +26,7 @@ const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ param
 
   // Load videos for this playlist
   const videos = await getVideos(playlist.id)
-  if (videos.length === 0) {
+  if (Object.keys(videos).length === 0) {
     return <div>{noVideosFound}</div>
   }
 

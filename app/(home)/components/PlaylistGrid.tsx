@@ -3,7 +3,7 @@
 import type { CalculatedPlaylist } from '@/app/types'
 import type { PlaylistCardPlaylist } from '@/app/(home)/components/PlaylistCard'
 
-import React from 'react'
+import React, { ReactNode } from 'react'
 import PlaylistCard from '@/app/(home)/components/PlaylistCard'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 
@@ -12,48 +12,35 @@ export type PlaylistGridPlaylist = Pick<
   'id' | 'language' | 'type' | 'categories' | 'style' | 'classes'
 >
 export interface PlaylistGridProps {
-  playlists: (PlaylistGridPlaylist & PlaylistCardPlaylist)[]
+  playlists: Record<string, PlaylistGridPlaylist & PlaylistCardPlaylist>
 }
 
 const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists }) => {
   const { filters } = usePlaylistStore()
 
-  const filteredPlaylists = playlists.filter((pl) => {
-    // Language filter (mandatory)
-    if (pl.language !== filters.language) {
-      return false
+  const cards: ReactNode[] = []
+  for (const id in playlists) {
+    if (!Object.hasOwn(playlists, id)) continue
+
+    const pl = playlists[id]
+
+    if (
+      // Language filter (mandatory)
+      pl.language === filters.language &&
+      // Content type filter (mandatory)
+      pl.type === filters.contentType &&
+      // Category filter (mandatory)
+      pl.categories.includes(filters.category as any) &&
+      // Presentation style filter (optional)
+      (filters.presentationStyle === 'all' || pl.style === filters.presentationStyle) &&
+      // Class filter (optional)
+      (filters.class === 'all' || pl.classes.includes(filters.class as any))
+    ) {
+      cards.push(<PlaylistCard key={pl.id} playlist={pl} />)
     }
+  }
 
-    // Content type filter (mandatory)
-    if (pl.type !== filters.contentType) {
-      return false
-    }
-
-    // Category filter (mandatory)
-    if (!pl.categories.includes(filters.category as any)) {
-      return false
-    }
-
-    // Presentation style filter (optional)
-    if (filters.presentationStyle !== 'all' && pl.style !== filters.presentationStyle) {
-      return false
-    }
-
-    // Class filter (optional)
-    if (filters.class !== 'all' && !pl.classes.includes(filters.class as any)) {
-      return false
-    }
-
-    return true
-  })
-
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-      {filteredPlaylists.map((pl) => (
-        <PlaylistCard key={pl.id} playlist={pl} />
-      ))}
-    </div>
-  )
+  return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">{cards}</div>
 }
 
 export default PlaylistGrid

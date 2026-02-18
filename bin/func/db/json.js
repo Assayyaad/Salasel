@@ -14,7 +14,11 @@ const { calcPlaylist, calcVideo } = require('../util/youtube.js')
  */
 async function writePlaylists(playlists) {
   await fs.ensureFile(jsonPlaylistsFile)
-  const content = JSON.stringify(playlists, null, 2)
+  const playlistsObj = playlists.reduce((acc, pl) => {
+    acc[pl.id] = pl
+    return acc
+  }, /** @type {Record<string, CalculatedPlaylist>} */ ({}))
+  const content = JSON.stringify(playlistsObj)
   await fs.writeFile(jsonPlaylistsFile, content, 'utf8')
 }
 
@@ -28,7 +32,11 @@ async function writePlaylists(playlists) {
 async function writeVideos(playlistId, videos) {
   await fs.ensureDir(jsonVideosDir)
   const videoPath = path.join(jsonVideosDir, `${playlistId}.json`)
-  const content = JSON.stringify(videos, null, 2)
+  const videosObj = videos.reduce((acc, v) => {
+    acc[v.id] = v
+    return acc
+  }, /** @type {Record<string, CalculatedVideo>} */ ({}))
+  const content = JSON.stringify(videosObj)
   await fs.writeFile(videoPath, content, 'utf8')
 }
 
