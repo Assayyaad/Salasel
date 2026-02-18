@@ -1,85 +1,51 @@
-import type { Categories } from './types'
 import type { Metadata, Viewport } from 'next'
+import type { Language, LanguageCode, Translations } from '@/app/types'
 
-/**
- * Static list of filters used in the application.
- * First filter is the default "All" filter.
- */
-export const filters: Readonly<(Categories | 'الكل')[]> = Object.freeze(['الكل', 'دين', 'فطرة', 'نفس'])
+// ============================================================================
+// Language Configuration
+// ============================================================================
 
-export const title = 'سلاسل'
-export const description = 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك'
+/** List of all supported languages */
+export const allLanguages: Readonly<Language[]> = Object.freeze([
+  { code: 'ar', name: 'العربية', dir: 'rtl', comma: '،' },
+  { code: 'en', name: 'English', dir: 'ltr', comma: ',' },
+  { code: 'ja', name: '日本語', dir: 'ltr', comma: '、' },
+])
 
-export const searchPlaceholder = 'ابحث عن سلسلة...'
+/** Default language */
+export const defaultLanguage: LanguageCode = 'ar'
 
-export const loading = 'يُحمّل...'
+/** Mapping of language codes to language objects */
+export const languageMap: Readonly<Record<LanguageCode, Language>> = Object.freeze(
+  allLanguages.reduce(
+    (acc, lang) => {
+      acc[lang.code] = lang
+      return acc
+    },
+    {} as Record<LanguageCode, Language>,
+  ),
+)
 
-export const searchTab = 'بحث'
-export const summaryTab = 'ملخص'
-export const transcriptionTab = 'النص'
-export const notesTab = 'ملاحظات'
+// ============================================================================
+// Translations
+// ============================================================================
 
-// Watch status labels
-export const watchStatusCompleted = 'شوهِد'
-export const watchStatusInProgress = 'قيد المشاهدة'
-export const watchStatusNotStarted = 'لم يُشاهد بعد'
+/** Translation map for all languages */
+export const translationsMap: Readonly<Record<LanguageCode, Translations>> = Object.freeze({
+  ar: require('../public/i18n/ar.json'),
+  en: require('../public/i18n/en.json'),
+  ja: require('../public/i18n/ja.json'),
+})
 
-// Notes component
-export const notesDeleteConfirmation = 'أمتأكد من حذف الملاحظة؟'
-export const notesPlaceholder = 'اكتب هنا...'
-export const notesAddButton = 'أضف ملاحظة'
-export const notesEmptyMessage = 'لا ملاحظات'
-export const notesUpdateTimestamp = 'تحديث الطابع الزمني'
-export const notesSaveButton = 'حفظ'
-export const notesCancelButton = 'إلغاء'
+// ============================================================================
+// Content Data (Non-translatable)
+// ============================================================================
 
-// Personal Progress
-export const personalProgressTitle = 'التقدم الشخصي'
-export const nextToWatch = 'التالي للمشاهدة'
-export const totalNotes = 'مجموع الملاحظات'
-export const currentVideoProgress = 'تقدم المقطع الحالي'
-export const playlistProgress = 'تقدم السلسلة'
-export const continueWatching = 'متابعة المشاهدة'
-export const startWatching = 'ابدأ المشاهدة'
-
-// Playlist Card labels
-export const withParticipation = 'بمشاركة:'
-export const videosLabel = 'المقاطع'
-export const durationLabel = 'المدة'
-export const typeLabel = 'النوع'
-export const styleLabel = 'الأسلوب'
-export const categoriesLabel = 'التصانيف'
-export const classesLabel = 'الفئات'
-export const startDateLabel = 'تاريخ البداية'
-export const endDateLabel = 'تاريخ النهاية'
-
-// Playlist Content
-export const playlistContents = 'محتويات السلسلة'
-export const episodeLabel = 'الحلقة'
-
-// Navigation
-export const goBack = 'العودة للخلف'
-
-// Error messages
-export const playlistNotFound = 'لم يُعثر على السلسلة'
-export const noVideosFound = 'لا مقاطع في السلسلة'
-
-// Content type labels
-export const contentTypeEducational = 'تعليمي'
-export const contentTypeAwareness = 'توعوي'
-
-// Presentation style labels
-export const presentationStyleNarration = 'سرد'
-export const presentationStyleLecture = 'محاضرة'
-export const presentationStylePodcast = 'إذاعة'
-
-// Class labels
-export const classKids = 'أطفال'
-export const classParents = 'آباء'
-export const classFemale = 'إناث'
-
-// Default/fallback label
 export const defaultLabel = '-'
+
+// ============================================================================
+// App Configuration
+// ============================================================================
 
 export const viewport: Viewport = {
   themeColor: '#2e4b2c',
@@ -87,19 +53,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'سلاسل - تطبيق سلاسل تعليمية وتوعوية',
-  description: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
-  abstract: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
-  alternates: {
-    languages: {
-      ar: '/',
-    },
-  },
-  appleWebApp: {
-    title: 'سلاسل',
-  },
-  applicationName: 'سلاسل',
-  metadataBase: new URL('https://salasel.app'),
+  metadataBase: new URL('https://salasel.app/'),
   category: 'Education',
   classification: 'Education',
   icons: {
@@ -108,26 +62,12 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   keywords: [],
-  openGraph: {
-    title: 'سلاسل - تطبيق سلاسل تعليمية وتوعوية',
-    description: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
-    url: 'https://salasel.app/',
-    siteName: 'سلاسل',
-    type: 'website',
-    locale: 'ar',
-  },
   robots: {
     'index': true,
     'follow': true,
     'max-image-preview': 'large',
     'max-video-preview': -1,
     'max-snippet': -1,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'سلاسل - تطبيق سلاسل تعليمية وتوعوية',
-    description: 'تطبيق سلاسل تعليمية وتوعوية لبناء إنسان متزن ومجتمع متماسك',
-    site: '@SalaselApp',
   },
   other: {
     'preconnect': [

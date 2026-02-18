@@ -62,10 +62,15 @@ async function fillPlaylist(playlist) {
   })
 
   /** @type {string} */
-  const participants = await input({
+  const participantsStr = await input({
     message: 'Enter participants names (comma-separated):',
     default: '',
   })
+  /** @type {string[]} */
+  const participants = (participantsStr || '')
+    .split(',')
+    .map((p) => p.trim())
+    .filter((p) => p)
 
   /** @type {Languages} */
   const language = await select({
@@ -101,41 +106,13 @@ async function fillPlaylist(playlist) {
   return {
     ...playlist,
     description,
-    participants: participants
-      .split(',')
-      .map((p) => p.trim())
-      .filter((p) => p),
+    participants,
     language,
     type,
     style,
     categories,
     classes,
   }
-}
-
-/**
- * Prompts user to select a playlist from a list
- * @param {FilledPlaylist[]} playlists - Array of playlist objects
- * @returns {Promise<FilledPlaylist>} Selected playlist
- */
-async function selectPlaylist(playlists) {
-  if (playlists.length === 0) {
-    throw new Error('No playlists available')
-  }
-
-  const id = await select({
-    message: 'Select a playlist:',
-    choices: playlists.map((p) => ({
-      name: `${p.channel} | ${p.name}`,
-      value: p.id,
-    })),
-  })
-
-  const selected = playlists.find((p) => p.id === id)
-  if (!selected) {
-    throw new Error('Selected playlist not found')
-  }
-  return selected
 }
 
 /**
@@ -203,7 +180,6 @@ module.exports = {
   getPlaylistUrl,
   getVideoUrl,
   fillPlaylist,
-  selectPlaylist,
   confirmAction,
   getLanguageForTranscript,
   getTranscriptRange,

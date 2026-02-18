@@ -1,6 +1,6 @@
 module.exports = {}
 
-/** @import { Languages, ContentTypes, PresentationStyles, Categories, Classes, FetchedVideo, CalculatedVideo, CalculatedPlaylist, FetchedPlaylist, FilledPlaylist, StrTime, StrDate, StringifiedPlaylist, StringifiedVideo } from '../app/types.ts' */
+/** @import { Languages, ContentTypes, PresentationStyles, Categories, Classes, FetchedVideo, CalculatedVideo, CalculatedPlaylist, FetchedPlaylist, FilledPlaylist, StrTime, StrDate, StringifiedPlaylist, StringifiedVideo, ClassKeys, CategoryKeys, ContentTypeKeys, PresentationStyleKeys, LanguageName } from '../app/types.ts' */
 
 // ============================================
 // Imported Types
@@ -9,11 +9,17 @@ module.exports = {}
 /** @typedef {StrDate} StrDate */
 /** @typedef {StrTime} StrTime */
 
-/** @typedef {Classes} Classes */
 /** @typedef {Languages} Languages */
+/** @typedef {LanguageName} LanguageNames */
+
+/** @typedef {Classes} Classes */
+/** @typedef {ClassKeys} ClassKeys */
 /** @typedef {Categories} Categories */
+/** @typedef {CategoryKeys} CategoryKeys */
 /** @typedef {ContentTypes} ContentTypes */
+/** @typedef {ContentTypeKeys} ContentTypeKeys */
 /** @typedef {PresentationStyles} PresentationStyles */
+/** @typedef {PresentationStyleKeys} PresentationStyleKeys */
 
 /** @typedef {FetchedVideo} FetchedVideo */
 /** @typedef {CalculatedVideo} CalculatedVideo */
@@ -34,11 +40,4 @@ module.exports = {}
  *  @property {string} name
  *  @property {string} description
  *  @property {Function} func
- */
-
-/**
- * Playlist with videos result
- * @typedef {Object} FetchedPlaylistWithVideos
- * @property {FetchedPlaylist} playlist
- * @property {FetchedVideo[]} videos
  */

@@ -1,0 +1,290 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Translation schema for Salasel app. All language files must include these keys.",
+  "type": "object",
+  "properties": {
+    "contents": {
+      "type": "object",
+      "description": "Labels for content types (educational, awareness, purification)",
+      "required": ["0", "1", "2"],
+      "properties": {
+        "0": { "type": "string", "description": "Educational content label" },
+        "1": { "type": "string", "description": "Awareness content label" },
+        "2": { "type": "string", "description": "Purification content label" }
+      }
+    },
+    "presentations": {
+      "type": "object",
+      "description": "Labels for presentation styles (narration, lecture, podcast, story)",
+      "required": ["0", "1", "2", "3"],
+      "properties": {
+        "0": { "type": "string", "description": "Narration style label" },
+        "1": { "type": "string", "description": "Lecture style label" },
+        "2": { "type": "string", "description": "Podcast style label" },
+        "3": { "type": "string", "description": "Story style label" }
+      }
+    },
+    "categories": {
+      "type": "object",
+      "description": "Labels for content categories (din, fitrah, nafs)",
+      "required": ["0", "1", "2"],
+      "properties": {
+        "0": { "type": "string", "description": "Nature/Fitrah category label" },
+        "1": { "type": "string", "description": "Self/Nafs category label" },
+        "2": { "type": "string", "description": "Religion/Din category label" }
+      }
+    },
+    "classes": {
+      "type": "object",
+      "description": "Labels for target audience classes (kids, female, married, parents)",
+      "required": ["0", "1", "2", "3"],
+      "properties": {
+        "0": { "type": "string", "description": "Kids audience label" },
+        "1": { "type": "string", "description": "Female audience label" },
+        "2": { "type": "string", "description": "Married audience label" },
+        "3": { "type": "string", "description": "Parents audience label" }
+      }
+    },
+    "searchPlaceholder": {
+      "type": "string",
+      "description": "Placeholder text for search input field"
+    },
+    "loading": {
+      "type": "string",
+      "description": "Loading indicator text"
+    },
+    "filterLanguageLabel": {
+      "type": "string",
+      "description": "Label for language filter"
+    },
+    "filterContentTypeLabel": {
+      "type": "string",
+      "description": "Label for content type filter"
+    },
+    "filterCategoryLabel": {
+      "type": "string",
+      "description": "Label for category filter"
+    },
+    "filterPresentationStyleLabel": {
+      "type": "string",
+      "description": "Label for presentation style filter"
+    },
+    "filterClassLabel": {
+      "type": "string",
+      "description": "Label for target class filter"
+    },
+    "filterAllOption": {
+      "type": "string",
+      "description": "Option to show all items (no filter)"
+    },
+    "searchTab": {
+      "type": "string",
+      "description": "Tab label for search functionality"
+    },
+    "summaryTab": {
+      "type": "string",
+      "description": "Tab label for content summary"
+    },
+    "transcriptionTab": {
+      "type": "string",
+      "description": "Tab label for video transcription"
+    },
+    "notesTab": {
+      "type": "string",
+      "description": "Tab label for user notes"
+    },
+    "watchStatusCompleted": {
+      "type": "string",
+      "description": "Status label for completed videos"
+    },
+    "watchStatusInProgress": {
+      "type": "string",
+      "description": "Status label for videos currently being watched"
+    },
+    "watchStatusNotStarted": {
+      "type": "string",
+      "description": "Status label for videos not yet started"
+    },
+    "notesDeleteConfirmation": {
+      "type": "string",
+      "description": "Confirmation message when deleting a note"
+    },
+    "notesPlaceholder": {
+      "type": "string",
+      "description": "Placeholder text for note input field"
+    },
+    "notesAddButton": {
+      "type": "string",
+      "description": "Button text to add a new note"
+    },
+    "notesEmptyMessage": {
+      "type": "string",
+      "description": "Message shown when there are no notes"
+    },
+    "notesUpdateTimestamp": {
+      "type": "string",
+      "description": "Label for updating note timestamp"
+    },
+    "notesSaveButton": {
+      "type": "string",
+      "description": "Button text to save changes"
+    },
+    "notesCancelButton": {
+      "type": "string",
+      "description": "Button text to cancel action"
+    },
+    "personalProgressTitle": {
+      "type": "string",
+      "description": "Title for personal progress section"
+    },
+    "nextToWatch": {
+      "type": "string",
+      "description": "Label for next video to watch"
+    },
+    "totalNotes": {
+      "type": "string",
+      "description": "Label for total number of notes"
+    },
+    "currentVideoProgress": {
+      "type": "string",
+      "description": "Label for current video progress"
+    },
+    "playlistProgress": {
+      "type": "string",
+      "description": "Label for overall playlist progress"
+    },
+    "continueWatching": {
+      "type": "string",
+      "description": "Button text to continue watching a video"
+    },
+    "startWatching": {
+      "type": "string",
+      "description": "Button text to start watching a video"
+    },
+    "withParticipation": {
+      "type": "string",
+      "description": "Label prefix for participant names"
+    },
+    "videosLabel": {
+      "type": "string",
+      "description": "Label for videos/episodes count"
+    },
+    "durationLabel": {
+      "type": "string",
+      "description": "Label for duration/length"
+    },
+    "typeLabel": {
+      "type": "string",
+      "description": "Label for content type"
+    },
+    "styleLabel": {
+      "type": "string",
+      "description": "Label for presentation style"
+    },
+    "categoriesLabel": {
+      "type": "string",
+      "description": "Label for categories"
+    },
+    "classesLabel": {
+      "type": "string",
+      "description": "Label for target audience classes"
+    },
+    "startDateLabel": {
+      "type": "string",
+      "description": "Label for series start date"
+    },
+    "endDateLabel": {
+      "type": "string",
+      "description": "Label for series end date"
+    },
+    "playlistContents": {
+      "type": "string",
+      "description": "Title for playlist/series contents section"
+    },
+    "episodeLabel": {
+      "type": "string",
+      "description": "Label for episode number"
+    },
+    "goBack": {
+      "type": "string",
+      "description": "Button text to navigate back"
+    },
+    "playlistNotFound": {
+      "type": "string",
+      "description": "Error message when playlist is not found"
+    },
+    "videoNotFound": {
+      "type": "string",
+      "description": "Error message when video is not found"
+    },
+    "noVideosFound": {
+      "type": "string",
+      "description": "Message when playlist has no videos"
+    },
+    "appTitle": {
+      "type": "string",
+      "description": "Short application title"
+    },
+    "appFullTitle": {
+      "type": "string",
+      "description": "Full application title with description"
+    },
+    "appDescription": {
+      "type": "string",
+      "description": "Application description for SEO and metadata"
+    }
+  },
+  "required": [
+    "contents",
+    "presentations",
+    "categories",
+    "classes",
+    "searchPlaceholder",
+    "loading",
+    "filterLanguageLabel",
+    "filterContentTypeLabel",
+    "filterCategoryLabel",
+    "filterPresentationStyleLabel",
+    "filterClassLabel",
+    "filterAllOption",
+    "searchTab",
+    "summaryTab",
+    "transcriptionTab",
+    "notesTab",
+    "watchStatusCompleted",
+    "watchStatusInProgress",
+    "watchStatusNotStarted",
+    "notesDeleteConfirmation",
+    "notesPlaceholder",
+    "notesAddButton",
+    "notesEmptyMessage",
+    "notesUpdateTimestamp",
+    "notesSaveButton",
+    "notesCancelButton",
+    "personalProgressTitle",
+    "nextToWatch",
+    "totalNotes",
+    "currentVideoProgress",
+    "playlistProgress",
+    "continueWatching",
+    "startWatching",
+    "withParticipation",
+    "videosLabel",
+    "durationLabel",
+    "typeLabel",
+    "styleLabel",
+    "categoriesLabel",
+    "classesLabel",
+    "startDateLabel",
+    "endDateLabel",
+    "playlistContents",
+    "episodeLabel",
+    "goBack",
+    "playlistNotFound",
+    "videoNotFound",
+    "noVideosFound",
+    "appTitle",
+    "appFullTitle",
+    "appDescription"
+  ]
+}

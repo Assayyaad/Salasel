@@ -1,0 +1,34 @@
+import type { VideoPlayerParams } from '@/app/[lang]/playlist/[id]/[videoplayerid]/params'
+
+import React, { Suspense } from 'react'
+import { notFound } from 'next/navigation'
+import VideoPlayerClient from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/VideoPlayerClient'
+import { getVideo } from '@/app/db'
+import { getTranslations } from '@/app/translate'
+
+export { generateStaticParams } from '@/app/[lang]/playlist/[id]/[videoplayerid]/params'
+export { generateMetadata } from '@/app/[lang]/playlist/[id]/[videoplayerid]/meta'
+
+export const revalidate = 3600 // Revalidate every hour
+
+export interface VideoPlayerPageProps {
+  params: Promise<VideoPlayerParams>
+}
+
+const VideoPlayerPage: React.FC<VideoPlayerPageProps> = async ({ params }) => {
+  const { lang, id, videoplayerid } = await params
+  const t = getTranslations(lang)
+  const { playlist, video } = await getVideo(id, videoplayerid)
+
+  if (!playlist || !video) {
+    return notFound()
+  }
+
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <VideoPlayerClient playlist={playlist} video={video} t={t} />
+    </Suspense>
+  )
+}
+
+export default VideoPlayerPage

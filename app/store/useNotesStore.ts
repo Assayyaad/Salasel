@@ -9,7 +9,7 @@ export interface Note {
   createdAt: number
 }
 
-interface NotesState {
+export interface NotesState {
   notes: Record<string, Note[]> // key: `${playlistId}-${videoId}`
   addNote: (playlistId: string, videoId: string, timestamp: string, content: string) => void
   updateNote: (noteId: string, content: string, timestamp: string) => void

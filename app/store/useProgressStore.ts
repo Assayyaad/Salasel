@@ -1,12 +1,12 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-interface Note {
+export interface Note {
   content: string
   timestamp: number
 }
 
-interface ProgressState {
+export interface ProgressState {
   completedVideos: Record<string, Set<string>> // playlistId -> Set<videoId>
   notes: Record<string, Note[]> // videoId -> array of notes
   videoProgress: Record<string, number> // videoId -> progress percentage
