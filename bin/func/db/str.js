@@ -1,7 +1,7 @@
 /** @import { FilledPlaylist, StringifiedPlaylist, StringifiedVideo, Categories, FetchedVideo } from '../../types.js' */
 
 const { timeToStr, timeToNum, dateToStr, dateToNum } = require('../util/format.js')
-const { contents, presentations, classes, languages } = require('../../static.js')
+const { languages, contents, presentations, categories, classes } = require('../../static.js')
 
 /**
  * Finds the key for a given value in an enum object
@@ -41,8 +41,8 @@ function stringifyPlaylist(playlist) {
     language: getEnumKey(languages, playlist.language || 'ar'),
     type: getEnumKey(contents, playlist.type || 0),
     style: getEnumKey(presentations, playlist.style || 0),
+    categories: (playlist.categories || []).map((c) => getEnumKey(categories, c)).join(';'),
     classes: (playlist.classes || []).map((c) => getEnumKey(classes, c)).join(';'),
-    categories: (playlist.categories || []).join(';'),
   }
 }
 
@@ -60,16 +60,14 @@ function objectifyPlaylist(str) {
     language: getEnumValue(languages, str.language || ''),
     type: getEnumValue(contents, str.type || ''),
     style: getEnumValue(presentations, str.style || ''),
+    categories: (str.categories || '')
+      .split(';')
+      .map((c) => getEnumValue(categories, c.trim()))
+      .filter((c) => !isNaN(c)),
     classes: (str.classes || '')
       .split(';')
       .map((c) => getEnumValue(classes, c.trim()))
       .filter((c) => !isNaN(c)),
-    categories: /** @type {Categories[]} */ (
-      (str.categories || '')
-        .split(';')
-        .map((c) => c.trim())
-        .filter((c) => c)
-    ),
   }
 }
 

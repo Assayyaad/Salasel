@@ -56,9 +56,9 @@ const classes = Object.freeze({
 /** @typedef {'Fitrah' | 'Din' | 'Nafs'} CategoryKeys */
 /** @type {Readonly<Record<CategoryKeys, Categories>>} */
 const categories = Object.freeze({
-  Fitrah: 'فطرة',
-  Din: 'دين',
-  Nafs: 'نفس',
+  Nature: 0,
+  Self: 1,
+  Religion: 2,
 })
 
 // Path helpers

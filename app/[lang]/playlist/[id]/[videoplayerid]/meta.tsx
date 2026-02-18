@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
         height: 720,
       },
     },
-    keywords: [video.title, playlist.name, playlist.channel, ...playlist.participants, ...playlist.categories],
+    keywords: [playlist.channel, playlist.name, video.title, ...playlist.categories.map((c) => t.categories[c])],
     authors: playlist.participants.map((p) => ({ name: p })),
   }
 }

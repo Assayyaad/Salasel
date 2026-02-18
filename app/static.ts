@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import type { Categories, Language, LanguageCode, Translations } from '@/app/types'
+import type { Language, LanguageCode, Translations } from '@/app/types'
 
 // ============================================================================
 // Language Configuration
@@ -40,9 +40,6 @@ export const translationsMap: Readonly<Record<LanguageCode, Translations>> = Obj
 // ============================================================================
 // Content Data (Non-translatable)
 // ============================================================================
-
-/** Available categories */
-export const categories: Readonly<Categories[]> = Object.freeze(['دين', 'فطرة', 'نفس'])
 
 export const defaultLabel = '-'
 

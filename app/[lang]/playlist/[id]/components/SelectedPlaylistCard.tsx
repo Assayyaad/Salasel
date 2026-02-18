@@ -99,7 +99,9 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
               <span className="material-icons-round text-base ml-1 text-primary">category</span>
               <span className="flex flex-col">
                 <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.categoriesLabel}</span>
-                <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.categories.join(', ')}</span>
+                <span className="text-xs text-muted-light dark:text-muted-dark">
+                  {playlist.categories.map((c) => t.categories[c] || defaultLabel).join(', ') || defaultLabel}
+                </span>
               </span>
             </div>
             <div className="flex items-center space-x-2">

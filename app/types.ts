@@ -100,6 +100,11 @@ export interface Translations {
     2: string
     3: string
   }
+  categories: {
+    0: string
+    1: string
+    2: string
+  }
   classes: {
     0: string
     1: string
@@ -161,7 +166,14 @@ export interface Translations {
 
 export type Languages = LanguageCode
 
-export type Categories = 'فطرة' | 'دين' | 'نفس'
+export enum Categories {
+  /** فطرة:  الاستعداد الفطري الذي فطر الله الناس عليه لمعرفته وتوحيده*/
+  Nature = 0,
+  /** نفس: الذات الشاملة على الروح والجسد وما تتصل به من صفات وأحوال */
+  Self = 1,
+  /** دين:  المنهج الإلهي الذي يشرع للناس عقائد وعبادات ومعاملات لتنظيم حياتهم*/
+  Religion = 2,
+}
 
 export enum ContentTypes {
   /** تعليمي: محتوى يهدف لتزويد المتلقي بعلم أو مهارة معينة */

@@ -24,6 +24,16 @@
         "3": { "type": "string", "description": "Story style label" }
       }
     },
+    "categories": {
+      "type": "object",
+      "description": "Labels for content categories (din, fitrah, nafs)",
+      "required": ["0", "1", "2"],
+      "properties": {
+        "0": { "type": "string", "description": "Nature/Fitrah category label" },
+        "1": { "type": "string", "description": "Self/Nafs category label" },
+        "2": { "type": "string", "description": "Religion/Din category label" }
+      }
+    },
     "classes": {
       "type": "object",
       "description": "Labels for target audience classes (kids, female, married, parents)",
@@ -227,6 +237,7 @@
   "required": [
     "contents",
     "presentations",
+    "categories",
     "classes",
     "searchPlaceholder",
     "loading",

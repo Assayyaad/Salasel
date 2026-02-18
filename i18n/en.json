@@ -11,6 +11,11 @@
     "2": "Podcast",
     "3": "Story"
   },
+  "categories": {
+    "0": "Nature",
+    "1": "Self",
+    "2": "Religion"
+  },
   "classes": {
     "0": "Kids",
     "1": "Female",

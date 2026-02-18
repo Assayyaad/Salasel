@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
       description,
       images: [thumbnailUrl],
     },
-    keywords: [playlist.name, playlist.channel, ...playlist.categories],
+    keywords: [playlist.channel, playlist.name, ...playlist.categories.map((c) => t.categories[c])],
     authors: playlist.participants.map((p) => ({ name: p })),
   }
 }

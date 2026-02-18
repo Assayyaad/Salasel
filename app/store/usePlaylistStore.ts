@@ -1,8 +1,6 @@
-import type { Languages, Categories, PresentationStyles, Classes } from '@/app/types'
+import type { Languages, ContentTypes, PresentationStyles, Categories, Classes } from '@/app/types'
 
 import { create } from 'zustand'
-import { categories } from '@/app/static'
-import { ContentTypes } from '@/app/types'
 
 export interface FilterState {
   language: Languages
@@ -24,9 +22,9 @@ export interface PlaylistState {
 
 const defaultFilters: FilterState = {
   language: 'ar',
-  contentType: ContentTypes.Educational,
+  contentType: 0,
   presentationStyle: 'all',
-  category: categories[0],
+  category: 0,
   class: 'all',
 }
 
