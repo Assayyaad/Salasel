@@ -1,11 +1,11 @@
 import React from 'react'
 
-interface FilterOption {
+export interface FilterOption {
   key: string
   value: string
 }
 
-interface FilterSelectProps {
+export interface FilterSelectProps {
   id: string
   label: string
   value: string | number
@@ -34,9 +34,9 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
       </label>
       <select id={id} value={value} onChange={(e) => onChange(e.target.value)} className={dropdownClass}>
         {showAllOption && <option value="all">{allOptionLabel}</option>}
-        {options.map((option) => (
-          <option key={option.key} value={option.key}>
-            {option.value}
+        {options.map((o) => (
+          <option key={o.key} value={o.key}>
+            {o.value}
           </option>
         ))}
       </select>

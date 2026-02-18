@@ -9,25 +9,14 @@ import { useProgressStore } from '@/app/store/useProgressStore'
 import { useVideoPlayerStore } from '@/app/store/useVideoPlayerStore'
 import 'video.js/dist/video-js.css'
 
-interface VideoPlayerProps {
-  video: CalculatedVideo
-  playlist: CalculatedPlaylist
+export type VideoPlayerPlaylist = Pick<CalculatedPlaylist, 'id' | 'channel' | 'name'>
+export type VideoPlayerVideo = Pick<CalculatedVideo, 'id' | 'title'>
+export interface VideoPlayerProps {
+  playlist: VideoPlayerPlaylist
+  video: VideoPlayerVideo
 }
 
-// Helper function to convert timestamp to seconds
-const timestampToSeconds = (timestamp: string): number => {
-  const parts = timestamp.split(':').map(Number)
-  if (parts.length === 2) {
-    // MM:SS
-    return parts[0] * 60 + parts[1]
-  } else if (parts.length === 3) {
-    // HH:MM:SS
-    return parts[0] * 3600 + parts[1] * 60 + parts[2]
-  }
-  return 0
-}
-
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, playlist }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
   const videoNode = useRef<HTMLVideoElement>(null)
   const playerRef = useRef<any>(null)
   const searchParams = useSearchParams()
@@ -146,6 +135,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, playlist }) => {
       </div>
     </div>
   )
+}
+
+// Helper function to convert timestamp to seconds
+const timestampToSeconds = (timestamp: string): number => {
+  const parts = timestamp.split(':').map(Number)
+  if (parts.length === 2) {
+    // MM:SS
+    return parts[0] * 60 + parts[1]
+  } else if (parts.length === 3) {
+    // HH:MM:SS
+    return parts[0] * 3600 + parts[1] * 60 + parts[2]
+  }
+  return 0
 }
 
 export default VideoPlayer

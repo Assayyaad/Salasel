@@ -1,8 +1,9 @@
 'use client'
 
+import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
+
 import React, { useMemo, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import {
   personalProgressTitle,
@@ -14,9 +15,11 @@ import {
   startWatching,
 } from '@/app/static'
 
+export type PersonalProgressPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
+export type PersonalProgressVideo = Pick<CalculatedVideo, 'id' | 'title'>
 export interface PersonalProgressProps {
-  playlist: CalculatedPlaylist
-  videos: CalculatedVideo[]
+  playlist: PersonalProgressPlaylist
+  videos: PersonalProgressVideo[]
 }
 
 const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos }) => {

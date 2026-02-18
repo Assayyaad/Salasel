@@ -1,14 +1,17 @@
 'use client'
 
+import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
+
 import React, { useState, useEffect } from 'react'
-import ContentCard from './ContentCard'
-import { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
+import ContentCard from '@/app/playlist/[id]/components/ContentCard'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import { loading, playlistContents } from '@/app/static'
 
-interface SelectedPlaylistContentProps {
-  playlist: CalculatedPlaylist
-  videos: CalculatedVideo[]
+export type SelectedPlaylistContentPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
+export type SelectedPlaylistContentVideo = Pick<CalculatedVideo, 'id' | 'title' | 'playlistId'>
+export interface SelectedPlaylistContentProps {
+  playlist: SelectedPlaylistContentPlaylist
+  videos: SelectedPlaylistContentVideo[]
 }
 
 const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist, videos }) => {

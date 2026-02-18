@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react'
-import Notes from './Notes'
+import Notes from '@/app/playlist/[id]/[videoplayerid]/components/Notes'
 import { notesTab } from '@/app/static'
 
-interface PlaylistSidebarProps {
+export interface PlaylistSidebarProps {
   playlistId: string
   videoId: string
 }

@@ -1,13 +1,18 @@
 'use client'
 
 import type { CalculatedPlaylist } from '@/app/types'
+import type { PlaylistCardPlaylist } from '@/app/(home)/components/PlaylistCard'
 
 import React from 'react'
-import PlaylistCard from './PlaylistCard'
+import PlaylistCard from '@/app/(home)/components/PlaylistCard'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 
-interface PlaylistGridProps {
-  playlists: CalculatedPlaylist[]
+export type PlaylistGridPlaylist = Pick<
+  CalculatedPlaylist,
+  'id' | 'language' | 'type' | 'categories' | 'style' | 'classes'
+>
+export interface PlaylistGridProps {
+  playlists: (PlaylistGridPlaylist & PlaylistCardPlaylist)[]
 }
 
 const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists }) => {

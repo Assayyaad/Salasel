@@ -64,6 +64,9 @@ export type StringifiedVideo = Record<keyof FetchedVideo, string> & {
   uploadedAt: StrDate
 }
 
+export type Playlists = CalculatedPlaylist[]
+export type Videos = CalculatedVideo[]
+
 export type Languages = 'ar' | 'en'
 
 export type Categories = 'فطرة' | 'دين' | 'نفس'

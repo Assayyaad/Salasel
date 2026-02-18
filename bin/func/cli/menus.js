@@ -4,7 +4,7 @@ const { select } = require('@inquirer/prompts')
 const { addPlaylist, fillPlaylist, removePlaylist } = require('./cmd/playlists.js')
 const { downloadSingleTranscript, downloadMultipleTranscripts } = require('./cmd/transcripts.js')
 const { cleanVideos, sortVideos, fetchVideos } = require('./cmd/videos.js')
-const { convertToJson } = require('./cmd/convert-to-json.js')
+const { convertToJson } = require('./cmd/csv-to-json.js')
 
 /**
  * @param {string} message

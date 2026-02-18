@@ -6,39 +6,14 @@ import Link from 'next/link'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 import { watchStatusCompleted, watchStatusInProgress, watchStatusNotStarted } from '@/app/static'
 
-type WatchStatus = 'completed' | 'in-progress' | 'not-started'
-
-interface ContentCardProps {
+export type WatchStatus = 'not-started' | 'in-progress' | 'completed'
+export interface ContentCardProps {
   title: string
   videoId: string
   playlistId: string
   status: WatchStatus
   notesCount: number
   onToggle: (videoId: string) => void
-}
-
-const WatchStatusIcon: React.FC<{ status: WatchStatus }> = ({ status }) => {
-  switch (status) {
-    case 'completed':
-      return (
-        <span className="material-icons-round text-green-500" title={watchStatusCompleted}>
-          check_circle
-        </span>
-      )
-    case 'in-progress':
-      return (
-        <span className="material-icons-round text-xs text-yellow-500" title={watchStatusInProgress}>
-          hourglass_bottom
-        </span>
-      )
-    case 'not-started':
-    default:
-      return (
-        <span className="material-icons-round text-gray-400" title={watchStatusNotStarted}>
-          radio_button_unchecked
-        </span>
-      )
-  }
 }
 
 const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, status, notesCount, onToggle }) => {
@@ -93,6 +68,30 @@ const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, s
       </div>
     </Link>
   )
+}
+
+const WatchStatusIcon: React.FC<{ status: WatchStatus }> = ({ status }) => {
+  switch (status) {
+    case 'completed':
+      return (
+        <span className="material-icons-round text-green-500" title={watchStatusCompleted}>
+          check_circle
+        </span>
+      )
+    case 'in-progress':
+      return (
+        <span className="material-icons-round text-xs text-yellow-500" title={watchStatusInProgress}>
+          hourglass_bottom
+        </span>
+      )
+    case 'not-started':
+    default:
+      return (
+        <span className="material-icons-round text-gray-400" title={watchStatusNotStarted}>
+          radio_button_unchecked
+        </span>
+      )
+  }
 }
 
 export default ContentCard

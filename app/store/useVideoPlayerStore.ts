@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-interface VideoPlayerState {
+export interface VideoPlayerState {
   currentTime: number
   getCurrentTime: () => number
   setCurrentTime: (time: number) => void

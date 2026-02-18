@@ -14,7 +14,7 @@ import {
   notesCancelButton,
 } from '@/app/static'
 
-interface NotesProps {
+export interface NotesProps {
   playlistId: string
   videoId: string
 }

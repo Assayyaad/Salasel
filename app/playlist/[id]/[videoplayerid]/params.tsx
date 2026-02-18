@@ -1,18 +1,15 @@
-import type { CalculatedPlaylist } from '@/app/types'
-
-import { getPlaylistVideos } from '@/app/utils'
-import playlists from '@/public/playlists.json'
+import { getPlaylists, getVideos } from '@/app/db'
 
 export interface VideoPlayerParams {
   id: string
   videoplayerid: string
 }
 
-export async function generateStaticParams() {
-  const params: { id: string; videoplayerid: string }[] = []
+export async function generateStaticParams(): Promise<VideoPlayerParams[]> {
+  const params: VideoPlayerParams[] = []
 
-  for (const pl of playlists as CalculatedPlaylist[]) {
-    const videos = await getPlaylistVideos(pl.id)
+  for (const pl of getPlaylists()) {
+    const videos = await getVideos(pl.id)
     for (const v of videos) {
       params.push({
         id: pl.id,

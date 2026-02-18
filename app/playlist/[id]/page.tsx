@@ -1,15 +1,14 @@
-import type { SelectedPlaylistParams } from './params'
+import type { SelectedPlaylistParams } from '@/app/playlist/[id]/params'
 
 import React from 'react'
-import SelectedPlaylistCard from './components/SelectedPlaylistCard'
-import SelectedPlaylistContent from './components/SelectedPlaylistContent'
-import PersonalProgress from './components/PersonalProgress'
-import { getPlaylist } from './utils'
-import { getPlaylistVideos } from '@/app/utils'
+import SelectedPlaylistCard from '@/app/playlist/[id]/components/SelectedPlaylistCard'
+import SelectedPlaylistContent from '@/app/playlist/[id]/components/SelectedPlaylistContent'
+import PersonalProgress from '@/app/playlist/[id]/components/PersonalProgress'
+import { getPlaylist, getVideos } from '@/app/db'
 import { playlistNotFound, noVideosFound } from '@/app/static'
 
-export { generateStaticParams } from './params'
-export { generateMetadata } from './meta'
+export { generateStaticParams } from '@/app/playlist/[id]/params'
+export { generateMetadata } from '@/app/playlist/[id]/meta'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -19,14 +18,14 @@ export interface SelectedPlaylistPageProps {
 
 const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ params }) => {
   const { id } = await params
-  const playlist = await getPlaylist(id)
+  const playlist = getPlaylist(id)
 
   if (!playlist) {
     return <div>{playlistNotFound}</div>
   }
 
   // Load videos for this playlist
-  const videos = await getPlaylistVideos(playlist.id)
+  const videos = await getVideos(playlist.id)
   if (videos.length === 0) {
     return <div>{noVideosFound}</div>
   }

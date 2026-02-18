@@ -1,6 +1,4 @@
-import type { CalculatedPlaylist, CalculatedVideo } from './types'
-
-import { Classes, ContentTypes, PresentationStyles } from './types'
+import { Classes, ContentTypes, PresentationStyles } from '@/app/types'
 import {
   contentTypeEducational,
   contentTypeAwareness,
@@ -14,7 +12,7 @@ import {
   classMarried,
   classParents,
   defaultLabel,
-} from './static'
+} from '@/app/static'
 
 export function videoThumbnailUrl(id: string): string {
   return `https://img.youtube.com/vi/${id}/sddefault.jpg`
@@ -101,66 +99,4 @@ export function formatDate(seconds: number): string {
   } catch {
     return defaultLabel
   }
-}
-
-/**
- * Load videos for a specific playlist (server-side)
- */
-export async function getPlaylistVideos(playlistId: string): Promise<CalculatedVideo[]> {
-  try {
-    const videos = await import(`@/public/videos/${playlistId}.json`)
-    return videos.default as CalculatedVideo[]
-  } catch (error) {
-    console.error(`Failed to load videos for playlist ${playlistId}:`, error)
-    return []
-  }
-}
-
-/**
- * Load videos for a specific playlist (client-side)
- */
-export async function fetchPlaylistVideos(playlistId: string): Promise<CalculatedVideo[]> {
-  try {
-    const res = await fetch(`/videos/${playlistId}.json`)
-    if (!res.ok) {
-      throw new Error(`Failed to fetch videos: ${res.statusText}`)
-    }
-    return await res.json()
-  } catch (error) {
-    console.error(`Failed to fetch videos for playlist ${playlistId}:`, error)
-    return []
-  }
-}
-
-/**
- * Search playlists by title and description
- * @param playlists - Array of playlists to search
- * @param query - Search query string
- * @returns Filtered playlists (name matches first, then channel matches)
- */
-export function searchPlaylists(playlists: CalculatedPlaylist[], query: string): CalculatedPlaylist[] {
-  if (!query.trim()) return playlists
-
-  const normalizedQuery = query.trim().toLowerCase()
-  const channelMatches: CalculatedPlaylist[] = []
-  const nameMatches: CalculatedPlaylist[] = []
-  const matchedIds = new Set<string>()
-
-  playlists.forEach((pl) => {
-    const name = pl.name.toLowerCase()
-    const channel = pl.channel.toLowerCase()
-
-    // البحث في العنوان
-    if (name.includes(normalizedQuery)) {
-      nameMatches.push(pl)
-      matchedIds.add(pl.id)
-    }
-    // البحث في القناة (بدون تكرار)
-    else if (channel.includes(normalizedQuery)) {
-      channelMatches.push(pl)
-      matchedIds.add(pl.id)
-    }
-  })
-
-  return [...nameMatches, ...channelMatches]
 }

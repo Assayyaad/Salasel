@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build:data": "node -e \"require('./bin/func/cli/cmd/convert-to-json.js').convertToJson().then(() => process.exit(0)).catch(e => { console.error(e); process.exit(1); })\"",
-    "build": "npm run build:data && next build",
+    "build:data": "node -e \"require('./bin/func/cli/cmd/csv-to-json.js').convertToJson().then(() => process.exit(0)).catch(e => { console.error(e); process.exit(1); })\"",
+    "build:app": "next build",
+    "build": "npm run build:data && npm run build:app",
     "start": "next start",
     "cli": "node bin/cli.js",
     "lint": "eslint",

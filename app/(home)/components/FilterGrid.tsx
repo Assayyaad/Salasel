@@ -17,9 +17,11 @@ import {
   filterClassLabel,
   filterAllOption,
 } from '@/app/static'
-import FilterSelect from './FilterSelect'
+import FilterSelect from '@/app/(home)/components/FilterSelect'
 
-const FilterGrid: React.FC = () => {
+export interface FilterGridProps {}
+
+const FilterGrid: React.FC<FilterGridProps> = () => {
   const { filters, setLanguage, setContentType, setPresentationStyle, setCategory, setClass } = usePlaylistStore()
 
   // Transform data to FilterOption format

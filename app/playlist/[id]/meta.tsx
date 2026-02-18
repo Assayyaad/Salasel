@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import type { SelectedPlaylistParams } from './params'
+import type { SelectedPlaylistParams } from '@/app/playlist/[id]/params'
 
+import { getPlaylist } from '@/app/db'
 import { videoThumbnailUrl } from '@/app/utils'
 import { playlistNotFound, appTitle } from '@/app/static'
-import { getPlaylist } from './utils'
 
 export interface SelectedPlaylistMetadataProps {
   params: Promise<SelectedPlaylistParams>
@@ -11,7 +11,7 @@ export interface SelectedPlaylistMetadataProps {
 
 export async function generateMetadata({ params }: SelectedPlaylistMetadataProps): Promise<Metadata> {
   const { id } = await params
-  const playlist = await getPlaylist(id)
+  const playlist = getPlaylist(id)
 
   if (!playlist) {
     return {

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
+import '@/app/globals.css'
 
-export { metadata, viewport } from './static'
+export { metadata, viewport } from '@/app/static'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

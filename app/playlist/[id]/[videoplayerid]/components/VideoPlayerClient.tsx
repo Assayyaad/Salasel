@@ -4,13 +4,15 @@ import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 
 import React, { useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import PlaylistSidebar from '../../components/PlaylistSidebar'
-import VideoPlayer from '../../components/VideoPlayer'
 import { useProgressStore } from '@/app/store/useProgressStore'
+import PlaylistSidebar from '@/app/playlist/[id]/[videoplayerid]/components/PlaylistSidebar'
+import VideoPlayer from '@/app/playlist/[id]/[videoplayerid]/components/VideoPlayer'
 
-interface VideoPlayerClientProps {
-  playlist: CalculatedPlaylist
-  video: CalculatedVideo
+export type VideoPlayerClientPlaylist = Pick<CalculatedPlaylist, 'id' | 'channel' | 'name'>
+export type VideoPlayerClientVideo = Pick<CalculatedVideo, 'id' | 'title'>
+export interface VideoPlayerClientProps {
+  playlist: VideoPlayerClientPlaylist
+  video: VideoPlayerClientVideo
 }
 
 const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video }) => {
@@ -45,7 +47,7 @@ const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video }
   return (
     <main dir="rtl" className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-16">
       <div className="flex flex-col gap-6">
-        <VideoPlayer video={video} playlist={playlist} />
+        <VideoPlayer playlist={playlist} video={video} />
         <PlaylistSidebar playlistId={playlist.id} videoId={video.id} />
       </div>
     </main>

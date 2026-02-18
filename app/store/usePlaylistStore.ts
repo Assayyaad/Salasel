@@ -4,7 +4,7 @@ import { create } from 'zustand'
 import { categories } from '@/app/static'
 import { ContentTypes } from '@/app/types'
 
-interface FilterState {
+export interface FilterState {
   language: Languages
   contentType: ContentTypes
   category: Categories
@@ -12,7 +12,7 @@ interface FilterState {
   class: Classes | 'all'
 }
 
-interface PlaylistState {
+export interface PlaylistState {
   filters: FilterState
   setLanguage: (language: Languages) => void
   setContentType: (contentType: ContentTypes) => void

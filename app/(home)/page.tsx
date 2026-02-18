@@ -1,20 +1,21 @@
-import type { CalculatedPlaylist } from '../types'
-
-import PlaylistGrid from './components/PlaylistGrid'
-import SearchBar from '@/app/shared/components/SearchBar'
+import PlaylistGrid from '@/app/(home)/components/PlaylistGrid'
+import FilterGrid from '@/app/(home)/components/FilterGrid'
 import Librecounter from '@/app/shared/components/Librecounter'
-import playlists from '@/public/playlists.json'
+import SearchBar from '@/app/shared/components/SearchBar'
+import { getPlaylists, searchPlaylists } from '@/app/db'
 import { appTitle, appDescription } from '@/app/static'
-import { searchPlaylists } from '@/app/utils'
-import FilterGrid from './components/FilterGrid'
 
-export default async function Home({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const data: CalculatedPlaylist[] = playlists as CalculatedPlaylist[]
+export interface HomePageProps {
+  searchParams: Promise<{ q?: string }>
+}
+
+export default async function Home({ searchParams }: HomePageProps) {
+  const playlists = getPlaylists()
 
   // Apply search filter if query exists
   const resolvedSearchParams = await searchParams
   const searchQuery = resolvedSearchParams.q || ''
-  const filteredPlaylists = searchPlaylists(data, searchQuery)
+  const filteredPlaylists = searchPlaylists(playlists, searchQuery)
 
   return (
     <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

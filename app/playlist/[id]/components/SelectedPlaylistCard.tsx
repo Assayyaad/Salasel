@@ -27,8 +27,25 @@ import {
   endDateLabel,
 } from '@/app/static'
 
+export type SelectedPlaylistCardPlaylist = Pick<
+  CalculatedPlaylist,
+  | 'id'
+  | 'channel'
+  | 'name'
+  | 'description'
+  | 'thumbnailId'
+  | 'participants'
+  | 'videoCount'
+  | 'duration'
+  | 'type'
+  | 'style'
+  | 'categories'
+  | 'classes'
+  | 'startDate'
+  | 'endDate'
+>
 export interface SelectedPlaylistCardProps {
-  playlist: CalculatedPlaylist
+  playlist: SelectedPlaylistCardPlaylist
 }
 
 const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist }) => {

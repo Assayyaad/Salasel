@@ -1,5 +1,5 @@
-import type { Categories, Classes, ContentTypes, Languages, PresentationStyles } from './types'
 import type { Metadata, Viewport } from 'next'
+import type { Categories, Classes, ContentTypes, Languages, PresentationStyles } from '@/app/types'
 
 export const languages: Readonly<Record<Languages, string>> = Object.freeze({
   ar: 'العربية',

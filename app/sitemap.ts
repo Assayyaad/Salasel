@@ -1,9 +1,9 @@
-import type { CalculatedVideo } from './types'
+import type { Videos } from '@/app/types'
 
 import fs from 'fs/promises'
 import path from 'path'
 import { MetadataRoute } from 'next'
-import playlists from '@/public/playlists.json'
+import { getPlaylists } from '@/app/db'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://salasel.app'
@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Process all playlists in parallel and collect their entries
   const playlistEntries = await Promise.all(
-    playlists.map(async (pl) => {
+    getPlaylists().map(async (pl) => {
       const entries: MetadataRoute.Sitemap = []
 
       // Add playlist URL
@@ -40,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       try {
         const videoFilePath = path.join(process.cwd(), 'public', 'videos', `${pl.id}.json`)
         const videoData = await fs.readFile(videoFilePath, 'utf-8')
-        const videos: CalculatedVideo[] = JSON.parse(videoData)
+        const videos: Videos = JSON.parse(videoData)
 
         // Add video URLs
         videos.forEach((v) => {

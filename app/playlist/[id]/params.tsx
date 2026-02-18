@@ -1,13 +1,9 @@
-import type { CalculatedPlaylist } from '@/app/types'
-
-import playlists from '@/public/playlists.json'
+import { getPlaylists } from '@/app/db'
 
 export interface SelectedPlaylistParams {
   id: string
 }
 
-export async function generateStaticParams() {
-  return (playlists as CalculatedPlaylist[]).map((pl) => ({
-    id: pl.id,
-  }))
+export function generateStaticParams(): SelectedPlaylistParams[] {
+  return getPlaylists().map((pl) => ({ id: pl.id }))
 }

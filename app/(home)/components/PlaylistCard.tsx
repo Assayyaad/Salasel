@@ -5,31 +5,31 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 
-interface PlaylistCardProps {
-  playlist: CalculatedPlaylist
+export type PlaylistCardPlaylist = Pick<CalculatedPlaylist, 'id' | 'channel' | 'name' | 'description' | 'thumbnailId'>
+export interface PlaylistCardProps {
+  playlist: PlaylistCardPlaylist
 }
 
 const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist }) => {
-  const { id, channel, name, description, thumbnailId } = playlist
-  const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(thumbnailId))
+  const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
 
   return (
-    <Link href={`/playlist/${id}`}>
+    <Link href={`/playlist/${playlist.id}`}>
       <article className="group cursor-pointer">
         <div className="mb-4" dir="rtl">
           <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
-            {channel} | {name}
+            {playlist.channel} | {playlist.name}
           </h3>
-          <p className="text-sm text-slate-400">{description}</p>
+          <p className="text-sm text-slate-400">{playlist.description}</p>
         </div>
         <div className="aspect-video w-full overflow-hidden rounded-lg bg-slate-800 relative shadow-sm group-hover:shadow-lg transition-shadow duration-300">
           <Image
             src={imageUrl}
-            alt={name}
+            alt={playlist.name}
             fill={true}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-            onError={() => setImageUrl(fallbackThumbnailUrl(thumbnailId))}
+            onError={() => setImageUrl(fallbackThumbnailUrl(playlist.thumbnailId))}
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
         </div>

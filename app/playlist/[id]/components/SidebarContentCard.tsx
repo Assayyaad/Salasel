@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { episodeLabel } from '@/app/static'
 
-interface SidebarContentCardProps {
+export interface SidebarContentCardProps {
   lessonNumber: number
   title: string
   duration: string
