@@ -2,7 +2,8 @@
 
 import type { Languages, Categories, Translations } from '@/app/types'
 
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { allLanguages, categories } from '@/app/static'
 import FilterSelect from '@/app/[lang]/(home)/components/FilterSelect'
@@ -12,7 +13,31 @@ export interface FilterGridProps {
 }
 
 const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
+  const router = useRouter()
+  const pathname = usePathname()
   const { filters, setLanguage, setContentType, setPresentationStyle, setCategory, setClass } = usePlaylistStore()
+
+  // Sync language from URL to store on mount and when pathname changes
+  useEffect(() => {
+    const pathSegments = pathname.split('/')
+    if (pathSegments.length > 1) {
+      const currentLang = pathSegments[1] as Languages
+      if (currentLang !== filters.language) {
+        setLanguage(currentLang)
+      }
+    }
+  }, [pathname, filters.language, setLanguage])
+
+  // Handle language change by updating the route
+  const handleLanguageChange = (newLang: string) => {
+    // Extract current language from pathname (format: /[lang]/...)
+    const pathSegments = pathname.split('/')
+    if (pathSegments.length > 1) {
+      pathSegments[1] = newLang
+      const newPath = pathSegments.join('/')
+      router.push(newPath)
+    }
+  }
 
   // Transform data to FilterOption format
   const languageOptions = allLanguages.map((l) => ({ key: l.code, value: l.name }))
@@ -27,7 +52,7 @@ const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
         id="language-filter"
         label={t.filterLanguageLabel}
         value={filters.language}
-        onChange={(value) => setLanguage(value as Languages)}
+        onChange={handleLanguageChange}
         options={languageOptions}
       />
 

@@ -159,7 +159,7 @@ export interface Translations {
 // Content Types
 // ============================================================================
 
-export type Languages = 'ar' | 'en'
+export type Languages = LanguageCode
 
 export type Categories = 'فطرة' | 'دين' | 'نفس'
 
