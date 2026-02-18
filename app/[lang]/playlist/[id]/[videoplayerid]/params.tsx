@@ -1,6 +1,8 @@
 import { getPlaylists, getVideos } from '@/app/db'
+import { allLanguages } from '@/app/static'
 
 export interface VideoPlayerParams {
+  lang: string
   id: string
   videoplayerid: string
 }
@@ -16,7 +18,11 @@ export async function generateStaticParams(): Promise<VideoPlayerParams[]> {
 
     for (const vId in videos) {
       if (!Object.hasOwn(videos, vId)) continue
-      params.push({ id: plId, videoplayerid: vId })
+
+      // Generate params for each language
+      for (const l of allLanguages) {
+        params.push({ lang: l.code, id: plId, videoplayerid: vId })
+      }
     }
   }
 

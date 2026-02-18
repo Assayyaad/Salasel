@@ -1,27 +1,28 @@
 import type { Metadata } from 'next'
-import type { VideoPlayerParams } from '@/app/playlist/[id]/[videoplayerid]/params'
+import type { VideoPlayerParams } from '@/app/[lang]/playlist/[id]/[videoplayerid]/params'
 
 import { getVideo } from '@/app/db'
 import { videoThumbnailUrl } from '@/app/utils'
-import { appTitle, videoNotFound } from '@/app/static'
+import { getTranslations } from '@/app/translate'
 
 export interface VideoPlayerMetadataProps {
   params: Promise<VideoPlayerParams>
 }
 
 export async function generateMetadata({ params }: VideoPlayerMetadataProps): Promise<Metadata> {
-  const { id, videoplayerid } = await params
+  const { lang, id, videoplayerid } = await params
+  const t = getTranslations(lang)
   const { playlist, video } = await getVideo(id, videoplayerid)
 
   if (!playlist || !video) {
     return {
-      title: videoNotFound,
-      description: videoNotFound,
+      title: t.videoNotFound,
+      description: t.videoNotFound,
     }
   }
 
   const thumbnailUrl = videoThumbnailUrl(video.id)
-  const title = `${appTitle} · ${playlist.channel} | ${playlist.name} | ${video.title}`
+  const title = `${t.appTitle} · ${playlist.channel} | ${playlist.name} | ${video.title}`
   const description = `${playlist.channel} | ${playlist.name} | ${video.title}`
 
   return {

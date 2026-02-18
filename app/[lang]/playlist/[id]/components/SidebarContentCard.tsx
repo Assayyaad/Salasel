@@ -1,5 +1,6 @@
+import type { Translations } from '@/app/types'
+
 import Link from 'next/link'
-import { episodeLabel } from '@/app/static'
 
 export interface SidebarContentCardProps {
   lessonNumber: number
@@ -10,6 +11,7 @@ export interface SidebarContentCardProps {
   playlistId: string
   completed: boolean
   onToggle: (videoId: string) => void
+  t: Translations
 }
 
 const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
@@ -21,6 +23,7 @@ const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
   playlistId,
   completed,
   onToggle,
+  t,
 }) => {
   const handleCheckboxChange = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -37,7 +40,7 @@ const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
         <div className="flex items-center">
           <div className="mr-3">
             <p className="text-xs font-medium text-primary mb-0.5">
-              {episodeLabel} {lessonNumber}
+              {t.episodeLabel} {lessonNumber}
             </p>
             <h3 className="text-sm font-semibold text-text-light dark:text-text-dark truncate group-hover:text-primary transition-colors">
               {title}

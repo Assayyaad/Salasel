@@ -1,10 +1,10 @@
 'use client'
 
 import type { CalculatedPlaylist } from '@/app/types'
-import type { PlaylistCardPlaylist } from '@/app/(home)/components/PlaylistCard'
+import type { PlaylistCardPlaylist } from '@/app/[lang]/(home)/components/PlaylistCard'
 
 import React, { ReactNode } from 'react'
-import PlaylistCard from '@/app/(home)/components/PlaylistCard'
+import PlaylistCard from '@/app/[lang]/(home)/components/PlaylistCard'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 
 export type PlaylistGridPlaylist = Pick<

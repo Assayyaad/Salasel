@@ -1,41 +1,31 @@
 'use client'
 
-import type { Languages, Categories } from '@/app/types'
+import type { Languages, Categories, Translations } from '@/app/types'
 
 import React from 'react'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
-import {
-  languages,
-  contents,
-  presentations,
-  categories,
-  classes,
-  filterLanguageLabel,
-  filterContentTypeLabel,
-  filterCategoryLabel,
-  filterPresentationStyleLabel,
-  filterClassLabel,
-  filterAllOption,
-} from '@/app/static'
-import FilterSelect from '@/app/(home)/components/FilterSelect'
+import { allLanguages, categories } from '@/app/static'
+import FilterSelect from '@/app/[lang]/(home)/components/FilterSelect'
 
-export interface FilterGridProps {}
+export interface FilterGridProps {
+  t: Translations
+}
 
-const FilterGrid: React.FC<FilterGridProps> = () => {
+const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
   const { filters, setLanguage, setContentType, setPresentationStyle, setCategory, setClass } = usePlaylistStore()
 
   // Transform data to FilterOption format
-  const languageOptions = Object.entries(languages).map(([key, value]) => ({ key, value }))
-  const contentOptions = Object.entries(contents).map(([key, value]) => ({ key, value }))
-  const presentationOptions = Object.entries(presentations).map(([key, value]) => ({ key, value }))
+  const languageOptions = allLanguages.map((l) => ({ key: l.code, value: l.name }))
+  const contentOptions = Object.entries(t.contents).map(([key, value]) => ({ key, value }))
+  const presentationOptions = Object.entries(t.presentations).map(([key, value]) => ({ key, value }))
   const categoryOptions = categories.map((filter) => ({ key: filter, value: filter }))
-  const classOptions = Object.entries(classes).map(([key, value]) => ({ key, value }))
+  const classOptions = Object.entries(t.classes).map(([key, value]) => ({ key, value }))
 
   return (
     <div className="flex flex-wrap justify-center gap-3">
       <FilterSelect
         id="language-filter"
-        label={filterLanguageLabel}
+        label={t.filterLanguageLabel}
         value={filters.language}
         onChange={(value) => setLanguage(value as Languages)}
         options={languageOptions}
@@ -43,7 +33,7 @@ const FilterGrid: React.FC<FilterGridProps> = () => {
 
       <FilterSelect
         id="content-type-filter"
-        label={filterContentTypeLabel}
+        label={t.filterContentTypeLabel}
         value={filters.contentType}
         onChange={(value) => setContentType(Number(value))}
         options={contentOptions}
@@ -51,7 +41,7 @@ const FilterGrid: React.FC<FilterGridProps> = () => {
 
       <FilterSelect
         id="category-filter"
-        label={filterCategoryLabel}
+        label={t.filterCategoryLabel}
         value={filters.category}
         onChange={(value) => setCategory(value as Categories)}
         options={categoryOptions}
@@ -59,22 +49,22 @@ const FilterGrid: React.FC<FilterGridProps> = () => {
 
       <FilterSelect
         id="presentation-style-filter"
-        label={filterPresentationStyleLabel}
+        label={t.filterPresentationStyleLabel}
         value={filters.presentationStyle}
         onChange={(value) => setPresentationStyle(value === 'all' ? 'all' : Number(value))}
         options={presentationOptions}
         showAllOption
-        allOptionLabel={filterAllOption}
+        allOptionLabel={t.filterAllOption}
       />
 
       <FilterSelect
         id="class-filter"
-        label={filterClassLabel}
+        label={t.filterClassLabel}
         value={filters.class}
         onChange={(value) => setClass(value === 'all' ? 'all' : Number(value))}
         options={classOptions}
         showAllOption
-        allOptionLabel={filterAllOption}
+        allOptionLabel={t.filterAllOption}
       />
     </div>
   )

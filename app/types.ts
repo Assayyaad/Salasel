@@ -67,6 +67,98 @@ export type StringifiedVideo = Record<keyof FetchedVideo, string> & {
 export type Playlists = Record<string, CalculatedPlaylist>
 export type Videos = Record<string, CalculatedVideo>
 
+// ============================================================================
+// Language & Internationalization Types
+// ============================================================================
+
+/** Language code (ISO 639-1) */
+export type LanguageCode = 'ar' | 'en' | 'ja'
+
+/** Text direction */
+export type LanguageDirection = 'rtl' | 'ltr'
+
+/** Language configuration */
+export interface Language {
+  /** Language code (ISO 639-1) */
+  code: LanguageCode
+  /** Display name in native language */
+  name: string
+  /** Text direction */
+  dir: LanguageDirection
+}
+
+/** Translation keys interface */
+export interface Translations {
+  contents: {
+    0: string
+    1: string
+    2: string
+  }
+  presentations: {
+    0: string
+    1: string
+    2: string
+    3: string
+  }
+  classes: {
+    0: string
+    1: string
+    2: string
+    3: string
+  }
+  searchPlaceholder: string
+  loading: string
+  filterLanguageLabel: string
+  filterContentTypeLabel: string
+  filterCategoryLabel: string
+  filterPresentationStyleLabel: string
+  filterClassLabel: string
+  filterAllOption: string
+  searchTab: string
+  summaryTab: string
+  transcriptionTab: string
+  notesTab: string
+  watchStatusCompleted: string
+  watchStatusInProgress: string
+  watchStatusNotStarted: string
+  notesDeleteConfirmation: string
+  notesPlaceholder: string
+  notesAddButton: string
+  notesEmptyMessage: string
+  notesUpdateTimestamp: string
+  notesSaveButton: string
+  notesCancelButton: string
+  personalProgressTitle: string
+  nextToWatch: string
+  totalNotes: string
+  currentVideoProgress: string
+  playlistProgress: string
+  continueWatching: string
+  startWatching: string
+  withParticipation: string
+  videosLabel: string
+  durationLabel: string
+  typeLabel: string
+  styleLabel: string
+  categoriesLabel: string
+  classesLabel: string
+  startDateLabel: string
+  endDateLabel: string
+  playlistContents: string
+  episodeLabel: string
+  goBack: string
+  playlistNotFound: string
+  videoNotFound: string
+  noVideosFound: string
+  appTitle: string
+  appFullTitle: string
+  appDescription: string
+}
+
+// ============================================================================
+// Content Types
+// ============================================================================
+
 export type Languages = 'ar' | 'en'
 
 export type Categories = 'فطرة' | 'دين' | 'نفس'

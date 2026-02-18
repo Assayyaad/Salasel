@@ -1,18 +1,4 @@
-import { Classes, ContentTypes, PresentationStyles } from '@/app/types'
-import {
-  contentTypeEducational,
-  contentTypeAwareness,
-  contentTypePurification,
-  presentationStyleNarration,
-  presentationStyleLecture,
-  presentationStylePodcast,
-  presentationStyleStory,
-  classKids,
-  classFemale,
-  classMarried,
-  classParents,
-  defaultLabel,
-} from '@/app/static'
+import { defaultLabel } from './static'
 
 export function videoThumbnailUrl(id: string): string {
   return `https://img.youtube.com/vi/${id}/sddefault.jpg`
@@ -20,50 +6,6 @@ export function videoThumbnailUrl(id: string): string {
 
 export function fallbackThumbnailUrl(id: string): string {
   return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
-}
-
-// Helper functions to convert enums to Arabic labels
-export function getContentTypeLabel(type: ContentTypes): string {
-  switch (type) {
-    case ContentTypes.Educational:
-      return contentTypeEducational
-    case ContentTypes.Awareness:
-      return contentTypeAwareness
-    case ContentTypes.Purification:
-      return contentTypePurification
-    default:
-      return defaultLabel
-  }
-}
-
-export function getPresentationStyleLabel(style: PresentationStyles): string {
-  switch (style) {
-    case PresentationStyles.Narration:
-      return presentationStyleNarration
-    case PresentationStyles.Lecture:
-      return presentationStyleLecture
-    case PresentationStyles.Podcast:
-      return presentationStylePodcast
-    case PresentationStyles.Story:
-      return presentationStyleStory
-    default:
-      return defaultLabel
-  }
-}
-
-export function getClassLabel(classType: Classes): string {
-  switch (classType) {
-    case Classes.Kids:
-      return classKids
-    case Classes.Female:
-      return classFemale
-    case Classes.Married:
-      return classMarried
-    case Classes.Parents:
-      return classParents
-    default:
-      return defaultLabel
-  }
 }
 
 export function formatTime(seconds: number): string {

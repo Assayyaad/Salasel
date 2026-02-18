@@ -1,25 +1,19 @@
 'use client'
 
+import type { Translations } from '@/app/types'
+
 import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useNotesStore } from '@/app/store/useNotesStore'
 import { useVideoPlayerStore, formatTimestamp } from '@/app/store/useVideoPlayerStore'
-import {
-  notesDeleteConfirmation,
-  notesPlaceholder,
-  notesAddButton,
-  notesEmptyMessage,
-  notesUpdateTimestamp,
-  notesSaveButton,
-  notesCancelButton,
-} from '@/app/static'
 
 export interface NotesProps {
   playlistId: string
   videoId: string
+  t: Translations
 }
 
-const Notes: React.FC<NotesProps> = ({ playlistId, videoId }) => {
+const Notes: React.FC<NotesProps> = ({ playlistId, videoId, t }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { getVideoNotes, addNote, updateNote, deleteNote, loadNotes } = useNotesStore()
@@ -87,7 +81,7 @@ const Notes: React.FC<NotesProps> = ({ playlistId, videoId }) => {
   }
 
   const handleDeleteNote = (noteId: string) => {
-    if (confirm(notesDeleteConfirmation)) {
+    if (confirm(t.notesDeleteConfirmation)) {
       deleteNote(noteId)
     }
   }
@@ -105,7 +99,7 @@ const Notes: React.FC<NotesProps> = ({ playlistId, videoId }) => {
           value={newNoteContent}
           onChange={(e) => setNewNoteContent(e.target.value)}
           className="w-full h-24 p-3 text-sm bg-gray-50 dark:bg-gray-900 border border-border-light dark:border-border-dark rounded-md focus:ring-1 focus:ring-primary focus:border-primary outline-none resize-none mb-2"
-          placeholder={notesPlaceholder}
+          placeholder={t.notesPlaceholder}
         />
         <div className="flex justify-end">
           <button
@@ -113,13 +107,13 @@ const Notes: React.FC<NotesProps> = ({ playlistId, videoId }) => {
             className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-white bg-gray-600 dark:bg-gray-700 border border-transparent rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors shadow-sm"
           >
             <span className="material-icons-round text-base">add</span>
-            {notesAddButton}
+            {t.notesAddButton}
           </button>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto pr-1 space-y-4">
         {notes.length === 0 ? (
-          <div className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">{notesEmptyMessage}</div>
+          <div className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">{t.notesEmptyMessage}</div>
         ) : (
           notes.map((note) => (
             <div
@@ -133,7 +127,7 @@ const Notes: React.FC<NotesProps> = ({ playlistId, videoId }) => {
                     <button
                       onClick={handleUpdateTimestamp}
                       className="text-xs text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
-                      title={notesUpdateTimestamp}
+                      title={t.notesUpdateTimestamp}
                     >
                       <span className="material-icons-round text-sm">update</span>
                     </button>
@@ -150,13 +144,13 @@ const Notes: React.FC<NotesProps> = ({ playlistId, videoId }) => {
                         onClick={handleSaveEdit}
                         className="px-3 py-1 text-xs bg-primary text-white rounded hover:bg-primary/90"
                       >
-                        {notesSaveButton}
+                        {t.notesSaveButton}
                       </button>
                       <button
                         onClick={handleCancelEdit}
                         className="px-3 py-1 text-xs bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
                       >
-                        {notesCancelButton}
+                        {t.notesCancelButton}
                       </button>
                     </div>
                   </div>

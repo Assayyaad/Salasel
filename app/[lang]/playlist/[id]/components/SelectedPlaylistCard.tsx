@@ -1,31 +1,12 @@
 'use client'
 
-import type { CalculatedPlaylist } from '@/app/types'
+import type { CalculatedPlaylist, Translations } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Librecounter from '@/app/shared/components/Librecounter'
-import {
-  formatDate,
-  getClassLabel,
-  getContentTypeLabel,
-  getPresentationStyleLabel,
-  videoThumbnailUrl,
-  fallbackThumbnailUrl,
-  formatTime,
-} from '@/app/utils'
-import {
-  loading,
-  withParticipation,
-  videosLabel,
-  durationLabel,
-  typeLabel,
-  styleLabel,
-  categoriesLabel,
-  classesLabel,
-  startDateLabel,
-  endDateLabel,
-} from '@/app/static'
+import { formatDate, videoThumbnailUrl, fallbackThumbnailUrl, formatTime } from '@/app/utils'
+import { defaultLabel } from '@/app/static'
 
 export type SelectedPlaylistCardPlaylist = Pick<
   CalculatedPlaylist,
@@ -46,14 +27,15 @@ export type SelectedPlaylistCardPlaylist = Pick<
 >
 export interface SelectedPlaylistCardProps {
   playlist: SelectedPlaylistCardPlaylist
+  t: Translations
 }
 
-const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist }) => {
+const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
 
   if (!playlist) {
-    return <div>{loading}</div> // Or some other loading state
+    return <div>{t.loading}</div> // Or some other loading state
   }
 
   return (
@@ -74,7 +56,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
           {playlist.participants.length > 0 && (
             <div className="text-sm text-muted-light dark:text-muted-dark font-medium">
               <span>
-                {withParticipation} {playlist.participants.join(', ')}
+                {t.withParticipation} {playlist.participants.join(', ')}
               </span>
             </div>
           )}
@@ -84,62 +66,62 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist })
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">ondemand_video</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{videosLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.videosLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.videoCount}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">schedule</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{durationLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.durationLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{formatTime(playlist.duration)}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">question_mark</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{typeLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.typeLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {getContentTypeLabel(playlist.type)}
+                  {t.contents[playlist.type] || defaultLabel}
                 </span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">mic</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{styleLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.styleLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {getPresentationStyleLabel(playlist.style)}
+                  {t.presentations[playlist.style] || defaultLabel}
                 </span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">category</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{categoriesLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.categoriesLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.categories.join(', ')}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">group</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{classesLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.classesLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {playlist.classes.map((c) => getClassLabel(c)).join(', ') || '-'}
+                  {playlist.classes.map((c) => t.classes[c] || defaultLabel).join(', ') || defaultLabel}
                 </span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">event</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{startDateLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.startDateLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{formatDate(playlist.startDate)}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">event_available</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{endDateLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.endDateLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{formatDate(playlist.endDate)}</span>
               </span>
             </div>

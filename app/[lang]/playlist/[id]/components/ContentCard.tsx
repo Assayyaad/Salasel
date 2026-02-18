@@ -1,10 +1,11 @@
 'use client'
 
+import type { Translations } from '@/app/types'
+
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
-import { watchStatusCompleted, watchStatusInProgress, watchStatusNotStarted } from '@/app/static'
 
 export type WatchStatus = 'not-started' | 'in-progress' | 'completed'
 export interface ContentCardProps {
@@ -14,9 +15,10 @@ export interface ContentCardProps {
   status: WatchStatus
   notesCount: number
   onToggle: (videoId: string) => void
+  t: Translations
 }
 
-const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, status, notesCount, onToggle }) => {
+const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, status, notesCount, onToggle, t }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
 
   const handleStatusClick = (e: React.MouseEvent) => {
@@ -63,31 +65,31 @@ const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, s
 
         {/* Column 4: Watch Status */}
         <div onClick={handleStatusClick} className="relative z-10 p-2 cursor-pointer">
-          <WatchStatusIcon status={status} />
+          <WatchStatusIcon status={status} t={t} />
         </div>
       </div>
     </Link>
   )
 }
 
-const WatchStatusIcon: React.FC<{ status: WatchStatus }> = ({ status }) => {
+const WatchStatusIcon: React.FC<{ status: WatchStatus; t: Translations }> = ({ status, t }) => {
   switch (status) {
     case 'completed':
       return (
-        <span className="material-icons-round text-green-500" title={watchStatusCompleted}>
+        <span className="material-icons-round text-green-500" title={t.watchStatusCompleted}>
           check_circle
         </span>
       )
     case 'in-progress':
       return (
-        <span className="material-icons-round text-xs text-yellow-500" title={watchStatusInProgress}>
+        <span className="material-icons-round text-xs text-yellow-500" title={t.watchStatusInProgress}>
           hourglass_bottom
         </span>
       )
     case 'not-started':
     default:
       return (
-        <span className="material-icons-round text-gray-400" title={watchStatusNotStarted}>
+        <span className="material-icons-round text-gray-400" title={t.watchStatusNotStarted}>
           radio_button_unchecked
         </span>
       )

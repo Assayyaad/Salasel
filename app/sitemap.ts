@@ -3,19 +3,18 @@ import type { Videos } from '@/app/types'
 import fs from 'fs/promises'
 import path from 'path'
 import { MetadataRoute } from 'next'
+import { allLanguages } from '@/app/static'
 import { getPlaylists } from '@/app/db'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://salasel.app'
+  const langAlts = generateLangAlts(baseUrl)
+
   const sitemapEntries: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
+      url: langAlts[allLanguages[0].code], // Use the first language as the canonical URL
       priority: 1.0,
-      alternates: {
-        languages: {
-          ar: baseUrl,
-        },
-      },
+      alternates: { languages: langAlts },
     },
   ]
 
@@ -36,16 +35,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 async function playlistSitemap(baseUrl: string, playlistId: string): Promise<MetadataRoute.Sitemap> {
   const sitemap: MetadataRoute.Sitemap = []
+  const playlistAlts = generateLangAlts(baseUrl, `playlist/${playlistId}`)
 
   // Add playlist URL
   sitemap.push({
-    url: `${baseUrl}/playlist/${playlistId}`,
+    url: playlistAlts[allLanguages[0].code], // Use the first language as the canonical URL
     priority: 0.8,
-    alternates: {
-      languages: {
-        ar: `${baseUrl}/playlist/${playlistId}`,
-      },
-    },
+    alternates: { languages: playlistAlts },
   })
 
   // Read the corresponding video file for this playlist
@@ -59,15 +55,12 @@ async function playlistSitemap(baseUrl: string, playlistId: string): Promise<Met
       if (!Object.hasOwn(videos, id)) continue
 
       const v = videos[id]
+      const videoAlts = generateLangAlts(baseUrl, `playlist/${playlistId}/${v.id}`)
 
       sitemap.push({
-        url: `${baseUrl}/playlist/${playlistId}/${v.id}`,
+        url: videoAlts[allLanguages[0].code], // Use the first language as the canonical URL
         priority: 0.5,
-        alternates: {
-          languages: {
-            ar: `${baseUrl}/playlist/${playlistId}/${v.id}`,
-          },
-        },
+        alternates: { languages: videoAlts },
       })
     }
   } catch (error) {
@@ -75,4 +68,14 @@ async function playlistSitemap(baseUrl: string, playlistId: string): Promise<Met
   }
 
   return sitemap
+}
+
+function generateLangAlts(baseUrl: string, urlRoute: string = ''): Record<string, string> {
+  return allLanguages.reduce(
+    (acc, lang) => {
+      acc[lang.code] = `${baseUrl}/${lang.code}/${urlRoute}`
+      return acc
+    },
+    {} as Record<string, string>,
+  )
 }
