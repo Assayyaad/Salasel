@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react'
 import PlaylistGrid from '@/app/(home)/components/PlaylistGrid'
 import FilterGrid from '@/app/(home)/components/FilterGrid'
 import Librecounter from '@/app/shared/components/Librecounter'
@@ -26,7 +27,9 @@ export default async function Home({ searchParams }: HomePageProps) {
           <Librecounter />
         </p>
         <div className="mt-6 max-w-md mx-auto">
-          <SearchBar />
+          <Suspense fallback={<div className="h-12" />}>
+            <SearchBar />
+          </Suspense>
         </div>
       </div>
 

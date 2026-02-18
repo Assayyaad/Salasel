@@ -1,6 +1,6 @@
 import type { VideoPlayerParams } from '@/app/playlist/[id]/[videoplayerid]/params'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import VideoPlayerClient from '@/app/playlist/[id]/[videoplayerid]/components/VideoPlayerClient'
 import { getVideo } from '@/app/db'
@@ -19,10 +19,14 @@ const VideoPlayerPage: React.FC<VideoPlayerPageProps> = async ({ params }) => {
   const { playlist, video } = await getVideo(id, videoplayerid)
 
   if (!playlist || !video) {
-    notFound()
+    return notFound()
   }
 
-  return <VideoPlayerClient playlist={playlist} video={video} />
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <VideoPlayerClient playlist={playlist} video={video} />
+    </Suspense>
+  )
 }
 
 export default VideoPlayerPage
