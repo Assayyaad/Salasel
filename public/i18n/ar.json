@@ -1,5 +1,5 @@
 {
-  "$schema": "./schema.json",
+  "$schema": "../../i18n.schema.json",
   "contents": {
     "0": "تعليمي",
     "1": "توعوي",

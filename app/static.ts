@@ -32,9 +32,9 @@ export const languageMap: Readonly<Record<LanguageCode, Language>> = Object.free
 
 /** Translation map for all languages */
 export const translationsMap: Readonly<Record<LanguageCode, Translations>> = Object.freeze({
-  ar: require('../i18n/ar.json'),
-  en: require('../i18n/en.json'),
-  ja: require('../i18n/ja.json'),
+  ar: require('../public/i18n/ar.json'),
+  en: require('../public/i18n/en.json'),
+  ja: require('../public/i18n/ja.json'),
 })
 
 // ============================================================================
