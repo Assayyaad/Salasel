@@ -74,8 +74,14 @@ export type Videos = Record<string, CalculatedVideo>
 /** Language code (ISO 639-1) */
 export type LanguageCode = 'ar' | 'en' | 'ja'
 
+/** Language display name in  */
+export type LanguageName = 'Arabic' | 'English' | 'Japanese'
+
 /** Text direction */
 export type LanguageDirection = 'rtl' | 'ltr'
+
+/** Comma character */
+export type LanguageComma = '،' | ',' | '、'
 
 /** Language configuration */
 export interface Language {
@@ -85,10 +91,13 @@ export interface Language {
   name: string
   /** Text direction */
   dir: LanguageDirection
+  /** Comma character for the language */
+  comma: LanguageComma
 }
 
 /** Translation keys interface */
 export interface Translations {
+  __language: Language
   contents: {
     0: string
     1: string
@@ -166,6 +175,7 @@ export interface Translations {
 
 export type Languages = LanguageCode
 
+export type CategoryKeys = keyof typeof Categories
 export enum Categories {
   /** فطرة:  الاستعداد الفطري الذي فطر الله الناس عليه لمعرفته وتوحيده*/
   Nature = 0,
@@ -175,6 +185,7 @@ export enum Categories {
   Religion = 2,
 }
 
+export type ContentTypeKeys = keyof typeof ContentTypes
 export enum ContentTypes {
   /** تعليمي: محتوى يهدف لتزويد المتلقي بعلم أو مهارة معينة */
   Educational = 0,
@@ -184,6 +195,7 @@ export enum ContentTypes {
   Purification = 2,
 }
 
+export type PresentationStyleKeys = keyof typeof PresentationStyles
 export enum PresentationStyles {
   /** سرد: تحدث الملقي بدون وجود جمهور */
   Narration = 0,
@@ -195,6 +207,7 @@ export enum PresentationStyles {
   Story = 3,
 }
 
+export type ClassKeys = keyof typeof Classes
 export enum Classes {
   /** أطفال: محتوى موجه للأطفال، سهل الفهم ولا يحتوي محتوى حساس */
   Kids = 0,

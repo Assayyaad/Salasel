@@ -32,8 +32,7 @@ const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
 
   return (
     <Link
-      href={`/playlist/${playlistId}/${videoId}`}
-      dir="rtl"
+      href={`/${t.__language.code}/playlist/${playlistId}/${videoId}`}
       className={`block group relative transition-colors cursor-pointer p-3 ${highlight ? 'bg-gray-50 dark:bg-gray-700/30' : ''} ${completed ? 'bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-800/50' : 'hover:bg-gray-50 dark:hover:bg-gray-700/30'}`}
     >
       <div className="grid grid-cols-[1fr_auto] items-center gap-3">

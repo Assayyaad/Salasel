@@ -46,7 +46,7 @@ const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video, 
   }, [video.id, searchParams, videoTimestamps, router])
 
   return (
-    <main dir="rtl" className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-16">
+    <main className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-16">
       <div className="flex flex-col gap-6">
         <VideoPlayer playlist={playlist} video={video} />
         <PlaylistSidebar playlistId={playlist.id} videoId={video.id} t={t} />

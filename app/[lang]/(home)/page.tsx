@@ -39,7 +39,7 @@ const Home: React.FC<HomePageProps> = async ({ params, searchParams }) => {
       <div className="relative mb-12">
         <FilterGrid t={t} />
       </div>
-      <PlaylistGrid playlists={filteredPlaylists} />
+      <PlaylistGrid playlists={filteredPlaylists} lang={t.__language.code} />
     </main>
   )
 }

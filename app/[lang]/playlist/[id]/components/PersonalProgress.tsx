@@ -120,7 +120,7 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos, t
       {/* Action Button */}
       <div className="mt-6">
         <Link
-          href={`/playlist/${playlist.id}/${continueWatchingId}`}
+          href={`/${t.__language.code}/playlist/${playlist.id}/${continueWatchingId}`}
           className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all transform hover:scale-105 cursor-pointer"
         >
           <span className="material-icons-round mr-2">play_arrow</span>

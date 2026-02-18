@@ -1,6 +1,6 @@
 'use client'
 
-import type { CalculatedPlaylist } from '@/app/types'
+import type { CalculatedPlaylist, LanguageCode } from '@/app/types'
 import type { PlaylistCardPlaylist } from '@/app/[lang]/(home)/components/PlaylistCard'
 
 import React, { ReactNode } from 'react'
@@ -13,9 +13,10 @@ export type PlaylistGridPlaylist = Pick<
 >
 export interface PlaylistGridProps {
   playlists: Record<string, PlaylistGridPlaylist & PlaylistCardPlaylist>
+  lang: LanguageCode
 }
 
-const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists }) => {
+const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
   const { filters } = usePlaylistStore()
 
   const cards: ReactNode[] = []
@@ -36,7 +37,7 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists }) => {
       // Class filter (optional)
       (filters.class === 'all' || pl.classes.includes(filters.class as any))
     ) {
-      cards.push(<PlaylistCard key={pl.id} playlist={pl} />)
+      cards.push(<PlaylistCard key={pl.id} playlist={pl} lang={lang} />)
     }
   }
 

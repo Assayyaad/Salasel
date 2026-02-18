@@ -7,9 +7,9 @@ import type { Language, LanguageCode, Translations } from '@/app/types'
 
 /** List of all supported languages */
 export const allLanguages: Readonly<Language[]> = Object.freeze([
-  { code: 'ar', name: 'العربية', dir: 'rtl' },
-  { code: 'en', name: 'English', dir: 'ltr' },
-  { code: 'ja', name: '日本語', dir: 'ltr' },
+  { code: 'ar', name: 'العربية', dir: 'rtl', comma: '،' },
+  { code: 'en', name: 'English', dir: 'ltr', comma: ',' },
+  { code: 'ja', name: '日本語', dir: 'ltr', comma: '、' },
 ])
 
 /** Default language */
@@ -53,11 +53,6 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  alternates: {
-    languages: {
-      ar: '/',
-    },
-  },
   metadataBase: new URL('https://salasel.app/'),
   category: 'Education',
   classification: 'Education',

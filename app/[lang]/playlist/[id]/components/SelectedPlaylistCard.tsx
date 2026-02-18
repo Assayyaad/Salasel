@@ -39,10 +39,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
   }
 
   return (
-    <div
-      dir="rtl"
-      className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700"
-    >
+    <div className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
       <div className="flex flex-col lg:flex-row">
         <div className="p-6 lg:w-1/2 flex flex-col justify-center space-y-4">
           {/* 1. Reordered Information */}
@@ -56,7 +53,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
           {playlist.participants.length > 0 && (
             <div className="text-sm text-muted-light dark:text-muted-dark font-medium">
               <span>
-                {t.withParticipation} {playlist.participants.join(', ')}
+                {t.withParticipation} {playlist.participants.join(`${t.__language.comma} `)}
               </span>
             </div>
           )}
@@ -100,7 +97,8 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
               <span className="flex flex-col">
                 <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.categoriesLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {playlist.categories.map((c) => t.categories[c] || defaultLabel).join(', ') || defaultLabel}
+                  {playlist.categories.map((c) => t.categories[c] || defaultLabel).join(`${t.__language.comma} `) ||
+                    defaultLabel}
                 </span>
               </span>
             </div>
@@ -109,7 +107,8 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
               <span className="flex flex-col">
                 <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.classesLabel}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {playlist.classes.map((c) => t.classes[c] || defaultLabel).join(', ') || defaultLabel}
+                  {playlist.classes.map((c) => t.classes[c] || defaultLabel).join(`${t.__language.comma} `) ||
+                    defaultLabel}
                 </span>
               </span>
             </div>

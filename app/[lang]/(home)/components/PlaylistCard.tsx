@@ -1,4 +1,4 @@
-import type { CalculatedPlaylist } from '@/app/types'
+import type { CalculatedPlaylist, LanguageCode } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
@@ -8,15 +8,16 @@ import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 export type PlaylistCardPlaylist = Pick<CalculatedPlaylist, 'id' | 'channel' | 'name' | 'description' | 'thumbnailId'>
 export interface PlaylistCardProps {
   playlist: PlaylistCardPlaylist
+  lang: LanguageCode
 }
 
-const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist }) => {
+const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
 
   return (
-    <Link href={`/playlist/${playlist.id}`}>
+    <Link href={`/${lang}/playlist/${playlist.id}`}>
       <article className="group cursor-pointer">
-        <div className="mb-4" dir="rtl">
+        <div className="mb-4">
           <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
             {playlist.channel} | {playlist.name}
           </h3>

@@ -23,7 +23,9 @@ export function isValidLanguage(lang: string): lang is LanguageCode {
  */
 export function getTranslations(lang: string): Translations {
   const code = isValidLanguage(lang) ? lang : defaultLanguage
-  return translationsMap[code]
+  const t = translationsMap[code]
+  t.__language = getLanguage(code) // Attach language config to translations
+  return t
 }
 
 /**

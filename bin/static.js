@@ -1,4 +1,4 @@
-/** @import { Categories, Classes, ContentTypes, FilledPlaylist, FetchedVideo, Languages, PresentationStyles } from './types.js' */
+/** @import { Categories, Classes, ContentTypes, FilledPlaylist, FetchedVideo, Languages, PresentationStyles, ContentTypeKeys, PresentationStyleKeys, ClassKeys, CategoryKeys, LanguageNames } from './types.js' */
 
 const path = require('path')
 
@@ -20,14 +20,13 @@ const playlistHeader = Object.freeze([
 /** @type {Readonly<(keyof FetchedVideo)[]>} */
 const videoHeader = Object.freeze(['id', 'title', 'uploadedAt', 'duration'])
 
-/** @typedef {'Arabic' | 'English'} LanguageNames */
 /** @type {Readonly<Record<LanguageNames, Languages>>} */
 const languages = Object.freeze({
   Arabic: 'ar',
   English: 'en',
+  Japanese: 'ja',
 })
 
-/** @typedef {'Educational' | 'Awareness'} ContentTypeKeys */
 /** @type {Readonly<Record<ContentTypeKeys, ContentTypes>>} */
 const contents = Object.freeze({
   Educational: 0,
@@ -35,7 +34,6 @@ const contents = Object.freeze({
   Purification: 2,
 })
 
-/** @typedef {'Narration' | 'Lecture' | 'Podcast' | 'Story'} PresentationStyleKeys */
 /** @type {Readonly<Record<PresentationStyleKeys, PresentationStyles>>} */
 const presentations = Object.freeze({
   Narration: 0,
@@ -44,7 +42,6 @@ const presentations = Object.freeze({
   Story: 3,
 })
 
-/** @typedef {'Kids' | 'Female'| 'Married' | 'Parents'} ClassKeys */
 /** @type {Readonly<Record<ClassKeys, Classes>>} */
 const classes = Object.freeze({
   Kids: 0,
@@ -53,7 +50,6 @@ const classes = Object.freeze({
   Parents: 3,
 })
 
-/** @typedef {'Fitrah' | 'Din' | 'Nafs'} CategoryKeys */
 /** @type {Readonly<Record<CategoryKeys, Categories>>} */
 const categories = Object.freeze({
   Nature: 0,

@@ -31,8 +31,7 @@ const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, s
 
   return (
     <Link
-      href={`/playlist/${playlistId}/${videoId}`}
-      dir="rtl"
+      href={`/${t.__language.code}/playlist/${playlistId}/${videoId}`}
       className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completedClasses} ${inProgressClasses}`}
     >
       <div className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-x-4">
