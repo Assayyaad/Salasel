@@ -24,104 +24,128 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
   const { setCurrentTime } = useVideoPlayerStore()
   const lastUpdateTime = useRef(0)
 
+  // Effect for player initialization and disposal
   useEffect(() => {
-    let isCancelled = false
-    const videoElement = videoNode.current // Capture the DOM element
+    const videoElement = videoNode.current
+    if (!videoElement) return
 
-    if (videoElement && video) {
-      const initPlayer = async () => {
-        const videojs = (await import('video.js')).default
-        await import('videojs-youtube')
+    let player: import('video.js').VideoJsPlayer
+    ;(async () => {
+      const videojs = (await import('video.js')).default
+      await import('videojs-youtube')
 
-        // If the component has unmounted since this async function started, do nothing.
-        if (isCancelled) {
-          return
-        }
+      const videoJsOptions: import('video.js').VideoJsPlayerOptions = {
+        autoplay: true,
+        muted: false,
+        controls: true,
+        responsive: true,
+        fluid: true,
+        techOrder: ['youtube'],
+        sources: [{ src: `https://www.youtube.com/watch?v=${video.id}`, type: 'video/youtube' }],
+        youtube: {
+          playsinline: 1,
+          ytControls: 0,
+          modestbranding: 1,
+          rel: 0,
+          iv_load_policy: 3,
+        },
+      }
 
-        // Dispose of the previous player if it exists
-        if (playerRef.current) {
-          playerRef.current.dispose()
-        }
+      player = videojs(videoElement, videoJsOptions)
+      playerRef.current = player
 
-        const videoSrc = `https://www.youtube.com/watch?v=${video.id}`
+      player.ready(() => {
+        // Add a transition style for the fade-in effect
+        player.el().style.transition = 'opacity 0.2s ease-in-out'
 
-        const player = videojs(videoElement, {
-          autoplay: true,
-          controls: true,
-          responsive: true,
-          fluid: true,
-          techOrder: ['youtube'],
-          sources: [{ src: videoSrc, type: 'video/youtube' }],
+        // Remove the initializing class to fade the player in
+        player.el().classList.remove('player-initializing')
+
+        // Create a custom overlay for click-to-play/pause
+        const overlay = document.createElement('div')
+        overlay.style.position = 'absolute'
+        overlay.style.top = '0'
+        overlay.style.left = '0'
+        overlay.style.width = '100%'
+        // Height should not cover the control bar
+        overlay.style.height = 'calc(100% - 3em)' // 3em is default control bar height
+        overlay.style.zIndex = '1'
+        overlay.style.cursor = 'pointer'
+
+        overlay.addEventListener('click', () => {
+          if (player.paused()) {
+            player.play()
+          } else {
+            player.pause()
+          }
         })
 
-        playerRef.current = player
+        player.el().appendChild(overlay)
+      })
 
-        // --- Event Listeners ---
-        const onEnded = () => toggleVideoCompleted(playlist.id, video.id)
+      // --- Event Listeners ---
+      const onEnded = () => toggleVideoCompleted(playlist.id, video.id)
+      const COMPLETION_THRESHOLD = 95
+      const onTimeUpdate = () => {
+        const currentTime = player.currentTime()
+        if (currentTime) setCurrentTime(currentTime)
 
-        const COMPLETION_THRESHOLD = 95 // %
-        const onTimeUpdate = () => {
-          const currentTime = player.currentTime()
+        const now = Date.now()
+        if (now - lastUpdateTime.current > 5000) {
+          const duration = player.duration()
+          if (duration && currentTime) {
+            const progress = (currentTime / duration) * 100
+            if (!isNaN(progress) && progress > 0) {
+              setVideoProgress(video.id, Math.round(progress))
+              setVideoTimestamp(video.id, Math.round(currentTime))
+              lastUpdateTime.current = now
 
-          // Update current time in store for notes functionality
-          if (currentTime) {
-            setCurrentTime(currentTime)
-          }
-
-          const now = Date.now()
-          if (now - lastUpdateTime.current > 5000) {
-            const duration = player.duration()
-            if (duration && currentTime) {
-              const progress = (currentTime / duration) * 100
-              if (!isNaN(progress) && progress > 0) {
-                setVideoProgress(video.id, Math.round(progress))
-                setVideoTimestamp(video.id, Math.round(currentTime))
-                lastUpdateTime.current = now
-
-                // Mark as completed if threshold reached and not already completed
-                // Also ensures that completedVideos is initialized before accessing its properties
-                if (
-                  progress >= COMPLETION_THRESHOLD &&
-                  (!completedVideos[playlist.id] || !completedVideos[playlist.id].has(video.id))
-                ) {
-                  toggleVideoCompleted(playlist.id, video.id)
-                }
+              if (
+                progress >= COMPLETION_THRESHOLD &&
+                (!completedVideos[playlist.id] || !completedVideos[playlist.id].has(video.id))
+              ) {
+                toggleVideoCompleted(playlist.id, video.id)
               }
             }
           }
         }
-
-        player.on('ended', onEnded)
-        player.on('timeupdate', onTimeUpdate)
       }
+      player.on('ended', onEnded)
+      player.on('timeupdate', onTimeUpdate)
+    })()
 
-      initPlayer()
-    }
-
-    // Cleanup function
     return () => {
-      isCancelled = true
-      // Dispose of the player when the component unmounts
       if (playerRef.current) {
         playerRef.current.dispose()
         playerRef.current = null
       }
     }
-  }, [video.id, playlist.id, setVideoProgress, toggleVideoCompleted, completedVideos])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  // Handle timestamp parameter from URL
+  // Effect for handling video source changes and timestamp seeking
   useEffect(() => {
+    const player = playerRef.current
     const timestamp = searchParams.get('t')
-    if (timestamp && playerRef.current) {
-      const seconds = timestampToSeconds(timestamp)
-      if (seconds > 0) {
-        // Wait for player to be ready
-        playerRef.current.ready(() => {
-          playerRef.current.currentTime(seconds)
+
+    if (player) {
+      player.ready(() => {
+        const newSrc = { src: `https://www.youtube.com/watch?v=${video.id}`, type: 'video/youtube' }
+        if (player.currentSrc() !== newSrc.src) {
+          player.src(newSrc)
+        }
+
+        if (timestamp) {
+          const seconds = timestampToSeconds(timestamp)
+          if (seconds > 0) player.currentTime(seconds)
+        }
+
+        player.play().catch(() => {
+          console.log('Playback was prevented by browser policy.')
         })
-      }
+      })
     }
-  }, [searchParams])
+  }, [video.id, searchParams])
 
   return (
     <div className="flex flex-col gap-4">
@@ -130,24 +154,20 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
       </h1>
       <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
         <div data-vjs-player>
-          <video ref={videoNode} className="video-js vjs-big-play-centered" />
+          <video ref={videoNode} className="video-js vjs-big-play-centered player-initializing" />
         </div>
       </div>
     </div>
   )
 }
 
-// Helper function to convert timestamp to seconds
 const timestampToSeconds = (timestamp: string): number => {
   const parts = timestamp.split(':').map(Number)
-  if (parts.length === 2) {
-    // MM:SS
-    return parts[0] * 60 + parts[1]
-  } else if (parts.length === 3) {
-    // HH:MM:SS
-    return parts[0] * 3600 + parts[1] * 60 + parts[2]
-  }
-  return 0
+  return parts.length === 2
+    ? parts[0] * 60 + parts[1]
+    : parts.length === 3
+      ? parts[0] * 3600 + parts[1] * 60 + parts[2]
+      : 0
 }
 
 export default VideoPlayer
