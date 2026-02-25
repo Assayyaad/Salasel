@@ -27,7 +27,6 @@ function parsePlaylist(playlist) {
   return {
     id: playlist.id || '',
     name: playlist.title || '',
-    channel: playlist.channel?.name || '',
     thumbnailId: playlist.thumbnail?.id || playlist.videos[0]?.id || '',
   }
 }

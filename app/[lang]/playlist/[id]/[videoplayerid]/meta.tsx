@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
   }
 
   const thumbnailUrl = videoThumbnailUrl(video.id)
-  const title = `${t.appTitle} · ${playlist.channel} | ${playlist.name} | ${video.title}`
-  const description = `${playlist.channel} | ${playlist.name} | ${video.title}`
+  const title = `${t.appTitle} · ${playlist.name} | ${video.title}`
+  const description = `${playlist.name} | ${video.title}`
 
   return {
     title,
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
         height: 720,
       },
     },
-    keywords: [playlist.channel, playlist.name, video.title, ...playlist.categories.map((c) => t.categories[c])],
+    keywords: [playlist.name, video.title, ...playlist.categories.map((c) => t.categories[c])],
     authors: playlist.participants.map((p) => ({ name: p })),
   }
 }

@@ -22,8 +22,6 @@ export interface FetchedPlaylist {
   id: string
   /** اسم السلسلة */
   name: string
-  /** القناة التي قدمت مقاطع السلسلة */
-  channel: string
   /** معرف المقطع المستخدم للصورة المصغرة */
   thumbnailId: string
 }

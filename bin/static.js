@@ -6,7 +6,6 @@ const path = require('path')
 const playlistHeader = Object.freeze([
   'id',
   'name',
-  'channel',
   'thumbnailId',
   'description',
   'participants',

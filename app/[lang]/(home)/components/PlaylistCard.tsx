@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 
-export type PlaylistCardPlaylist = Pick<CalculatedPlaylist, 'id' | 'channel' | 'name' | 'description' | 'thumbnailId'>
+export type PlaylistCardPlaylist = Pick<CalculatedPlaylist, 'id' | 'name' | 'description' | 'thumbnailId'>
 export interface PlaylistCardProps {
   playlist: PlaylistCardPlaylist
   lang: LanguageCode
@@ -19,7 +19,7 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang }) => {
       <article className="group cursor-pointer">
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
-            {playlist.channel} | {playlist.name}
+            {playlist.name}
           </h3>
           <p className="text-sm text-slate-400">{playlist.description}</p>
         </div>

@@ -53,7 +53,6 @@ async function getVideoUrl() {
 async function fillPlaylist(playlist) {
   console.log('\nComplete following for the playlist:')
   console.log(`> Name: ${playlist.name}`)
-  console.log(`> Channel: ${playlist.channel}`)
 
   /** @type {string} */
   const description = await input({

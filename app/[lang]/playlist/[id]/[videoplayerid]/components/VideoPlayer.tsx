@@ -9,7 +9,7 @@ import { useProgressStore } from '@/app/store/useProgressStore'
 import { useVideoPlayerStore } from '@/app/store/useVideoPlayerStore'
 import 'video.js/dist/video-js.css'
 
-export type VideoPlayerPlaylist = Pick<CalculatedPlaylist, 'id' | 'channel' | 'name'>
+export type VideoPlayerPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
 export type VideoPlayerVideo = Pick<CalculatedVideo, 'id' | 'title'>
 export interface VideoPlayerProps {
   playlist: VideoPlayerPlaylist
@@ -126,7 +126,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-        {playlist.channel} | {playlist.name} | {video.title} <Librecounter />
+        {playlist.name} | {video.title} <Librecounter />
       </h1>
       <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
         <div data-vjs-player>
