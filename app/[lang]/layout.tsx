@@ -37,22 +37,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const t: Translations = getTranslations(lang)
   const currLang: Language = getLanguage(lang)
 
-  // Generate alternate language links
-  const langAlts = allLanguages.reduce(
-    (acc: Record<string, string>, lang: Language) => {
-      acc[lang.code] = `/${lang.code}`
-      return acc
-    },
-    {} as Record<string, string>,
-  )
-
   return {
     ...metadata,
     title: t.appFullTitle,
     description: t.appDescription,
-    alternates: {
-      languages: langAlts,
-    },
     appleWebApp: {
       title: t.appTitle,
     },
