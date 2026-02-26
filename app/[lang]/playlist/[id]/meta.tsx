@@ -4,6 +4,7 @@ import type { SelectedPlaylistParams } from '@/app/[lang]/playlist/[id]/params'
 import { getPlaylist } from '@/app/db'
 import { videoThumbnailUrl } from '@/app/utils'
 import { getTranslations } from '@/app/translate'
+import { allLanguages } from '@/app/static'
 
 export interface SelectedPlaylistMetadataProps {
   params: Promise<SelectedPlaylistParams>
@@ -25,9 +26,21 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
   const title = `${t.appTitle} · ${playlist.name}`
   const description = playlist.description || title
 
+  // Generate alternate language links for hreflang
+  const langAlts = allLanguages.reduce(
+    (acc, l) => {
+      acc[l.code] = `/${l.code}/playlist/${id}`
+      return acc
+    },
+    {} as Record<string, string>,
+  )
+
   return {
     title,
     description,
+    alternates: {
+      languages: langAlts,
+    },
     openGraph: {
       title: playlist.name,
       description,
