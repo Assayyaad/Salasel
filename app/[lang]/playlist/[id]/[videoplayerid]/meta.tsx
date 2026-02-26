@@ -44,6 +44,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
     openGraph: {
       title: video.title,
       description,
+      url: `https://salasel.app/${lang}/playlist/${id}/${videoplayerid}`,
       images: [
         {
           url: thumbnailUrl,

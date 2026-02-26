@@ -44,6 +44,7 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
     openGraph: {
       title: playlist.name,
       description,
+      url: `https://salasel.app/${lang}/playlist/${id}`,
       images: [
         {
           url: thumbnailUrl,
