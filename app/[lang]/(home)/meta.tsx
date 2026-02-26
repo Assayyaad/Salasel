@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: HomeMetadataProps): Promise<M
   // Generate alternate language links for hreflang
   const langAlts = allLanguages.reduce(
     (acc, l) => {
-      acc[l.code] = `/${l.code}`
+      acc[l.code] = `https://salasel.app/${l.code}`
       return acc
     },
     {} as Record<string, string>,

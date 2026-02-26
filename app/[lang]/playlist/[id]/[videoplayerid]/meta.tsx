@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
   // Generate alternate language links for hreflang
   const langAlts = allLanguages.reduce(
     (acc, l) => {
-      acc[l.code] = `/${l.code}/playlist/${id}/${videoplayerid}`
+      acc[l.code] = `https://salasel.app/${l.code}/playlist/${id}/${videoplayerid}`
       return acc
     },
     {} as Record<string, string>,

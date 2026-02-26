@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
   // Generate alternate language links for hreflang
   const langAlts = allLanguages.reduce(
     (acc, l) => {
-      acc[l.code] = `/${l.code}/playlist/${id}`
+      acc[l.code] = `https://salasel.app/${l.code}/playlist/${id}`
       return acc
     },
     {} as Record<string, string>,
