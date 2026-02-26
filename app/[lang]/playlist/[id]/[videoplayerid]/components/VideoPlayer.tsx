@@ -29,12 +29,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
     const videoElement = videoNode.current
     if (!videoElement) return
 
-    let player: import('video.js').VideoJsPlayer
+    let player: any
     ;(async () => {
       const videojs = (await import('video.js')).default
       await import('videojs-youtube')
 
-      const videoJsOptions: import('video.js').VideoJsPlayerOptions = {
+      // https://docs.videojs.com/tutorial-options.html
+      const videoJsOptions = {
         autoplay: true,
         muted: false,
         controls: true,
