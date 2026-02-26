@@ -3,7 +3,7 @@ import type { Language, Translations } from '@/app/types'
 
 import React from 'react'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { allLanguages, metadata } from '@/app/static'
+import { allLanguages, defaultLanguage, metadata } from '@/app/static'
 import { getLanguage, getTranslations } from '@/app/translate'
 import '@/app/globals.css'
 
@@ -37,10 +37,25 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const t: Translations = getTranslations(lang)
   const currLang: Language = getLanguage(lang)
 
+  // Generate alternate language links for hreflang
+  const langAlts = allLanguages.reduce(
+    (acc, l) => {
+      acc[l.code] = `https://salasel.app/${l.code}`
+      return acc
+    },
+    {} as Record<string, string>,
+  )
+
+  // Add x-default pointing to the default language
+  langAlts['x-default'] = `https://salasel.app/${defaultLanguage}`
+
   return {
     ...metadata,
     title: t.appFullTitle,
     description: t.appDescription,
+    alternates: {
+      languages: langAlts,
+    },
     appleWebApp: {
       title: t.appTitle,
     },

@@ -4,7 +4,7 @@ import type { SelectedPlaylistParams } from '@/app/[lang]/playlist/[id]/params'
 import { getPlaylist } from '@/app/db'
 import { videoThumbnailUrl } from '@/app/utils'
 import { getTranslations } from '@/app/translate'
-import { allLanguages } from '@/app/static'
+import { allLanguages, defaultLanguage } from '@/app/static'
 
 export interface SelectedPlaylistMetadataProps {
   params: Promise<SelectedPlaylistParams>
@@ -34,6 +34,9 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
     },
     {} as Record<string, string>,
   )
+
+  // Add x-default pointing to the default language
+  langAlts['x-default'] = `https://salasel.app/${defaultLanguage}/playlist/${id}`
 
   return {
     title,

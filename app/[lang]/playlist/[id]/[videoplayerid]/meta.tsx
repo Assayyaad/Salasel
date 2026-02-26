@@ -4,7 +4,7 @@ import type { VideoPlayerParams } from '@/app/[lang]/playlist/[id]/[videoplayeri
 import { getVideo } from '@/app/db'
 import { videoThumbnailUrl } from '@/app/utils'
 import { getTranslations } from '@/app/translate'
-import { allLanguages } from '@/app/static'
+import { allLanguages, defaultLanguage } from '@/app/static'
 
 export interface VideoPlayerMetadataProps {
   params: Promise<VideoPlayerParams>
@@ -34,6 +34,9 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
     },
     {} as Record<string, string>,
   )
+
+  // Add x-default pointing to the default language
+  langAlts['x-default'] = `https://salasel.app/${defaultLanguage}/playlist/${id}/${videoplayerid}`
 
   return {
     title,
