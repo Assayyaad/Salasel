@@ -73,7 +73,8 @@ async function playlistSitemap(baseUrl: string, playlistId: string): Promise<Met
 function generateLangAlts(baseUrl: string, urlRoute: string = ''): Record<string, string> {
   return allLanguages.reduce(
     (acc, lang) => {
-      acc[lang.code] = `${baseUrl}/${lang.code}/${urlRoute}`
+      const path = urlRoute ? `/${lang.code}/${urlRoute}` : `/${lang.code}`
+      acc[lang.code] = `${baseUrl}${path}`
       return acc
     },
     {} as Record<string, string>,
