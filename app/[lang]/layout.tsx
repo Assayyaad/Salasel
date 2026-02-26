@@ -59,6 +59,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       title: t.appFullTitle,
       description: t.appDescription,
       site: '@SalaselApp',
+      images: ['https://salasel.app/img/logo.webp'],
     },
   }
 }

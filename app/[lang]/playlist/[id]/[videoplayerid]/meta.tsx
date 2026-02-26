@@ -70,6 +70,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
       card: 'player',
       title: video.title,
       description,
+      site: '@SalaselApp',
       images: [thumbnailUrl],
       players: {
         playerUrl: `https://www.youtube.com/embed/${video.id}`,

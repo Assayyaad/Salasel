@@ -61,6 +61,7 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
       card: 'summary_large_image',
       title: playlist.name,
       description,
+      site: '@SalaselApp',
       images: [thumbnailUrl],
     },
     keywords: [playlist.name, ...playlist.categories.map((c) => t.categories[c])],
