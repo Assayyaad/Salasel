@@ -2,8 +2,8 @@
 
 import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 
-import React, { useEffect, useRef } from 'react'
-import { useSearchParams } from 'next/navigation'
+import React, { useEffect, useMemo, useRef } from 'react'
+import { useVideoPlayer } from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/hooks/useVideoPlayer'
 import Librecounter from '@/app/shared/components/Librecounter'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import { useVideoPlayerStore } from '@/app/store/useVideoPlayerStore'
@@ -14,75 +14,68 @@ export type VideoPlayerVideo = Pick<CalculatedVideo, 'id' | 'title'>
 export interface VideoPlayerProps {
   playlist: VideoPlayerPlaylist
   video: VideoPlayerVideo
+  timestamp: string | null
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
-  const videoNode = useRef<HTMLVideoElement>(null)
-  const playerRef = useRef<any>(null)
-  const searchParams = useSearchParams()
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video, timestamp }) => {
   const { setVideoProgress, toggleVideoCompleted, completedVideos, setVideoTimestamp } = useProgressStore()
   const { setCurrentTime } = useVideoPlayerStore()
   const lastUpdateTime = useRef(0)
 
-  // Effect for player initialization and disposal
+  const videoJsOptions = useMemo(
+    () => ({
+      autoplay: true,
+      muted: false,
+      controls: true,
+      responsive: true,
+      fluid: true,
+      techOrder: ['youtube'],
+      sources: [{ src: `https://www.youtube-nocookie.com/watch?v=${video.id}`, type: 'video/youtube' }],
+      youtube: {
+        playsinline: 1,
+        ytControls: 0,
+        modestbranding: 1,
+        rel: 0,
+        iv_load_policy: 3,
+      },
+    }),
+    [video.id]
+  )
+
+  const { videoNode, player, isReady } = useVideoPlayer(videoJsOptions)
+
   useEffect(() => {
-    const videoElement = videoNode.current
-    if (!videoElement) return
+    if (!player || !isReady) return
 
-    let player: any
-    ;(async () => {
-      const videojs = (await import('video.js')).default
-      await import('videojs-youtube')
+    const playerElement = player.el()
+    if (playerElement instanceof HTMLElement) {
+      // Add a transition style for the fade-in effect
+      playerElement.style.transition = 'opacity 0.2s ease-in-out'
 
-      // https://docs.videojs.com/tutorial-options.html
-      const videoJsOptions = {
-        autoplay: true,
-        muted: false,
-        controls: true,
-        responsive: true,
-        fluid: true,
-        techOrder: ['youtube'],
-        sources: [{ src: `https://www.youtube-nocookie.com/watch?v=${video.id}`, type: 'video/youtube' }],
-        youtube: {
-          playsinline: 1,
-          ytControls: 0,
-          modestbranding: 1,
-          rel: 0,
-          iv_load_policy: 3,
-        },
+      // Remove the initializing class to fade the player in
+      playerElement.classList.remove('player-initializing')
+
+      // Create a custom overlay for click-to-play/pause
+      const overlay = document.createElement('div')
+      overlay.style.position = 'absolute'
+      overlay.style.top = '0'
+      overlay.style.left = '0'
+      overlay.style.width = '100%'
+      // Height should not cover the control bar
+      overlay.style.height = 'calc(100% - 3em)' // 3em is default control bar height
+      overlay.style.zIndex = '1'
+      overlay.style.cursor = 'pointer'
+
+      const clickListener = () => {
+        if (player.paused()) {
+          player.play()
+        } else {
+          player.pause()
+        }
       }
 
-      player = videojs(videoElement, videoJsOptions)
-      playerRef.current = player
-
-      player.ready(() => {
-        // Add a transition style for the fade-in effect
-        player.el().style.transition = 'opacity 0.2s ease-in-out'
-
-        // Remove the initializing class to fade the player in
-        player.el().classList.remove('player-initializing')
-
-        // Create a custom overlay for click-to-play/pause
-        const overlay = document.createElement('div')
-        overlay.style.position = 'absolute'
-        overlay.style.top = '0'
-        overlay.style.left = '0'
-        overlay.style.width = '100%'
-        // Height should not cover the control bar
-        overlay.style.height = 'calc(100% - 3em)' // 3em is default control bar height
-        overlay.style.zIndex = '1'
-        overlay.style.cursor = 'pointer'
-
-        overlay.addEventListener('click', () => {
-          if (player.paused()) {
-            player.play()
-          } else {
-            player.pause()
-          }
-        })
-
-        player.el().appendChild(overlay)
-      })
+      overlay.addEventListener('click', clickListener)
+      playerElement.appendChild(overlay)
 
       // --- Event Listeners ---
       const onEnded = () => toggleVideoCompleted(playlist.id, video.id)
@@ -113,40 +106,50 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
       }
       player.on('ended', onEnded)
       player.on('timeupdate', onTimeUpdate)
-    })()
 
-    return () => {
-      if (playerRef.current) {
-        playerRef.current.dispose()
-        playerRef.current = null
+      return () => {
+        player.off('ended', onEnded)
+        player.off('timeupdate', onTimeUpdate)
+        overlay.removeEventListener('click', clickListener)
+        if (overlay.parentNode) {
+          overlay.parentNode.removeChild(overlay)
+        }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [player, isReady, playlist.id, video.id, toggleVideoCompleted, setCurrentTime, setVideoProgress, setVideoTimestamp, completedVideos])
 
-  // Effect for handling video source changes and timestamp seeking
   useEffect(() => {
-    const player = playerRef.current
-    const timestamp = searchParams.get('t')
+    // 1. Initial safety check
+    if (!player || !isReady || !video) return
 
-    if (player) {
-      player.ready(() => {
-        const newSrc = { src: `https://www.youtube-nocookie.com/watch?v=${video.id}`, type: 'video/youtube' }
-        if (player.currentSrc() !== newSrc.src) {
-          player.src(newSrc)
-        }
+    // 2. Snapshot them as constants so TypeScript stops panicking
+    const activePlayer = player
+    const activeVideo = video
 
-        if (timestamp) {
-          const seconds = timestampToSeconds(timestamp)
-          if (seconds > 0) player.currentTime(seconds)
-        }
+    activePlayer.ready(() => {
+      const newSrc = {
+        src: `https://www.youtube-nocookie.com/watch?v=${activeVideo.id}`,
+        type: 'video/youtube'
+      }
 
-        player.play().catch(() => {
+      if (activePlayer.currentSrc() !== newSrc.src) {
+        activePlayer.src(newSrc)
+      }
+
+      if (timestamp) {
+        const seconds = timestampToSeconds(timestamp)
+        if (seconds > 0) activePlayer.currentTime(seconds)
+      }
+
+      // 3. Handle the potentially undefined play() promise
+      const playPromise = activePlayer.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
           console.log('Playback was prevented by browser policy.')
         })
-      })
-    }
-  }, [video.id, searchParams])
+      }
+    })
+  }, [player, isReady, video, timestamp])
 
   return (
     <div className="flex flex-col gap-4">

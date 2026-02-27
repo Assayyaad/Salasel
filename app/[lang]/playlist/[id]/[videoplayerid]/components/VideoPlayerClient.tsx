@@ -20,9 +20,11 @@ const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video, 
   const router = useRouter()
   const searchParams = useSearchParams()
   const { videoTimestamps } = useProgressStore()
+  const timestamp = searchParams.get('t')
 
   // Add timestamp to URL if not present
   useEffect(() => {
+    if (!searchParams) return
     const hasTimestamp = searchParams.get('t')
     if (!hasTimestamp && videoTimestamps[video.id]) {
       const timestamp = videoTimestamps[video.id]
@@ -48,7 +50,7 @@ const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video, 
   return (
     <main className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-16">
       <div className="flex flex-col gap-6">
-        <VideoPlayer playlist={playlist} video={video} />
+        <VideoPlayer playlist={playlist} video={video} timestamp={timestamp} />
         <PlaylistSidebar playlistId={playlist.id} videoId={video.id} t={t} />
       </div>
     </main>
