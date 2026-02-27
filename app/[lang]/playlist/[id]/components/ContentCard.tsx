@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 
 export type WatchStatus = 'not-started' | 'in-progress' | 'completed'
+
 export interface ContentCardProps {
   title: string
   videoId: string
@@ -18,81 +19,75 @@ export interface ContentCardProps {
   t: Translations
 }
 
+const STATUS_ICON: Record<WatchStatus, string> = {
+  'completed': 'check_circle',
+  'in-progress': 'play_circle',
+  'not-started': 'radio_button_unchecked',
+}
+
+const STATUS_COLOR: Record<WatchStatus, string> = {
+  'completed': 'text-green-500',
+  'in-progress': 'text-yellow-500',
+  'not-started': 'text-slate-500',
+}
+
 const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, status, notesCount, onToggle, t }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
 
   const handleStatusClick = (e: React.MouseEvent) => {
-    e.preventDefault() // Prevent navigation when clicking the icon
+    e.preventDefault()
     onToggle(videoId)
   }
-
-  const inProgressClasses = status === 'in-progress' ? 'bg-yellow-50/50 dark:bg-yellow-900/10' : ''
-  const completedClasses = status === 'completed' ? 'bg-green-50/50 dark:bg-green-900/10' : ''
 
   return (
     <Link
       href={`/${t.__language.code}/playlist/${playlistId}/${videoId}`}
-      className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completedClasses} ${inProgressClasses}`}
+      className={`group grid grid-cols-[7rem_1fr_4rem_5rem] items-center px-4 py-2 transition-colors ${
+        status === 'completed'
+          ? 'bg-green-50/60 dark:bg-green-900/20 hover:bg-green-50/80 dark:hover:bg-green-900/30'
+          : 'hover:bg-white/5'
+      }`}
     >
-      <div className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-x-4">
-        {/* Column 1: Thumbnail */}
-        <div className="w-28 md:w-32 aspect-video bg-gray-200 dark:bg-gray-700 rounded-md overflow-hidden relative shadow-sm">
-          <Image
-            alt={title}
-            className="w-full h-full object-cover"
-            src={imageUrl}
-            fill={true}
-            onError={() => setImageUrl(fallbackThumbnailUrl(videoId))}
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
-            <span className="material-icons-round text-white text-3xl drop-shadow-md">play_circle_outline</span>
-          </div>
+      {/* Column 1: Thumbnail */}
+      <div className="w-28 aspect-video bg-gray-200 dark:bg-gray-700 rounded-md overflow-hidden relative shadow-sm">
+        <Image
+          alt={title}
+          className="w-full h-full object-cover"
+          src={imageUrl}
+          fill={true}
+          onError={() => setImageUrl(fallbackThumbnailUrl(videoId))}
+        />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
+          <span className="material-icons-round text-white text-3xl drop-shadow-md">play_circle_outline</span>
         </div>
+      </div>
 
-        {/* Column 2: Title */}
-        <div className="flex flex-col">
-          <h3 className="text-base font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">
-            {title}
-          </h3>
-        </div>
+      {/* Column 2: Title */}
+      <h3 className="px-4 text-base font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors line-clamp-2">
+        {title}
+      </h3>
 
-        {/* Column 3: Notes Count */}
-        <div className="flex items-center space-x-1 text-muted-light dark:text-muted-dark">
-          <span className="material-icons-round text-base">description</span>
-          <span>{notesCount}</span>
-        </div>
+      {/* Column 3: Notes count — always show, 0 when none */}
+      <div className="flex items-center justify-center text-muted-light dark:text-muted-dark">
+        <span className="text-sm">{notesCount}</span>
+      </div>
 
-        {/* Column 4: Watch Status */}
-        <div onClick={handleStatusClick} className="relative z-10 p-2 cursor-pointer">
-          <WatchStatusIcon status={status} t={t} />
-        </div>
+      {/* Column 4: Watch status icon */}
+      <div onClick={handleStatusClick} className="flex items-center justify-center relative z-10 cursor-pointer">
+        <span className={`material-icons-round ${STATUS_COLOR[status]}`} title={t[statusTranslationKey(status)]}>
+          {STATUS_ICON[status]}
+        </span>
       </div>
     </Link>
   )
 }
 
-const WatchStatusIcon: React.FC<{ status: WatchStatus; t: Translations }> = ({ status, t }) => {
-  switch (status) {
-    case 'completed':
-      return (
-        <span className="material-icons-round text-green-500" title={t.watchStatusCompleted}>
-          check_circle
-        </span>
-      )
-    case 'in-progress':
-      return (
-        <span className="material-icons-round text-xs text-yellow-500" title={t.watchStatusInProgress}>
-          hourglass_bottom
-        </span>
-      )
-    case 'not-started':
-    default:
-      return (
-        <span className="material-icons-round text-gray-400" title={t.watchStatusNotStarted}>
-          radio_button_unchecked
-        </span>
-      )
-  }
+function statusTranslationKey(
+  status: WatchStatus,
+): 'watchStatusCompleted' | 'watchStatusInProgress' | 'watchStatusNotStarted' {
+  if (status === 'completed') return 'watchStatusCompleted'
+  if (status === 'in-progress') return 'watchStatusInProgress'
+  return 'watchStatusNotStarted'
 }
 
 export default ContentCard

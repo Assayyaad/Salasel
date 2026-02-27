@@ -5,6 +5,7 @@ import type { CalculatedPlaylist, CalculatedVideo, Translations } from '@/app/ty
 import React, { useState, useEffect, ReactNode } from 'react'
 import ContentCard from '@/app/[lang]/playlist/[id]/components/ContentCard'
 import { useProgressStore } from '@/app/store/useProgressStore'
+import { useNotesStore } from '@/app/store/useNotesStore'
 
 export type SelectedPlaylistContentPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
 export type SelectedPlaylistContentVideo = Pick<CalculatedVideo, 'id' | 'title' | 'playlistId'>
@@ -15,7 +16,8 @@ export interface SelectedPlaylistContentProps {
 }
 
 const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist, videos, t }) => {
-  const { completedVideos, videoProgress, notes, toggleVideoCompleted } = useProgressStore()
+  const { completedVideos, videoProgress, toggleVideoCompleted } = useProgressStore()
+  const { notes } = useNotesStore()
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
@@ -36,7 +38,7 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
 
   const getNotesCount = (videoId: string): number => {
     if (!isClient) return 0
-    return notes[videoId]?.length || 0
+    return notes[`${playlist.id}-${videoId}`]?.length || 0
   }
 
   if (!playlist) {
@@ -71,6 +73,13 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
     <div className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
       <div className="bg-gray-50 dark:bg-gray-800/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
         <h2 className="text-xl font-bold text-text-light dark:text-text-dark">{t.playlistContents}</h2>
+      </div>
+      {/* Column headers — grid must match ContentCard grid exactly */}
+      <div className="grid grid-cols-[7rem_1fr_4rem_5rem] px-4 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/30 text-xs font-semibold text-muted-light dark:text-muted-dark">
+        <div>{t.columnCover}</div>
+        <div className="px-4">{t.columnTitle}</div>
+        <div className="text-center">{t.columnNotes}</div>
+        <div className="text-center">{t.columnWatchStatus}</div>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">{cards}</div>
     </div>

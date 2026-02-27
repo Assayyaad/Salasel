@@ -8,15 +8,16 @@ import { useProgressStore } from '@/app/store/useProgressStore'
 import PlaylistSidebar from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/PlaylistSidebar'
 import VideoPlayer from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/VideoPlayer'
 
-export type VideoPlayerClientPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
+export type VideoPlayerClientPlaylist = Pick<CalculatedPlaylist, 'id' | 'channel' | 'name'>
 export type VideoPlayerClientVideo = Pick<CalculatedVideo, 'id' | 'title'>
 export interface VideoPlayerClientProps {
   playlist: VideoPlayerClientPlaylist
   video: VideoPlayerClientVideo
+  videos: Record<string, Pick<CalculatedVideo, 'id' | 'title'>>
   t: Translations
 }
 
-const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video, t }) => {
+const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video, videos, t }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { videoTimestamps } = useProgressStore()
@@ -47,9 +48,24 @@ const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video, 
 
   return (
     <main className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-16">
-      <div className="flex flex-col gap-6">
-        <VideoPlayer playlist={playlist} video={video} />
-        <PlaylistSidebar playlistId={playlist.id} videoId={video.id} t={t} />
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
+        <div className="flex flex-col gap-3 flex-1 min-w-0">
+          <VideoPlayer playlist={playlist} video={video} />
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{video.title}</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{playlist.name}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-500">{playlist.channel}</p>
+        </div>
+        <div className="w-full lg:w-96 shrink-0">
+          <PlaylistSidebar
+            playlistId={playlist.id}
+            videoId={video.id}
+            playlistName={playlist.name}
+            videoTitle={video.title}
+            videos={videos}
+            t={t}
+            notesOnly={true}
+          />
+        </div>
       </div>
     </main>
   )

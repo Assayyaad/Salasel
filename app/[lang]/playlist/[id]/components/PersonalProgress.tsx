@@ -46,14 +46,27 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos, t
     return count
   }, [isClient, notes, videos])
 
-  const { nextVideo, continueWatchingId } = useMemo(() => {
+  const { nextVideo, continueWatchingId, currentVideoProgress } = useMemo(() => {
     const vKeys = Object.keys(videos)
-    if (!isClient || vKeys.length === 0) return { nextVideo: '...', continueWatchingId: vKeys[0] || '' }
+    if (!isClient || vKeys.length === 0) {
+      return { nextVideo: '...', continueWatchingId: vKeys[0] || '', currentVideoProgress: 0 }
+    }
 
+    // In-progress video: has progress > 0 and not yet completed
+    let inProgressVideo: PersonalProgressVideo | undefined
+    for (const id in videos) {
+      if (!Object.hasOwn(videos, id)) continue
+      const v = videos[id]
+      if (!playlistCompletedVideos.has(v.id) && (videoProgressMap[v.id] || 0) > 0) {
+        inProgressVideo = v
+        break
+      }
+    }
+
+    // Next to watch: first video not yet completed
     let nextVideo: PersonalProgressVideo | undefined
     for (const id in videos) {
       if (!Object.hasOwn(videos, id)) continue
-
       const v = videos[id]
       if (!playlistCompletedVideos.has(v.id)) {
         nextVideo = v
@@ -61,15 +74,16 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos, t
       }
     }
 
-    if (!nextVideo) {
-      // All videos completed, default to first video
-      nextVideo = videos[vKeys[0]]
+    // If all completed, default to first
+    if (!nextVideo) nextVideo = videos[vKeys[0]]
+
+    const activeVideo = inProgressVideo ?? nextVideo
+    return {
+      nextVideo: nextVideo.title,
+      continueWatchingId: activeVideo.id,
+      currentVideoProgress: videoProgressMap[activeVideo.id] || 0,
     }
-
-    return { nextVideo: nextVideo.title, continueWatchingId: nextVideo.id }
-  }, [isClient, videos, playlistCompletedVideos])
-
-  const videoProgress = isClient ? videoProgressMap[continueWatchingId] || 0 : 0
+  }, [isClient, videos, playlistCompletedVideos, videoProgressMap])
 
   if (!isClient) {
     // You can render a loading skeleton here if you want
@@ -98,17 +112,19 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos, t
           <div>
             <div className="flex justify-between text-xs font-semibold text-muted-light dark:text-muted-dark mb-1">
               <span>{t.currentVideoProgress}</span>
-              <span>{videoProgress}%</span>
+              <span>{currentVideoProgress}%</span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
-              <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${videoProgress}%` }}></div>
+              <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${currentVideoProgress}%` }}></div>
             </div>
           </div>
           {/* Playlist Progress */}
           <div>
             <div className="flex justify-between text-xs font-semibold text-muted-light dark:text-muted-dark mb-1">
               <span>{t.playlistProgress}</span>
-              <span>{playlistProgress}%</span>
+              <span>
+                {playlistCompletedVideos.size}/{playlist.videoCount} ({playlistProgress}%)
+              </span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
               <div className="bg-primary h-2.5 rounded-full" style={{ width: `${playlistProgress}%` }}></div>

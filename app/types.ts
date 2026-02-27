@@ -22,6 +22,8 @@ export interface FetchedPlaylist {
   id: string
   /** اسم السلسلة */
   name: string
+  /** القناة التي قدمت مقاطع السلسلة */
+  channel: string
   /** معرف المقطع المستخدم للصورة المصغرة */
   thumbnailId: string
 }
@@ -137,6 +139,10 @@ export interface Translations {
   notesPlaceholder: string
   notesAddButton: string
   notesEmptyMessage: string
+  notesExport: string
+  notesExportSingleVideo: string
+  notesExportPlaylistSingle: string
+  notesExportPlaylistZip: string
   notesUpdateTimestamp: string
   notesSaveButton: string
   notesCancelButton: string
@@ -157,6 +163,10 @@ export interface Translations {
   startDateLabel: string
   endDateLabel: string
   playlistContents: string
+  columnCover: string
+  columnTitle: string
+  columnNotes: string
+  columnWatchStatus: string
   episodeLabel: string
   goBack: string
   playlistNotFound: string
@@ -165,6 +175,15 @@ export interface Translations {
   appTitle: string
   appFullTitle: string
   appDescription: string
+  sortLabel: string
+  sortNewest: string
+  sortOldest: string
+  sortLongest: string
+  sortShortest: string
+  sortMostVideos: string
+  sortLeastVideos: string
+  sortAlphabetical: string
+  sortCounterAlphabetical: string
 }
 
 // ============================================================================

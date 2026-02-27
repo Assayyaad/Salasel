@@ -55,3 +55,13 @@ body {
   );
   animation: shimmer 2s infinite;
 }
+
+/* Fix for video.js YouTube tech to allow controls to be interactive */
+.vjs-tech {
+  pointer-events: none;
+}
+
+/* Used to hide the player during initialization to prevent UI flash */
+.player-initializing {
+  opacity: 0;
+}
