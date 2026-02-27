@@ -27,16 +27,14 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
   const description = playlist.description || title
 
   // Generate alternate language links for hreflang
+  const baseUrl = 'https://salasel.app'
   const langAlts = allLanguages.reduce(
     (acc, l) => {
-      acc[l.code] = `https://salasel.app/${l.code}/playlist/${id}`
+      acc[l.code] = `${baseUrl}/${l.code}/playlist/${id}`
       return acc
     },
-    {} as Record<string, string>,
+    { 'x-default': `${baseUrl}/${defaultLanguage}/playlist/${id}` } as Record<string, string>,
   )
-
-  // Add x-default pointing to the default language
-  langAlts['x-default'] = `https://salasel.app/${defaultLanguage}/playlist/${id}`
 
   return {
     title,
@@ -47,7 +45,7 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
     openGraph: {
       title: playlist.name,
       description,
-      url: `https://salasel.app/${lang}/playlist/${id}`,
+      url: `${baseUrl}/${lang}/playlist/${id}`,
       images: [
         {
           url: thumbnailUrl,

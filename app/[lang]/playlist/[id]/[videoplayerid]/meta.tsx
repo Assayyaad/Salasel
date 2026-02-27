@@ -27,16 +27,14 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
   const description = `${playlist.name} | ${video.title}`
 
   // Generate alternate language links for hreflang
+  const baseUrl = 'https://salasel.app'
   const langAlts = allLanguages.reduce(
     (acc, l) => {
-      acc[l.code] = `https://salasel.app/${l.code}/playlist/${id}/${videoplayerid}`
+      acc[l.code] = `${baseUrl}/${l.code}/playlist/${id}/${videoplayerid}`
       return acc
     },
-    {} as Record<string, string>,
+    { 'x-default': `${baseUrl}/${defaultLanguage}/playlist/${id}/${videoplayerid}` } as Record<string, string>,
   )
-
-  // Add x-default pointing to the default language
-  langAlts['x-default'] = `https://salasel.app/${defaultLanguage}/playlist/${id}/${videoplayerid}`
 
   return {
     title,
@@ -47,7 +45,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
     openGraph: {
       title: video.title,
       description,
-      url: `https://salasel.app/${lang}/playlist/${id}/${videoplayerid}`,
+      url: `${baseUrl}/${lang}/playlist/${id}/${videoplayerid}`,
       images: [
         {
           url: thumbnailUrl,

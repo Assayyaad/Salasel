@@ -71,18 +71,16 @@ async function playlistSitemap(baseUrl: string, playlistId: string): Promise<Met
 }
 
 function generateLangAlts(baseUrl: string, urlRoute: string = ''): Record<string, string> {
+  const defaultPath = urlRoute ? `${defaultLanguage}/${urlRoute}` : `${defaultLanguage}`
+
   const alts = allLanguages.reduce(
     (acc, lang) => {
-      const path = urlRoute ? `/${lang.code}/${urlRoute}` : `/${lang.code}`
-      acc[lang.code] = `${baseUrl}${path}`
+      const path = urlRoute ? `${lang.code}/${urlRoute}` : `${lang.code}`
+      acc[lang.code] = `${baseUrl}/${path}`
       return acc
     },
-    {} as Record<string, string>,
+    { 'x-default': `${baseUrl}/${defaultPath}` } as Record<string, string>,
   )
-
-  // Add x-default pointing to the default language (ar)
-  const defaultPath = urlRoute ? `/${defaultLanguage}/${urlRoute}` : `/${defaultLanguage}`
-  alts['x-default'] = `${baseUrl}${defaultPath}`
 
   return alts
 }

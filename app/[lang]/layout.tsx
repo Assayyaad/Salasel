@@ -40,16 +40,14 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const currLang: Language = getLanguage(lang)
 
   // Generate alternate language links for hreflang
+  const baseUrl = 'https://salasel.app'
   const langAlts = allLanguages.reduce(
     (acc, l) => {
-      acc[l.code] = `https://salasel.app/${l.code}`
+      acc[l.code] = `${baseUrl}/${l.code}`
       return acc
     },
-    {} as Record<string, string>,
+    { 'x-default': `${baseUrl}/${defaultLanguage}` } as Record<string, string>,
   )
-
-  // Add x-default pointing to the default language
-  langAlts['x-default'] = `https://salasel.app/${defaultLanguage}`
 
   return {
     ...metadata,
@@ -65,7 +63,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     openGraph: {
       title: t.appFullTitle,
       description: t.appDescription,
-      url: `https://salasel.app/${currLang.code}`,
+      url: `${baseUrl}/${currLang.code}`,
       siteName: t.appTitle,
       type: 'website',
       locale: currLang.code,
@@ -76,7 +74,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       title: t.appFullTitle,
       description: t.appDescription,
       site: '@SalaselApp',
-      images: ['https://salasel.app/img/logo.webp'],
+      images: [`${baseUrl}/img/logo.webp`],
     },
   }
 }
