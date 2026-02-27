@@ -43,9 +43,5 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "youtube-sr": "^4.3.12"
-  },
-  "browserslist": [
-    "defaults and fully supports es6-module",
-    "maintained node versions"
-  ]
+  }
 }
