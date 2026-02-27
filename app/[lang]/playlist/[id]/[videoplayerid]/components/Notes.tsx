@@ -1,19 +1,23 @@
 'use client'
 
-import type { Translations } from '@/app/types'
+import type { CalculatedVideo, Translations } from '@/app/types'
 
 import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useNotesStore } from '@/app/store/useNotesStore'
 import { useVideoPlayerStore, formatTimestamp } from '@/app/store/useVideoPlayerStore'
+import NotesExportMenu from './NotesExportMenu'
 
 export interface NotesProps {
   playlistId: string
   videoId: string
+  playlistName: string
+  videoTitle: string
+  videos: Record<string, Pick<CalculatedVideo, 'id' | 'title'>>
   t: Translations
 }
 
-const Notes: React.FC<NotesProps> = ({ playlistId, videoId, t }) => {
+const Notes: React.FC<NotesProps> = ({ playlistId, videoId, playlistName, videoTitle, videos, t }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { getVideoNotes, addNote, updateNote, deleteNote, loadNotes } = useNotesStore()
@@ -92,8 +96,30 @@ const Notes: React.FC<NotesProps> = ({ playlistId, videoId, t }) => {
     router.push(`?${params.toString()}`, { scroll: false })
   }
 
+  const getAllPlaylistNotes = () => {
+    const allNotes = useNotesStore.getState().notes
+    return Object.entries(allNotes)
+      .filter(([key]) => key.startsWith(`${playlistId}-`))
+      .map(([key, noteList]) => {
+        const vid = key.replace(`${playlistId}-`, '')
+        return {
+          video: { id: vid, title: videos[vid]?.title ?? vid },
+          notes: noteList,
+        }
+      })
+  }
+
   return (
     <>
+      <div className="mb-3">
+        <NotesExportMenu
+          playlist={{ id: playlistId, name: playlistName }}
+          video={{ id: videoId, title: videoTitle }}
+          currentVideoNotes={notes}
+          getAllPlaylistNotes={getAllPlaylistNotes}
+          t={t}
+        />
+      </div>
       <div className="mb-4">
         <textarea
           value={newNoteContent}
