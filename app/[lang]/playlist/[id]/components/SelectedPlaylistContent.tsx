@@ -19,10 +19,11 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setIsClient(true)
   }, [])
 
-  const getStatus = (videoId: string): any => {
+  const getStatus = (videoId: string): 'not-started' | 'in-progress' | 'completed' => {
     if (!isClient) return 'not-started'
     const isCompleted = completedVideos[playlist.id]?.has(videoId)
     if (isCompleted) {

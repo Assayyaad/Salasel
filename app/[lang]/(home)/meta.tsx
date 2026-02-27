@@ -1,13 +1,8 @@
 import type { Metadata } from 'next'
-import type { HomeParams } from '@/app/[lang]/(home)/params'
 
 import { allLanguages, defaultLanguage } from '@/app/static'
 
-export interface HomeMetadataProps {
-  params: Promise<HomeParams>
-}
-
-export async function generateMetadata({ params }: HomeMetadataProps): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   // const { lang } = await params
 
   // Generate alternate language links for hreflang

@@ -1,11 +1,11 @@
 import React from 'react'
+import Image from 'next/image'
 
 const Librecounter: React.FC = () => {
   return (
     <a href="https://librecounter.org/referer/show" target="_blank" className="inline-block align-middle mr-2 ml-2">
-      <img
+      <Image
         src="https://librecounter.org/counter.svg"
-        referrerPolicy="unsafe-url"
         alt="Visitor counter"
         className="w-4 h-auto"
         width={16}
