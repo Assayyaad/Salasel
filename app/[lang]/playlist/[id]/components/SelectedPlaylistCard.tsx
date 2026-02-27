@@ -135,6 +135,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
             src={imageUrl}
             fill={true}
             priority
+            fetchPriority="high"
             onLoad={() => setIsLoading(false)}
             onError={() => setImageUrl(fallbackThumbnailUrl(playlist.thumbnailId))}
           />

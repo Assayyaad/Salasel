@@ -9,9 +9,10 @@ export type PlaylistCardPlaylist = Pick<CalculatedPlaylist, 'id' | 'name' | 'des
 export interface PlaylistCardProps {
   playlist: PlaylistCardPlaylist
   lang: LanguageCode
+  priority?: boolean
 }
 
-const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang }) => {
+const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang, priority = false }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
 
   return (
@@ -24,6 +25,8 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang }) => {
             fill={true}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            priority={priority}
+            fetchPriority={priority ? 'high' : undefined}
             onError={() => setImageUrl(fallbackThumbnailUrl(playlist.thumbnailId))}
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>

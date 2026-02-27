@@ -53,6 +53,8 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
     if (!Object.hasOwn(videos, id)) continue
 
     const v = videos[id]
+    // Prioritize first 4 videos for LCP optimization (above the fold)
+    const isPriority = cards.length < 4
     cards.push(
       <ContentCard
         key={v.id}
@@ -63,6 +65,7 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
         notesCount={getNotesCount(v.id)}
         onToggle={() => toggleVideoCompleted(v.playlistId, v.id)}
         t={t}
+        priority={isPriority}
       />,
     )
   }
