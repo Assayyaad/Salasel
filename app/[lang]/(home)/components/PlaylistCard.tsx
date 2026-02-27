@@ -29,9 +29,9 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang }) => {
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
         </div>
         <div className="p-4">
-          <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
+          <h2 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
             {playlist.name}
-          </h3>
+          </h2>
           <p className="text-sm text-slate-400 mt-1 min-h-[2.5rem]">{playlist.description}</p>
         </div>
       </article>
