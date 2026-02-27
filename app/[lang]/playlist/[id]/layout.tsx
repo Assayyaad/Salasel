@@ -1,5 +1,8 @@
+import type { LanguageCode } from '@/app/types'
+
 import React from 'react'
 import BackButton from '@/app/[lang]/playlist/[id]/components/BackButton'
+import LanguageSwitcher from '@/app/shared/components/LanguageSwitcher'
 import { getTranslations } from '@/app/translate'
 
 export interface PlaylistLayoutProps {
@@ -14,7 +17,10 @@ const PlaylistLayout: React.FC<PlaylistLayoutProps> = async ({ children, params 
   return (
     <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8 space-y-4">
       <div className="mb-4">
-        <BackButton t={t} />
+        <div className="flex items-center justify-between">
+          <BackButton t={t} lang={lang} />
+          <LanguageSwitcher currentLang={lang as LanguageCode} />
+        </div>
       </div>
       {children}
     </main>

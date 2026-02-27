@@ -3,6 +3,7 @@ import PlaylistGrid from '@/app/[lang]/(home)/components/PlaylistGrid'
 import FilterGrid from '@/app/[lang]/(home)/components/FilterGrid'
 import Librecounter from '@/app/shared/components/Librecounter'
 import SearchBar from '@/app/shared/components/SearchBar'
+import LanguageSwitcher from '@/app/shared/components/LanguageSwitcher'
 import { getPlaylists, searchPlaylists } from '@/app/db'
 import { getTranslations } from '@/app/translate'
 
@@ -29,17 +30,18 @@ const Home: React.FC<HomePageProps> = async ({ params, searchParams }) => {
           {t.appDescription}
           <Librecounter />
         </p>
-        <div className="mt-6 max-w-md mx-auto">
-          <Suspense fallback={<div className="h-12" />}>
+        <div className="mt-6 max-w-md mx-auto flex flex-row items-center gap-1">
+          <Suspense fallback={<div className="h-12 flex-1" />}>
             <SearchBar t={t} />
           </Suspense>
+          <LanguageSwitcher currentLang={t.__language.code} />
         </div>
       </div>
 
       <div className="relative mb-12">
         <FilterGrid t={t} />
       </div>
-      <PlaylistGrid playlists={filteredPlaylists} lang={t.__language.code} />
+      <PlaylistGrid playlists={filteredPlaylists} lang={t.__language.code} isSearching={!!searchQuery} />
     </main>
   )
 }
