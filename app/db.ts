@@ -72,10 +72,17 @@ function fieldMatchesQuery(field: string, query: string): boolean {
 
 function stripArabicPrefixes(word: string): string {
   const prefixes = ['وال', 'بال', 'فال', 'كال', 'لل', 'ال', 'و', 'ب', 'ف', 'ك', 'ل']
-  for (const prefix of prefixes) {
-    if (word.startsWith(prefix) && word.length > prefix.length) {
-      return word.slice(prefix.length)
+  let result = word
+  let changed = true
+  while (changed) {
+    changed = false
+    for (const prefix of prefixes) {
+      if (result.startsWith(prefix) && result.length > prefix.length) {
+        result = result.slice(prefix.length)
+        changed = true
+        break
+      }
     }
   }
-  return word
+  return result
 }

@@ -14,8 +14,7 @@ const BackButton: React.FC<BackButtonProps> = ({ t, lang }) => {
   const router = useRouter()
 
   const handleBack = () => {
-    const isFromWithinApp = document.referrer.startsWith(window.location.origin)
-    if (isFromWithinApp) {
+    if (window.history.length > 1) {
       router.back()
     } else {
       router.push(`/${lang}`)

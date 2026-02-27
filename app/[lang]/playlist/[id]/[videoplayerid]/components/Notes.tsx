@@ -2,7 +2,7 @@
 
 import type { CalculatedVideo, Translations } from '@/app/types'
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useNotesStore } from '@/app/store/useNotesStore'
 import { useVideoPlayerStore, formatTimestamp } from '@/app/store/useVideoPlayerStore'
@@ -96,7 +96,7 @@ const Notes: React.FC<NotesProps> = ({ playlistId, videoId, playlistName, videoT
     router.push(`?${params.toString()}`, { scroll: false })
   }
 
-  const getAllPlaylistNotes = () => {
+  const getAllPlaylistNotes = useCallback(() => {
     const allNotes = useNotesStore.getState().notes
     return Object.entries(allNotes)
       .filter(([key]) => key.startsWith(`${playlistId}-`))
@@ -107,7 +107,7 @@ const Notes: React.FC<NotesProps> = ({ playlistId, videoId, playlistName, videoT
           notes: noteList,
         }
       })
-  }
+  }, [playlistId, videos])
 
   return (
     <>
