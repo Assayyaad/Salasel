@@ -42,7 +42,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
         responsive: true,
         fluid: true,
         techOrder: ['youtube'],
-        sources: [{ src: `https://www.youtube.com/watch?v=${video.id}`, type: 'video/youtube' }],
+        sources: [{ src: `https://www.youtube-nocookie.com/watch?v=${video.id}`, type: 'video/youtube' }],
         youtube: {
           playsinline: 1,
           ytControls: 0,
@@ -131,7 +131,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
 
     if (player) {
       player.ready(() => {
-        const newSrc = { src: `https://www.youtube.com/watch?v=${video.id}`, type: 'video/youtube' }
+        const newSrc = { src: `https://www.youtube-nocookie.com/watch?v=${video.id}`, type: 'video/youtube' }
         if (player.currentSrc() !== newSrc.src) {
           player.src(newSrc)
         }
