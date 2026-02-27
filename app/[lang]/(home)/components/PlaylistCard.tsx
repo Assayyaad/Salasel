@@ -30,7 +30,7 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang }) => {
         </div>
         <div className="p-4">
           <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
-            {playlist.channel} | {playlist.name}
+            {playlist.name}
           </h3>
           <p className="text-sm text-slate-400 mt-1 min-h-[2.5rem]">{playlist.description}</p>
         </div>
