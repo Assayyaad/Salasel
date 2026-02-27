@@ -5,8 +5,17 @@
   "editor.insertSpaces": true,
   "editor.trimAutoWhitespace": true,
 
+  "files.trimFinalNewlines": false,
   "files.insertFinalNewline": true,
   "files.eol": "\n",
+  "files.associations": {
+    "*.tsx": "typescriptreact"
+  },
+
+  "[csv]": {
+    "files.trimFinalNewlines": true,
+    "files.insertFinalNewline": false
+  },
 
   "[markdown]": { "editor.defaultFormatter": "yzhang.markdown-all-in-one" },
   "markdown.occurrencesHighlight.enabled": true,

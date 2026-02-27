@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+[![Netlify Status](https://api.netlify.com/api/v1/badges/18013d67-afeb-45d5-b529-177a8f1d3302/deploy-status)](https://app.netlify.com/projects/salaselapp/deploys)
 
-## Getting Started
+---
 
-First, run the development server:
+# دليل التثبيت والتشغيل
+
+## المتطلبات الأساسية
+
+- Node.js (الإصدار 20 أو أحدث)
+- npm أو yarn
+
+## التثبيت
+
+1. **استنساخ المشروع:**
+
+```bash
+git clone https://github.com/Assayyaad/Salasel.git
+cd Salasel
+```
+
+2. **تثبيت الحزم:**
+
+```bash
+npm install
+```
+
+## التشغيل
+
+### وضع التطوير
+
+لتشغيل المشروع في وضع التطوير:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+سيشغل التطبيق على [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### بناء المشروع
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+لبناء المشروع للإنتاج:
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+هذا الأمر سيقوم بـ:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- تحويل البيانات من CSV إلى JSON
+- بناء تطبيق Next.js
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### تشغيل الإنتاج
 
-## Deploy on Vercel
+بعد البناء، يمكنك تشغيل التطبيق بوضع الإنتاج:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## واجهة سطر الأوامر (CLI)
+
+```bash
+npm run cli
+```
+
+توفر واجهة سطر الأوامر قوائم تفاعلية لإدارة المشروع:
+
+### قوائم السلاسل (Playlists)
+
+- **Add**: إضافة قائمة تشغيل جديدة
+- **Fill**: ملء قائمة تشغيل يدوياً
+- **Remove**: حذف قائمة تشغيل وجميع فيديوهاتها
+
+### قوائم الفيديوهات (Videos)
+
+- **Clean**: تنظيف الفيديوهات (إزالة الملفات اليتيمة والمكررات، التحقق من البيانات)
+- **Sort**: ترتيب الفيديوهات حسب تاريخ النشر
+- **Fetch**: تحديث البيانات الوصفية من YouTube
+
+### قوائم النصوص (Transcripts)
+
+- **Download Single**: تحميل نص فيديو واحد
+- **Download Multiple**: تحميل نصوص فيديوهات قائمة تشغيل كاملة
+
+### تحويل البيانات (Convert CSV to JSON)
+
+- تحويل ملفات CSV إلى JSON لاستخدامها في التطبيق
