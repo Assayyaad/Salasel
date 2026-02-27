@@ -39,7 +39,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ t }) => {
   }, [searchTerm, router])
 
   return (
-    <div className="flex-1 max-w-xl mx-auto px-4">
+    <div className="flex-1 max-w-xl mx-auto">
       <div className="relative group">
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
           <span className="material-icons-round text-slate-400 group-focus-within:text-primary">search</span>

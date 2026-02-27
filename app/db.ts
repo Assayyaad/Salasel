@@ -39,21 +39,43 @@ export function searchPlaylists(playlists: Playlists, query: string): Playlists 
   if (!query.trim()) return playlists
 
   const normalizedQuery = query.trim().toLowerCase()
-  const matches: Playlists = {}
-
-  // create obj then assign to it to preserve order
+  const nameMatches: Playlists = {}
+  const descriptionMatches: Playlists = {}
 
   for (const id in playlists) {
     if (!Object.hasOwn(playlists, id)) continue
 
     const pl = playlists[id]
     const name = pl.name.toLowerCase()
+    const description = pl.description.toLowerCase()
 
-    // البحث في العنوان
-    if (name.includes(normalizedQuery)) {
-      matches[pl.id] = pl
+    if (fieldMatchesQuery(name, normalizedQuery)) {
+      nameMatches[pl.id] = pl
+    } else if (fieldMatchesQuery(description, normalizedQuery)) {
+      descriptionMatches[pl.id] = pl
     }
   }
 
-  return matches
+  return { ...nameMatches, ...descriptionMatches }
+}
+
+function fieldMatchesQuery(field: string, query: string): boolean {
+  // Direct substring match (handles prefix cases: "عبادات" inside "والعبادات")
+  if (field.includes(query)) return true
+
+  // Strip prefixes from query then check if any word in field contains the root
+  const queryRoot = stripArabicPrefixes(query)
+  if (queryRoot === query) return false
+
+  return field.split(/\s+/).some((word) => stripArabicPrefixes(word) === queryRoot)
+}
+
+function stripArabicPrefixes(word: string): string {
+  const prefixes = ['وال', 'بال', 'فال', 'كال', 'لل', 'ال', 'و', 'ب', 'ف', 'ك', 'ل']
+  for (const prefix of prefixes) {
+    if (word.startsWith(prefix) && word.length > prefix.length) {
+      return word.slice(prefix.length)
+    }
+  }
+  return word
 }
