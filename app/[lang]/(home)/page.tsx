@@ -1,3 +1,5 @@
+import type { HomeParams } from '@/app/[lang]/(home)/params'
+
 import React, { Suspense } from 'react'
 import PlaylistGrid from '@/app/[lang]/(home)/components/PlaylistGrid'
 import FilterGrid from '@/app/[lang]/(home)/components/FilterGrid'
@@ -7,12 +9,15 @@ import LanguageSwitcher from '@/app/shared/components/LanguageSwitcher'
 import { getPlaylists, searchPlaylists } from '@/app/db'
 import { getTranslations } from '@/app/translate'
 
-export interface HomePageProps {
-  params: Promise<{ lang: string }>
+export { generateStaticParams } from '@/app/[lang]/(home)/params'
+export { generateMetadata } from '@/app/[lang]/(home)/meta'
+
+export interface HomeProps {
+  params: Promise<HomeParams>
   searchParams: Promise<{ q?: string }>
 }
 
-const Home: React.FC<HomePageProps> = async ({ params, searchParams }) => {
+const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
   const { lang } = await params
   const t = getTranslations(lang)
   const playlists = getPlaylists()

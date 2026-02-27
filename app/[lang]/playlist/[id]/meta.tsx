@@ -4,6 +4,7 @@ import type { SelectedPlaylistParams } from '@/app/[lang]/playlist/[id]/params'
 import { getPlaylist } from '@/app/db'
 import { videoThumbnailUrl } from '@/app/utils'
 import { getTranslations } from '@/app/translate'
+import { allLanguages, defaultLanguage } from '@/app/static'
 
 export interface SelectedPlaylistMetadataProps {
   params: Promise<SelectedPlaylistParams>
@@ -25,12 +26,26 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
   const title = `${t.appTitle} · ${playlist.name}`
   const description = playlist.description || title
 
+  // Generate alternate language links for hreflang
+  const baseUrl = 'https://salasel.app'
+  const langAlts = allLanguages.reduce(
+    (acc, l) => {
+      acc[l.code] = `${baseUrl}/${l.code}/playlist/${id}`
+      return acc
+    },
+    { 'x-default': `${baseUrl}/${defaultLanguage}/playlist/${id}` } as Record<string, string>,
+  )
+
   return {
     title,
     description,
+    alternates: {
+      languages: langAlts,
+    },
     openGraph: {
       title: playlist.name,
       description,
+      url: `${baseUrl}/${lang}/playlist/${id}`,
       images: [
         {
           url: thumbnailUrl,
@@ -47,6 +62,7 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
       card: 'summary_large_image',
       title: playlist.name,
       description,
+      site: '@SalaselApp',
       images: [thumbnailUrl],
     },
     keywords: [playlist.name, ...playlist.categories.map((c) => t.categories[c])],

@@ -72,15 +72,13 @@ export const metadata: Metadata = {
   other: {
     'preconnect': [
       'https://img.youtube.com',
-      'https://youtube.com',
-      'https://www.youtube.com',
+      'https://www.youtube-nocookie.com',
       'https://fonts.googleapis.com',
       'https://fonts.gstatic.com',
     ],
     'dns-prefetch': [
       '//img.youtube.com',
-      '//youtube.com',
-      '//www.youtube.com',
+      '//www.youtube-nocookie.com',
       '//fonts.googleapis.com',
       '//fonts.gstatic.com',
     ],

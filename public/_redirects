@@ -1,15 +1,2 @@
-# استثناءات أولاً
-/api/*  /api/:splat  200
-/_next/*  /_next/:splat  200
-/*.js  /:splat  200
-/*.css  /:splat  200
-/*.png  /:splat  200
-/*.jpg  /:splat  200
-/*.svg  /:splat  200
-/*.ico  /:splat  200
-
-# الصفحة الرئيسية
-/  /ar  302!
-
-# جميع المسارات الأخرى
-/*  /ar/:splat  302
+/  /ar  301!
+/playlist/*  /ar/playlist/:splat  301!

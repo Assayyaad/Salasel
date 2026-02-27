@@ -43,7 +43,9 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, isSearchin
 
   const sortedEntries = sortPlaylists(filteredEntries, sortBy)
 
-  const cards = sortedEntries.map(([, pl]) => <PlaylistCard key={pl.id} playlist={pl} lang={lang} />)
+  const cards = sortedEntries.map(([, pl], index) => (
+    <PlaylistCard key={pl.id} playlist={pl} lang={lang} priority={index < 6} />
+  ))
 
   return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">{cards}</div>
 }

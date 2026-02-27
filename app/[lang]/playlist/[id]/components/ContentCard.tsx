@@ -17,6 +17,7 @@ export interface ContentCardProps {
   notesCount: number
   onToggle: (videoId: string) => void
   t: Translations
+  priority?: boolean
 }
 
 const STATUS_ICON: Record<WatchStatus, string> = {
@@ -31,7 +32,16 @@ const STATUS_COLOR: Record<WatchStatus, string> = {
   'not-started': 'text-slate-500',
 }
 
-const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, status, notesCount, onToggle, t }) => {
+const ContentCard: React.FC<ContentCardProps> = ({
+  title,
+  videoId,
+  playlistId,
+  status,
+  notesCount,
+  onToggle,
+  t,
+  priority = false,
+}) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
 
   const handleStatusClick = (e: React.MouseEvent) => {
@@ -55,6 +65,8 @@ const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, s
           className="w-full h-full object-cover"
           src={imageUrl}
           fill={true}
+          priority={priority}
+          fetchPriority={priority ? 'high' : undefined}
           onError={() => setImageUrl(fallbackThumbnailUrl(videoId))}
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">

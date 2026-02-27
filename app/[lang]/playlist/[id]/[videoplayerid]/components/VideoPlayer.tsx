@@ -28,19 +28,20 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
     const videoElement = videoNode.current
     if (!videoElement) return
 
-    let player: import('video.js').VideoJsPlayer
+    let player: any
     ;(async () => {
       const videojs = (await import('video.js')).default
       await import('videojs-youtube')
 
-      const videoJsOptions: import('video.js').VideoJsPlayerOptions = {
+      // https://docs.videojs.com/tutorial-options.html
+      const videoJsOptions = {
         autoplay: true,
         muted: false,
         controls: true,
         responsive: true,
         fluid: true,
         techOrder: ['youtube'],
-        sources: [{ src: `https://www.youtube.com/watch?v=${video.id}`, type: 'video/youtube' }],
+        sources: [{ src: `https://www.youtube-nocookie.com/watch?v=${video.id}`, type: 'video/youtube' }],
         youtube: {
           playsinline: 1,
           ytControls: 0,
@@ -129,7 +130,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
 
     if (player) {
       player.ready(() => {
-        const newSrc = { src: `https://www.youtube.com/watch?v=${video.id}`, type: 'video/youtube' }
+        const newSrc = { src: `https://www.youtube-nocookie.com/watch?v=${video.id}`, type: 'video/youtube' }
         if (player.currentSrc() !== newSrc.src) {
           player.src(newSrc)
         }
