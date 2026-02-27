@@ -2,6 +2,16 @@ import type { Languages, ContentTypes, PresentationStyles, Categories, Classes }
 
 import { create } from 'zustand'
 
+export type SortOption =
+  | 'newest'
+  | 'oldest'
+  | 'longest'
+  | 'shortest'
+  | 'most-videos'
+  | 'least-videos'
+  | 'alphabetical'
+  | 'counter-alphabetical'
+
 export interface FilterState {
   language: Languages
   contentType: ContentTypes
@@ -18,6 +28,8 @@ export interface PlaylistState {
   setPresentationStyle: (presentationStyle: PresentationStyles | 'all') => void
   setClass: (classType: Classes | 'all') => void
   resetFilters: () => void
+  sortBy: SortOption
+  setSortBy: (sort: SortOption) => void
 }
 
 const defaultFilters: FilterState = {
@@ -36,4 +48,6 @@ export const usePlaylistStore = create<PlaylistState>((set) => ({
   setCategory: (c) => set((state) => ({ filters: { ...state.filters, category: c } })),
   setClass: (c) => set((state) => ({ filters: { ...state.filters, class: c } })),
   resetFilters: () => set({ filters: defaultFilters }),
+  sortBy: 'newest' as SortOption,
+  setSortBy: (sort) => set({ sortBy: sort }),
 }))

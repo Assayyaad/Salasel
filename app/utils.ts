@@ -1,3 +1,5 @@
+import type { SortOption } from '@/app/store/usePlaylistStore'
+
 import { defaultLabel } from './static'
 
 export function videoThumbnailUrl(id: string): string {
@@ -40,5 +42,38 @@ export function formatDate(seconds: number): string {
     return hijriStr
   } catch {
     return defaultLabel
+  }
+}
+
+interface SortablePlaylist {
+  duration: number
+  videoCount: number
+  startDate: number
+  endDate: number
+  name: string
+}
+
+export function sortPlaylists<T extends SortablePlaylist>(entries: [string, T][], sortBy: SortOption): [string, T][] {
+  const sorted = [...entries]
+
+  switch (sortBy) {
+    case 'longest':
+      return sorted.sort(([, a], [, b]) => b.duration - a.duration)
+    case 'shortest':
+      return sorted.sort(([, a], [, b]) => a.duration - b.duration)
+    case 'most-videos':
+      return sorted.sort(([, a], [, b]) => b.videoCount - a.videoCount)
+    case 'least-videos':
+      return sorted.sort(([, a], [, b]) => a.videoCount - b.videoCount)
+    case 'oldest':
+      return sorted.sort(([, a], [, b]) => a.startDate - b.startDate)
+    case 'newest':
+      return sorted.sort(([, a], [, b]) => b.startDate - a.startDate)
+    case 'alphabetical':
+      return sorted.sort(([, a], [, b]) => b.name.localeCompare(a.name, 'ar'))
+    case 'counter-alphabetical':
+      return sorted.sort(([, a], [, b]) => a.name.localeCompare(b.name, 'ar'))
+    default:
+      return sorted
   }
 }

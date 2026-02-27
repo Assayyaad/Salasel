@@ -3,43 +3,47 @@
 import type { CalculatedPlaylist, LanguageCode } from '@/app/types'
 import type { PlaylistCardPlaylist } from '@/app/[lang]/(home)/components/PlaylistCard'
 
-import React, { ReactNode } from 'react'
+import React from 'react'
 import PlaylistCard from '@/app/[lang]/(home)/components/PlaylistCard'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
+import { sortPlaylists } from '@/app/utils'
 
 export type PlaylistGridPlaylist = Pick<
   CalculatedPlaylist,
-  'id' | 'language' | 'type' | 'categories' | 'style' | 'classes'
+  | 'id'
+  | 'language'
+  | 'type'
+  | 'categories'
+  | 'style'
+  | 'classes'
+  | 'duration'
+  | 'videoCount'
+  | 'startDate'
+  | 'endDate'
+  | 'name'
 >
 export interface PlaylistGridProps {
   playlists: Record<string, PlaylistGridPlaylist & PlaylistCardPlaylist>
   lang: LanguageCode
+  isSearching?: boolean
 }
 
-const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
-  const { filters } = usePlaylistStore()
+const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, isSearching = false }) => {
+  const { filters, sortBy } = usePlaylistStore()
 
-  const cards: ReactNode[] = []
-  for (const id in playlists) {
-    if (!Object.hasOwn(playlists, id)) continue
+  const filteredEntries = Object.entries(playlists).filter(
+    ([, pl]) =>
+      isSearching ||
+      (pl.language === filters.language &&
+        pl.type === filters.contentType &&
+        pl.categories.includes(filters.category as any) &&
+        (filters.presentationStyle === 'all' || pl.style === filters.presentationStyle) &&
+        (filters.class === 'all' || pl.classes.includes(filters.class as any))),
+  )
 
-    const pl = playlists[id]
+  const sortedEntries = sortPlaylists(filteredEntries, sortBy)
 
-    if (
-      // Language filter (mandatory)
-      pl.language === filters.language &&
-      // Content type filter (mandatory)
-      pl.type === filters.contentType &&
-      // Category filter (mandatory)
-      pl.categories.includes(filters.category as any) &&
-      // Presentation style filter (optional)
-      (filters.presentationStyle === 'all' || pl.style === filters.presentationStyle) &&
-      // Class filter (optional)
-      (filters.class === 'all' || pl.classes.includes(filters.class as any))
-    ) {
-      cards.push(<PlaylistCard key={pl.id} playlist={pl} lang={lang} />)
-    }
-  }
+  const cards = sortedEntries.map(([, pl]) => <PlaylistCard key={pl.id} playlist={pl} lang={lang} />)
 
   return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">{cards}</div>
 }
