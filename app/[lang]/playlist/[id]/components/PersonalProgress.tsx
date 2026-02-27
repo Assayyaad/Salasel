@@ -2,7 +2,7 @@
 
 import type { CalculatedPlaylist, CalculatedVideo, Translations } from '@/app/types'
 
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { useProgressStore } from '@/app/store/useProgressStore'
 
@@ -14,14 +14,15 @@ export interface PersonalProgressProps {
   t: Translations
 }
 
+const subscribe = () => () => {}
+
 const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos, t }) => {
   const { completedVideos, notes, videoProgress: videoProgressMap } = useProgressStore()
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    setIsClient(true)
-  }, [])
+  const isClient = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  )
 
   const playlistCompletedVideos = useMemo(() => {
     if (!isClient) return new Set()

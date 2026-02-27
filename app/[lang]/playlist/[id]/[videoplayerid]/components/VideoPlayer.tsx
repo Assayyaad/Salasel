@@ -18,7 +18,7 @@ export interface VideoPlayerProps {
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video, timestamp }) => {
-  const { setVideoProgress, toggleVideoCompleted, completedVideos, setVideoTimestamp } = useProgressStore()
+  const { setVideoProgress, toggleVideoCompleted, setVideoTimestamp } = useProgressStore()
   const { setCurrentTime } = useVideoPlayerStore()
   const lastUpdateTime = useRef(0)
 
@@ -39,7 +39,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video, timestamp })
         iv_load_policy: 3,
       },
     }),
-    [video.id]
+    [video.id],
   )
 
   const { videoNode, player, isReady } = useVideoPlayer(videoJsOptions)
@@ -94,9 +94,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video, timestamp })
               setVideoTimestamp(video.id, Math.round(currentTime))
               lastUpdateTime.current = now
 
+              const currentCompletedVideos = useProgressStore.getState().completedVideos
               if (
                 progress >= COMPLETION_THRESHOLD &&
-                (!completedVideos[playlist.id] || !completedVideos[playlist.id].has(video.id))
+                (!currentCompletedVideos[playlist.id] || !currentCompletedVideos[playlist.id].has(video.id))
               ) {
                 toggleVideoCompleted(playlist.id, video.id)
               }
@@ -116,7 +117,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video, timestamp })
         }
       }
     }
-  }, [player, isReady, playlist.id, video.id, toggleVideoCompleted, setCurrentTime, setVideoProgress, setVideoTimestamp, completedVideos])
+  }, [
+    player,
+    isReady,
+    playlist.id,
+    video.id,
+    toggleVideoCompleted,
+    setCurrentTime,
+    setVideoProgress,
+    setVideoTimestamp,
+  ])
 
   useEffect(() => {
     // 1. Initial safety check
@@ -129,7 +139,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video, timestamp })
     activePlayer.ready(() => {
       const newSrc = {
         src: `https://www.youtube-nocookie.com/watch?v=${activeVideo.id}`,
-        type: 'video/youtube'
+        type: 'video/youtube',
       }
 
       if (activePlayer.currentSrc() !== newSrc.src) {

@@ -24,7 +24,6 @@ const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video, 
 
   // Add timestamp to URL if not present
   useEffect(() => {
-    if (!searchParams) return
     const hasTimestamp = searchParams.get('t')
     if (!hasTimestamp && videoTimestamps[video.id]) {
       const timestamp = videoTimestamps[video.id]
