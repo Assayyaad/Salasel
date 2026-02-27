@@ -34,7 +34,6 @@ function stringifyPlaylist(playlist) {
   return {
     id: playlist.id || '',
     name: playlist.name || '',
-    channel: playlist.channel || '',
     thumbnailId: playlist.thumbnailId || '',
     description: playlist.description || '',
     participants: (playlist.participants || []).join(';'),

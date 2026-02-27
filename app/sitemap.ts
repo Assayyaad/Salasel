@@ -3,7 +3,7 @@ import type { Videos } from '@/app/types'
 import fs from 'fs/promises'
 import path from 'path'
 import { MetadataRoute } from 'next'
-import { allLanguages } from '@/app/static'
+import { allLanguages, defaultLanguage } from '@/app/static'
 import { getPlaylists } from '@/app/db'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -71,11 +71,16 @@ async function playlistSitemap(baseUrl: string, playlistId: string): Promise<Met
 }
 
 function generateLangAlts(baseUrl: string, urlRoute: string = ''): Record<string, string> {
-  return allLanguages.reduce(
+  const defaultPath = urlRoute ? `${defaultLanguage}/${urlRoute}` : `${defaultLanguage}`
+
+  const alts = allLanguages.reduce(
     (acc, lang) => {
-      acc[lang.code] = `${baseUrl}/${lang.code}/${urlRoute}`
+      const path = urlRoute ? `${lang.code}/${urlRoute}` : `${lang.code}`
+      acc[lang.code] = `${baseUrl}/${path}`
       return acc
     },
-    {} as Record<string, string>,
+    { 'x-default': `${baseUrl}/${defaultPath}` } as Record<string, string>,
   )
+
+  return alts
 }

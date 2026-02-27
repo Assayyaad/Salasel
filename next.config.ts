@@ -28,8 +28,16 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60,
   },
-  // You can add other Next.js config options here
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
+  transpilePackages: [],
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 }
 
 export default nextConfig

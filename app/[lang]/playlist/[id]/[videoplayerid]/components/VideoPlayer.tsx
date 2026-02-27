@@ -9,7 +9,7 @@ import { useProgressStore } from '@/app/store/useProgressStore'
 import { useVideoPlayerStore } from '@/app/store/useVideoPlayerStore'
 import 'video.js/dist/video-js.css'
 
-export type VideoPlayerPlaylist = Pick<CalculatedPlaylist, 'id' | 'channel' | 'name'>
+export type VideoPlayerPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
 export type VideoPlayerVideo = Pick<CalculatedVideo, 'id' | 'title'>
 export interface VideoPlayerProps {
   playlist: VideoPlayerPlaylist
@@ -42,7 +42,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
         responsive: true,
         fluid: true,
         techOrder: ['youtube'],
-        sources: [{ src: `https://www.youtube.com/watch?v=${video.id}`, type: 'video/youtube' }],
+        sources: [{ src: `https://www.youtube-nocookie.com/watch?v=${video.id}`, type: 'video/youtube' }],
         youtube: {
           playsinline: 1,
           ytControls: 0,
@@ -131,7 +131,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
 
     if (player) {
       player.ready(() => {
-        const newSrc = { src: `https://www.youtube.com/watch?v=${video.id}`, type: 'video/youtube' }
+        const newSrc = { src: `https://www.youtube-nocookie.com/watch?v=${video.id}`, type: 'video/youtube' }
         if (player.currentSrc() !== newSrc.src) {
           player.src(newSrc)
         }
@@ -151,7 +151,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ playlist, video }) => {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-        {playlist.channel} | {playlist.name} | {video.title} <Librecounter />
+        {playlist.name} | {video.title} <Librecounter />
       </h1>
       <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
         <div data-vjs-player>

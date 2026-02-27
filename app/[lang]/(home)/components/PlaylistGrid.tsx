@@ -37,7 +37,9 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
       // Class filter (optional)
       (filters.class === 'all' || pl.classes.includes(filters.class as any))
     ) {
-      cards.push(<PlaylistCard key={pl.id} playlist={pl} lang={lang} />)
+      // Prioritize first 6 cards for LCP optimization (first 2 rows in 3-column grid)
+      const isPriority = cards.length < 6
+      cards.push(<PlaylistCard key={pl.id} playlist={pl} lang={lang} priority={isPriority} />)
     }
   }
 

@@ -8,6 +8,8 @@ const Librecounter: React.FC = () => {
         referrerPolicy="unsafe-url"
         alt="Visitor counter"
         className="w-4 h-auto"
+        width={16}
+        height={16}
       />
     </a>
   )

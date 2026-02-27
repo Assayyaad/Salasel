@@ -4,6 +4,7 @@ import type { VideoPlayerParams } from '@/app/[lang]/playlist/[id]/[videoplayeri
 import { getVideo } from '@/app/db'
 import { videoThumbnailUrl } from '@/app/utils'
 import { getTranslations } from '@/app/translate'
+import { allLanguages, defaultLanguage } from '@/app/static'
 
 export interface VideoPlayerMetadataProps {
   params: Promise<VideoPlayerParams>
@@ -22,15 +23,29 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
   }
 
   const thumbnailUrl = videoThumbnailUrl(video.id)
-  const title = `${t.appTitle} · ${playlist.channel} | ${playlist.name} | ${video.title}`
-  const description = `${playlist.channel} | ${playlist.name} | ${video.title}`
+  const title = `${t.appTitle} · ${playlist.name} | ${video.title}`
+  const description = `${playlist.name} | ${video.title}`
+
+  // Generate alternate language links for hreflang
+  const baseUrl = 'https://salasel.app'
+  const langAlts = allLanguages.reduce(
+    (acc, l) => {
+      acc[l.code] = `${baseUrl}/${l.code}/playlist/${id}/${videoplayerid}`
+      return acc
+    },
+    { 'x-default': `${baseUrl}/${defaultLanguage}/playlist/${id}/${videoplayerid}` } as Record<string, string>,
+  )
 
   return {
     title,
     description,
+    alternates: {
+      languages: langAlts,
+    },
     openGraph: {
       title: video.title,
       description,
+      url: `${baseUrl}/${lang}/playlist/${id}/${videoplayerid}`,
       images: [
         {
           url: thumbnailUrl,
@@ -56,6 +71,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
       card: 'player',
       title: video.title,
       description,
+      site: '@SalaselApp',
       images: [thumbnailUrl],
       players: {
         playerUrl: `https://www.youtube.com/embed/${video.id}`,
@@ -64,7 +80,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
         height: 720,
       },
     },
-    keywords: [playlist.channel, playlist.name, video.title, ...playlist.categories.map((c) => t.categories[c])],
+    keywords: [playlist.name, video.title, ...playlist.categories.map((c) => t.categories[c])],
     authors: playlist.participants.map((p) => ({ name: p })),
   }
 }

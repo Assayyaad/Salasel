@@ -3,7 +3,7 @@ import type { Language, Translations } from '@/app/types'
 
 import React from 'react'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { allLanguages, metadata } from '@/app/static'
+import { allLanguages, defaultLanguage, metadata } from '@/app/static'
 import { getLanguage, getTranslations } from '@/app/translate'
 import '@/app/globals.css'
 
@@ -12,11 +12,13 @@ export { viewport } from '@/app/static'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+  display: 'swap',
 })
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+  display: 'swap',
 })
 
 export interface LanguageLayoutProps {
@@ -37,13 +39,14 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const t: Translations = getTranslations(lang)
   const currLang: Language = getLanguage(lang)
 
-  // Generate alternate language links
+  // Generate alternate language links for hreflang
+  const baseUrl = 'https://salasel.app'
   const langAlts = allLanguages.reduce(
-    (acc: Record<string, string>, lang: Language) => {
-      acc[lang.code] = `/${lang.code}`
+    (acc, l) => {
+      acc[l.code] = `${baseUrl}/${l.code}`
       return acc
     },
-    {} as Record<string, string>,
+    { 'x-default': `${baseUrl}/${defaultLanguage}` } as Record<string, string>,
   )
 
   return {
@@ -60,7 +63,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     openGraph: {
       title: t.appFullTitle,
       description: t.appDescription,
-      url: `https://salasel.app/${currLang.code}`,
+      url: `${baseUrl}/${currLang.code}`,
       siteName: t.appTitle,
       type: 'website',
       locale: currLang.code,
@@ -71,6 +74,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       title: t.appFullTitle,
       description: t.appDescription,
       site: '@SalaselApp',
+      images: [`${baseUrl}/img/logo.webp`],
     },
   }
 }

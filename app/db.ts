@@ -41,21 +41,16 @@ export function searchPlaylists(playlists: Playlists, query: string): Playlists 
   const normalizedQuery = query.trim().toLowerCase()
   const matches: Playlists = {}
 
-  // create obj then assign to it to preserve order (name matches first, then channel matches)
+  // create obj then assign to it to preserve order
 
   for (const id in playlists) {
     if (!Object.hasOwn(playlists, id)) continue
 
     const pl = playlists[id]
     const name = pl.name.toLowerCase()
-    const channel = pl.channel.toLowerCase()
 
     // البحث في العنوان
     if (name.includes(normalizedQuery)) {
-      matches[pl.id] = pl
-    }
-    // البحث في القناة (بدون تكرار)
-    else if (channel.includes(normalizedQuery)) {
       matches[pl.id] = pl
     }
   }

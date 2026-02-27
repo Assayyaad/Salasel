@@ -8,7 +8,7 @@ import { useProgressStore } from '@/app/store/useProgressStore'
 import PlaylistSidebar from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/PlaylistSidebar'
 import VideoPlayer from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/VideoPlayer'
 
-export type VideoPlayerClientPlaylist = Pick<CalculatedPlaylist, 'id' | 'channel' | 'name'>
+export type VideoPlayerClientPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
 export type VideoPlayerClientVideo = Pick<CalculatedVideo, 'id' | 'title'>
 export interface VideoPlayerClientProps {
   playlist: VideoPlayerClientPlaylist

@@ -1,0 +1,33 @@
+name: إختبار
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: استخراج الكود
+        uses: actions/checkout@v6
+
+      - name: تجهيز Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: تحميل التبعيات
+        run: npm ci
+
+      - name: بناء المشروع
+        run: npm run build
+        env:
+          NODE_ENV: production
