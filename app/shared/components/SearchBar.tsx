@@ -36,7 +36,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ t }) => {
         clearTimeout(debounceTimer.current)
       }
     }
-  }, [searchTerm, router])
+  }, [searchTerm, router, searchParams])
 
   return (
     <div className="flex-1 max-w-xl mx-auto px-4">

@@ -1,6 +1,6 @@
 'use client'
 
-import type { CalculatedPlaylist, LanguageCode } from '@/app/types'
+import type { CalculatedPlaylist, LanguageCode, Categories, Classes } from '@/app/types'
 import type { PlaylistCardPlaylist } from '@/app/[lang]/(home)/components/PlaylistCard'
 
 import React, { ReactNode } from 'react'
@@ -31,11 +31,11 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
       // Content type filter (mandatory)
       pl.type === filters.contentType &&
       // Category filter (mandatory)
-      pl.categories.includes(filters.category as any) &&
+      pl.categories.includes(filters.category as Categories) &&
       // Presentation style filter (optional)
       (filters.presentationStyle === 'all' || pl.style === filters.presentationStyle) &&
       // Class filter (optional)
-      (filters.class === 'all' || pl.classes.includes(filters.class as any))
+      (filters.class === 'all' || pl.classes.includes(filters.class as Classes))
     ) {
       // Prioritize first 6 cards for LCP optimization (first 2 rows in 3-column grid)
       const isPriority = cards.length < 6
