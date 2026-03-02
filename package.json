@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev:app": "next dev",
+    "dev": "npm run build:data && npm run dev:app",
     "build:data": "node -e \"require('./bin/func/cli/cmd/csv-to-json.js').convertToJson().then(() => process.exit(0)).catch(e => { console.error(e); process.exit(1); })\"",
     "build:app": "next build",
     "build": "npm run build:data && npm run build:app",
