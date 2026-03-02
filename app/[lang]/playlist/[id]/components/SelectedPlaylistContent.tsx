@@ -2,7 +2,7 @@
 
 import type { CalculatedPlaylist, CalculatedVideo, Translations } from '@/app/types'
 
-import React, { useState, useEffect, ReactNode } from 'react'
+import React, { useSyncExternalStore, ReactNode } from 'react'
 import ContentCard from '@/app/[lang]/playlist/[id]/components/ContentCard'
 import { useProgressStore } from '@/app/store/useProgressStore'
 
@@ -14,15 +14,17 @@ export interface SelectedPlaylistContentProps {
   t: Translations
 }
 
+const subscribe = () => () => {}
+
 const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist, videos, t }) => {
   const { completedVideos, videoProgress, notes, toggleVideoCompleted } = useProgressStore()
-  const [isClient, setIsClient] = useState(false)
+  const isClient = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  )
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  const getStatus = (videoId: string): any => {
+  const getStatus = (videoId: string): 'not-started' | 'in-progress' | 'completed' => {
     if (!isClient) return 'not-started'
     const isCompleted = completedVideos[playlist.id]?.has(videoId)
     if (isCompleted) {
