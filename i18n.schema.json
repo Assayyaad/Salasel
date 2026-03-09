@@ -221,6 +221,22 @@
       "type": "string",
       "description": "Message when playlist has no videos"
     },
+    "programNotFound": {
+      "type": "string",
+      "description": "Error message when program is not found"
+    },
+    "programLabel": {
+      "type": "string",
+      "description": "Label for program type badge"
+    },
+    "seasonLabel": {
+      "type": "string",
+      "description": "Label for season/part number within a program"
+    },
+    "totalVideosLabel": {
+      "type": "string",
+      "description": "Label for total video count across all playlists in a program"
+    },
     "appTitle": {
       "type": "string",
       "description": "Short application title"
@@ -283,6 +299,10 @@
     "playlistNotFound",
     "videoNotFound",
     "noVideosFound",
+    "programNotFound",
+    "programLabel",
+    "seasonLabel",
+    "totalVideosLabel",
     "appTitle",
     "appFullTitle",
     "appDescription"

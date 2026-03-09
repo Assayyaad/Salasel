@@ -14,10 +14,26 @@ const playlistHeader = Object.freeze([
   'style',
   'classes',
   'categories',
+  'programId',
 ])
 
 /** @type {Readonly<(keyof FetchedVideo)[]>} */
 const videoHeader = Object.freeze(['id', 'title', 'uploadedAt', 'duration'])
+
+/** @type {Readonly<(keyof import('./types.js').Program)[]>} */
+const programHeader = Object.freeze([
+  'id',
+  'name',
+  'thumbnailId',
+  'description',
+  'participants',
+  'language',
+  'type',
+  'style',
+  'classes',
+  'categories',
+  'playlistsOrder',
+])
 
 /** @type {Readonly<Record<LanguageNames, Languages>>} */
 const languages = Object.freeze({
@@ -62,14 +78,17 @@ const csvDir = dataDir
 const videosDir = path.join(csvDir, 'videos')
 const captionsDir = path.join(csvDir, 'captions')
 const playlistsFile = path.join(csvDir, 'playlists.csv')
+const programsFile = path.join(csvDir, 'programs.csv')
 
 const jsonDir = path.join(process.cwd(), 'public')
 const jsonVideosDir = path.join(jsonDir, 'videos')
 const jsonPlaylistsFile = path.join(jsonDir, 'playlists.json')
+const jsonProgramsFile = path.join(jsonDir, 'programs.json')
 
 module.exports = {
   playlistHeader,
   videoHeader,
+  programHeader,
 
   languages,
   contents,
@@ -82,8 +101,10 @@ module.exports = {
   videosDir,
   captionsDir,
   playlistsFile,
+  programsFile,
 
   jsonDir,
   jsonVideosDir,
   jsonPlaylistsFile,
+  jsonProgramsFile,
 }

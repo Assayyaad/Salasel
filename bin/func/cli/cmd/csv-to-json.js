@@ -13,6 +13,7 @@ async function convertToJson() {
     console.log('\n=== Conversion Summary ===')
     logSuccess(`Playlists converted: ${summary.playlistCount}`)
     logSuccess(`Videos converted: ${summary.videoCount}`)
+    logSuccess(`Programs converted: ${summary.programCount}`)
     console.log('\nJSON files saved to data/json/ directory')
   }, 'Failed to convert data')
 }

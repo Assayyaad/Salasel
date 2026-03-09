@@ -2,6 +2,7 @@
 
 # generated files
 /public/playlists.json
+/public/programs.json
 /public/videos/
 
 # dependencies

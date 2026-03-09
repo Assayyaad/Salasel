@@ -1,9 +1,23 @@
-/** @import { FetchedPlaylist, FetchedVideo, FilledPlaylist } from '../../types.js' */
+/** @import { FetchedPlaylist, FetchedVideo, FilledPlaylist, Program } from '../../types.js' */
 
 const path = require('path')
 const fs = require('fs-extra')
-const { stringifyVideo, objectifyVideo, stringifyPlaylist, objectifyPlaylist } = require('./str.js')
-const { playlistHeader, videoHeader, playlistsFile, videosDir } = require('../../static.js')
+const {
+  stringifyVideo,
+  objectifyVideo,
+  stringifyPlaylist,
+  objectifyPlaylist,
+  stringifyProgram,
+  objectifyProgram,
+} = require('./str.js')
+const {
+  playlistHeader,
+  videoHeader,
+  programHeader,
+  playlistsFile,
+  videosDir,
+  programsFile,
+} = require('../../static.js')
 const { writeFileRecords, readFileRecords } = require('../util/csvFile.js')
 
 /**
@@ -135,6 +149,71 @@ async function updateVideos(id, videos) {
   await writeFileRecords(videoPath, videoHeader, videos.map(stringifyVideo))
 }
 
+/**
+ * Reads all programs from the CSV file
+ * @returns {Promise<Program[]>} Array of program objects
+ */
+async function readPrograms() {
+  const exists = await fs.pathExists(programsFile)
+  if (!exists) {
+    return []
+  }
+
+  // @ts-expect-error
+  return /** @type {Program[]} */ (await readFileRecords(programsFile, objectifyProgram))
+}
+
+/**
+ * Adds a new program to the CSV database
+ * @param {Program} program - Program object to add
+ * @returns {Promise<void>}
+ */
+async function addProgram(program) {
+  const programs = await readPrograms()
+
+  const progIndex = programs.findIndex((p) => p.id === program.id)
+  if (progIndex !== -1) {
+    return
+  }
+
+  programs.push(program)
+  await writeFileRecords(programsFile, programHeader, programs.map(stringifyProgram))
+}
+
+/**
+ * Updates an existing program in the CSV database
+ * @param {Program} program - Program object to update
+ * @returns {Promise<void>}
+ */
+async function updateProgram(program) {
+  const programs = await readPrograms()
+
+  const progIndex = programs.findIndex((p) => p.id === program.id)
+  if (progIndex === -1) {
+    throw new Error(`Program with id ${program.id} not found`)
+  }
+
+  programs[progIndex] = program
+  await writeFileRecords(programsFile, programHeader, programs.map(stringifyProgram))
+}
+
+/**
+ * Removes a program from the CSV database
+ * @param {string} programId - id of the program to remove
+ * @returns {Promise<boolean>} True if removed, false if not found
+ */
+async function removeProgram(programId) {
+  const programs = await readPrograms()
+  const filteredPrograms = programs.filter((p) => p.id !== programId)
+
+  if (filteredPrograms.length === programs.length) {
+    return false
+  }
+
+  await writeFileRecords(programsFile, programHeader, filteredPrograms.map(stringifyProgram))
+  return true
+}
+
 module.exports = {
   readPlaylists,
   addPlaylist,
@@ -144,4 +223,9 @@ module.exports = {
   readVideos,
   addVideos,
   updateVideos,
+
+  readPrograms,
+  addProgram,
+  updateProgram,
+  removeProgram,
 }

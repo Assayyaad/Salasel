@@ -66,6 +66,10 @@
   "playlistNotFound": "لم يُعثر على السلسلة",
   "videoNotFound": "لم يُعثر على المقطع",
   "noVideosFound": "لا مقاطع في السلسلة",
+  "programNotFound": "لم يُعثر على البرنامج",
+  "programLabel": "البرنامج",
+  "seasonLabel": "الجزء",
+  "totalVideosLabel": "المقاطع الكلية",
   "appTitle": "سلاسل",
   "appFullTitle": "سلاسل - تطبيق سلاسل تعليمية وتوعوية وتزكوية",
   "appDescription": "تطبيق سلاسل تعليمية وتوعوية وتزكوية لبناء إنسان متزن ومجتمع متماسك"
