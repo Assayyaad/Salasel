@@ -30,6 +30,17 @@
   "filterPresentationStyleLabel": "スタイル",
   "filterClassLabel": "クラス",
   "filterAllOption": "すべて",
+  "filterSortLabel": "並び替え",
+  "sorts": {
+    "longest": "最長",
+    "shortest": "最短",
+    "most-videos": "動画数が多い",
+    "least-videos": "動画数が少ない",
+    "oldest": "古い順",
+    "newest": "新しい順",
+    "alphabetical": "アルファベット順",
+    "counter-alphabetical": "逆アルファベット順"
+  },
   "searchTab": "検索",
   "summaryTab": "概要",
   "transcriptionTab": "文字起こし",

@@ -30,6 +30,17 @@
   "filterPresentationStyleLabel": "Style",
   "filterClassLabel": "Category",
   "filterAllOption": "All",
+  "filterSortLabel": "Sort",
+  "sorts": {
+    "longest": "Longest",
+    "shortest": "Shortest",
+    "most-videos": "Most Videos",
+    "least-videos": "Least Videos",
+    "oldest": "Oldest",
+    "newest": "Newest",
+    "alphabetical": "Alphabetical",
+    "counter-alphabetical": "Reverse Alphabetical"
+  },
   "searchTab": "Search",
   "summaryTab": "Summary",
   "transcriptionTab": "Transcription",

@@ -56,6 +56,16 @@ export interface CalculatedPlaylist extends FilledPlaylist {
   endDate: number
 }
 
+export type SortOption =
+  | 'longest'
+  | 'shortest'
+  | 'most-videos'
+  | 'least-videos'
+  | 'oldest'
+  | 'newest'
+  | 'alphabetical'
+  | 'counter-alphabetical'
+
 export type StringifiedPlaylist = Record<keyof FilledPlaylist, string>
 export type StringifiedVideo = Record<keyof FetchedVideo, string> & {
   duration: StrTime
@@ -126,6 +136,17 @@ export interface Translations {
   filterPresentationStyleLabel: string
   filterClassLabel: string
   filterAllOption: string
+  filterSortLabel: string
+  sorts: {
+    'longest': string
+    'shortest': string
+    'most-videos': string
+    'least-videos': string
+    'oldest': string
+    'newest': string
+    'alphabetical': string
+    'counter-alphabetical': string
+  }
   searchTab: string
   summaryTab: string
   transcriptionTab: string

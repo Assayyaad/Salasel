@@ -77,6 +77,34 @@
       "type": "string",
       "description": "Option to show all items (no filter)"
     },
+    "filterSortLabel": {
+      "type": "string",
+      "description": "Label for sort order selector"
+    },
+    "sorts": {
+      "type": "object",
+      "description": "Labels for playlist sort options",
+      "required": [
+        "longest",
+        "shortest",
+        "most-videos",
+        "least-videos",
+        "oldest",
+        "newest",
+        "alphabetical",
+        "counter-alphabetical"
+      ],
+      "properties": {
+        "longest": { "type": "string", "description": "Sort by longest duration" },
+        "shortest": { "type": "string", "description": "Sort by shortest duration" },
+        "most-videos": { "type": "string", "description": "Sort by most videos" },
+        "least-videos": { "type": "string", "description": "Sort by least videos" },
+        "oldest": { "type": "string", "description": "Sort by oldest end date" },
+        "newest": { "type": "string", "description": "Sort by newest start date" },
+        "alphabetical": { "type": "string", "description": "Sort alphabetically descending" },
+        "counter-alphabetical": { "type": "string", "description": "Sort alphabetically ascending" }
+      }
+    },
     "searchTab": {
       "type": "string",
       "description": "Tab label for search functionality"
@@ -247,6 +275,8 @@
     "filterPresentationStyleLabel",
     "filterClassLabel",
     "filterAllOption",
+    "filterSortLabel",
+    "sorts",
     "searchTab",
     "summaryTab",
     "transcriptionTab",
