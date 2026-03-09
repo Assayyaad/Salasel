@@ -28,6 +28,8 @@ export interface FetchedPlaylist {
 
 /** Playlist with manual data */
 export interface FilledPlaylist extends FetchedPlaylist {
+  /** معرف البرنامج (إن كانت السلسلة جزء من برنامج) */
+  programId?: string
   /** وصف مختصر لمحتوى السلسلة */
   description: string
   /** الأشخاص الظاهرين في محتوى مقاطع السلسلة */
@@ -64,6 +66,53 @@ export type StringifiedVideo = Record<keyof FetchedVideo, string> & {
 
 export type Playlists = Record<string, CalculatedPlaylist>
 export type Videos = Record<string, CalculatedVideo>
+
+// ============================================================================
+// Program Types
+// ============================================================================
+
+/** Program containing multiple playlists */
+export interface Program {
+  /** معرف البرنامج */
+  id: string
+  /** اسم البرنامج */
+  name: string
+  /** معرف المقطع المستخدم للصورة المصغرة */
+  thumbnailId: string
+  /** وصف مختصر للبرنامج */
+  description: string
+  /** الأشخاص الظاهرين */
+  participants: string[]
+  /** لغة المحتوى */
+  language: Languages
+  /** نوع المحتوى */
+  type: ContentTypes
+  /** طريقة الطرح */
+  style: PresentationStyles
+  /** التصانيف */
+  categories: Categories[]
+  /** الفئات */
+  classes: Classes[]
+  /** ترتيب قوائم التشغيل في البرنامج */
+  playlistsOrder: string[]
+}
+
+/** Program with calculated data */
+export interface CalculatedProgram extends Program {
+  /** عدد قوائم التشغيل */
+  playlistCount: number
+  /** إجمالي عدد المقاطع */
+  totalVideoCount: number
+  /** إجمالي المدة بالثواني */
+  totalDuration: number
+  /** تاريخ البداية */
+  startDate: number
+  /** تاريخ النهاية */
+  endDate: number
+}
+
+export type StringifiedProgram = Record<keyof Program, string>
+export type Programs = Record<string, CalculatedProgram>
 
 // ============================================================================
 // Language & Internationalization Types
@@ -162,6 +211,10 @@ export interface Translations {
   playlistNotFound: string
   videoNotFound: string
   noVideosFound: string
+  programNotFound: string
+  programLabel: string
+  seasonLabel: string
+  totalVideosLabel: string
   appTitle: string
   appFullTitle: string
   appDescription: string

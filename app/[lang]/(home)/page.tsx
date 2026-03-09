@@ -5,7 +5,7 @@ import PlaylistGrid from '@/app/[lang]/(home)/components/PlaylistGrid'
 import FilterGrid from '@/app/[lang]/(home)/components/FilterGrid'
 import Librecounter from '@/app/shared/components/Librecounter'
 import SearchBar from '@/app/shared/components/SearchBar'
-import { getPlaylists, searchPlaylists } from '@/app/db'
+import { getPlaylists, getPrograms, searchPlaylists, searchPrograms } from '@/app/db'
 import { getTranslations } from '@/app/translate'
 
 export { generateStaticParams } from '@/app/[lang]/(home)/params'
@@ -19,12 +19,31 @@ export interface HomeProps {
 const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
   const { lang } = await params
   const t = getTranslations(lang)
-  const playlists = getPlaylists()
+  const allPlaylists = getPlaylists()
+  const allPrograms = getPrograms()
 
   // Apply search filter if query exists
   const resolvedSearchParams = await searchParams
   const searchQuery = resolvedSearchParams.q || ''
-  const filteredPlaylists = searchPlaylists(playlists, searchQuery)
+
+  const filteredPrograms = searchPrograms(allPrograms, searchQuery)
+
+  // Get the set of playlist IDs that belong to a program
+  const programPlaylistIds = new Set<string>()
+  for (const id in allPrograms) {
+    if (!Object.hasOwn(allPrograms, id)) continue
+    allPrograms[id].playlistsOrder.forEach((plId) => programPlaylistIds.add(plId))
+  }
+
+  // Only show standalone playlists (not part of any program)
+  const standalonePlaylists = searchPlaylists(allPlaylists, searchQuery)
+  const filteredPlaylists: typeof standalonePlaylists = {}
+  for (const id in standalonePlaylists) {
+    if (!Object.hasOwn(standalonePlaylists, id)) continue
+    if (!programPlaylistIds.has(id)) {
+      filteredPlaylists[id] = standalonePlaylists[id]
+    }
+  }
 
   return (
     <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -44,7 +63,7 @@ const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
       <div className="relative mb-12">
         <FilterGrid t={t} />
       </div>
-      <PlaylistGrid playlists={filteredPlaylists} lang={t.__language.code} />
+      <PlaylistGrid playlists={filteredPlaylists} programs={filteredPrograms} lang={t.__language.code} />
     </main>
   )
 }

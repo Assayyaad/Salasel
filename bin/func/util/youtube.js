@@ -1,4 +1,4 @@
-/** @import { CalculatedPlaylist, CalculatedVideo, FetchedPlaylist, FetchedVideo, FilledPlaylist } from '../../types.js'  */
+/** @import { CalculatedPlaylist, CalculatedVideo, FetchedPlaylist, FetchedVideo, FilledPlaylist, Program, CalculatedProgram }  from '../../types.js'  */
 
 /**
  * @param {string} str
@@ -116,6 +116,26 @@ function calcVideo(video, playlist) {
   }
 }
 
+/**
+ * @param {Program} program
+ * @param {CalculatedPlaylist[]} playlists
+ * @returns {CalculatedProgram}
+ */
+function calcProgram(program, playlists) {
+  const totalVideoCount = playlists.reduce((acc, pl) => acc + pl.videoCount, 0)
+  const totalDuration = playlists.reduce((acc, pl) => acc + pl.duration, 0)
+  const dates = playlists.map((pl) => pl.startDate).filter((d) => d > 0)
+  const endDates = playlists.map((pl) => pl.endDate).filter((d) => d > 0)
+  return {
+    ...program,
+    playlistCount: playlists.length,
+    totalVideoCount,
+    totalDuration,
+    startDate: dates.length > 0 ? Math.min(...dates) : 0,
+    endDate: endDates.length > 0 ? Math.max(...endDates) : 0,
+  }
+}
+
 module.exports = {
   toPlaylistUrl,
   toVideoUrl,
@@ -128,4 +148,5 @@ module.exports = {
 
   calcPlaylist,
   calcVideo,
+  calcProgram,
 }

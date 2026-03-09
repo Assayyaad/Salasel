@@ -66,6 +66,10 @@
   "playlistNotFound": "Series not found",
   "videoNotFound": "Video not found",
   "noVideosFound": "No videos in series",
+  "programNotFound": "Program not found",
+  "programLabel": "Program",
+  "seasonLabel": "Season",
+  "totalVideosLabel": "Total Videos",
   "appTitle": "Salasel",
   "appFullTitle": "Salasel - Educational, Awareness and Purification Series",
   "appDescription": "Educational, awareness and purification series for building a balanced individual and cohesive society"
