@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import type { Language, LanguageCode, Translations } from '@/app/types'
+import type { Language, LanguageCode } from '@/app/types'
 
 // ============================================================================
 // Language Configuration
@@ -25,21 +25,6 @@ export const languageMap: Readonly<Record<LanguageCode, Language>> = Object.free
     {} as Record<LanguageCode, Language>,
   ),
 )
-
-// ============================================================================
-// Translations
-// ============================================================================
-
-import ar from '@/public/i18n/ar.json'
-import en from '@/public/i18n/en.json'
-import ja from '@/public/i18n/ja.json'
-
-/** Translation map for all languages */
-export const translationsMap: Readonly<Record<LanguageCode, Translations>> = Object.freeze({
-  ar: { ...ar, __language: languageMap.ar },
-  en: { ...en, __language: languageMap.en },
-  ja: { ...ja, __language: languageMap.ja },
-})
 
 // ============================================================================
 // Content Data (Non-translatable)

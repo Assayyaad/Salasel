@@ -3,7 +3,7 @@ import type { SelectedPlaylistParams } from '@/app/[lang]/playlist/[id]/params'
 
 import { getPlaylist } from '@/app/db'
 import { videoThumbnailUrl } from '@/app/utils'
-import { getTranslations } from '@/app/translate'
+import { getTranslations } from 'next-intl/server'
 import { allLanguages, defaultLanguage } from '@/app/static'
 
 export interface SelectedPlaylistMetadataProps {
@@ -12,18 +12,18 @@ export interface SelectedPlaylistMetadataProps {
 
 export async function generateMetadata({ params }: SelectedPlaylistMetadataProps): Promise<Metadata> {
   const { lang, id } = await params
-  const t = getTranslations(lang)
+  const t = await getTranslations({ locale: lang })
   const playlist = getPlaylist(id)
 
   if (!playlist) {
     return {
-      title: t.playlistNotFound,
-      description: t.playlistNotFound,
+      title: t('playlistNotFound'),
+      description: t('playlistNotFound'),
     }
   }
 
   const thumbnailUrl = videoThumbnailUrl(playlist.thumbnailId)
-  const title = `${t.appTitle} · ${playlist.name}`
+  const title = `${t('appTitle')} · ${playlist.name}`
   const description = playlist.description || title
 
   // Generate alternate language links for hreflang
@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: SelectedPlaylistMetadataProps
       site: '@SalaselApp',
       images: [thumbnailUrl],
     },
-    keywords: [playlist.name, ...playlist.categories.map((c) => t.categories[c])],
+    keywords: [playlist.name, ...playlist.categories.map((c) => t(`categories.${c}`))],
     authors: playlist.participants.map((p) => ({ name: p })),
   }
 }
