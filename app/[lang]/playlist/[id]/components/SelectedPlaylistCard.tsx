@@ -1,12 +1,14 @@
 'use client'
 
-import type { CalculatedPlaylist, Translations } from '@/app/types'
+import type { CalculatedPlaylist } from '@/app/types'
+import type { LanguageCode } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
+import { useLocale, useTranslations } from 'next-intl'
 import Librecounter from '@/app/shared/components/Librecounter'
 import { formatDate, videoThumbnailUrl, fallbackThumbnailUrl, formatTime } from '@/app/utils'
-import { defaultLabel } from '@/app/static'
+import { defaultLabel, languageMap } from '@/app/static'
 
 export type SelectedPlaylistCardPlaylist = Pick<
   CalculatedPlaylist,
@@ -26,15 +28,17 @@ export type SelectedPlaylistCardPlaylist = Pick<
 >
 export interface SelectedPlaylistCardProps {
   playlist: SelectedPlaylistCardPlaylist
-  t: Translations
 }
 
-const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t }) => {
+const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
+  const t = useTranslations()
+  const locale = useLocale()
+  const comma = languageMap[locale as LanguageCode]?.comma ?? ','
 
   if (!playlist) {
-    return <div>{t.loading}</div> // Or some other loading state
+    return <div>{t('loading')}</div>
   }
 
   return (
@@ -52,7 +56,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
           {playlist.participants.length > 0 && (
             <div className="text-sm text-muted-light dark:text-muted-dark font-medium">
               <span>
-                {t.withParticipation} {playlist.participants.join(`${t.__language.comma} `)}
+                {t('withParticipation')} {playlist.participants.join(`${comma} `)}
               </span>
             </div>
           )}
@@ -62,41 +66,43 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">ondemand_video</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.videosLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t('videosLabel')}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{playlist.videoCount}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">schedule</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.durationLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t('durationLabel')}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{formatTime(playlist.duration)}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">question_mark</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.typeLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t('typeLabel')}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {t.contents[playlist.type] || defaultLabel}
+                  {t(`contents.${playlist.type}`) || defaultLabel}
                 </span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">mic</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.styleLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t('styleLabel')}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {t.presentations[playlist.style] || defaultLabel}
+                  {t(`presentations.${playlist.style}`) || defaultLabel}
                 </span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">category</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.categoriesLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">
+                  {t('categoriesLabel')}
+                </span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {playlist.categories.map((c) => t.categories[c] || defaultLabel).join(`${t.__language.comma} `) ||
+                  {playlist.categories.map((c) => t(`categories.${c}`) || defaultLabel).join(`${comma} `) ||
                     defaultLabel}
                 </span>
               </span>
@@ -104,24 +110,23 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">group</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.classesLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t('classesLabel')}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">
-                  {playlist.classes.map((c) => t.classes[c] || defaultLabel).join(`${t.__language.comma} `) ||
-                    defaultLabel}
+                  {playlist.classes.map((c) => t(`classes.${c}`) || defaultLabel).join(`${comma} `) || defaultLabel}
                 </span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">event</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.startDateLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t('startDateLabel')}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{formatDate(playlist.startDate)}</span>
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <span className="material-icons-round text-base ml-1 text-primary">event_available</span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t.endDateLabel}</span>
+                <span className="text-sm font-semibold text-text-light dark:text-text-dark">{t('endDateLabel')}</span>
                 <span className="text-xs text-muted-light dark:text-muted-dark">{formatDate(playlist.endDate)}</span>
               </span>
             </div>

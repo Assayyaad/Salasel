@@ -1,10 +1,13 @@
 import type { Metadata } from 'next'
-import type { Language, Translations } from '@/app/types'
+import type { Language } from '@/app/types'
 
 import React from 'react'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages } from 'next-intl/server'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { allLanguages, defaultLanguage, metadata } from '@/app/static'
-import { getLanguage, getTranslations } from '@/app/translate'
+import { getLanguage } from '@/app/translate'
+import { getTranslations } from 'next-intl/server'
 import '@/app/globals.css'
 
 export { viewport } from '@/app/static'
@@ -36,7 +39,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params
-  const t: Translations = getTranslations(lang)
+  const t = await getTranslations({ locale: lang })
   const currLang: Language = getLanguage(lang)
 
   // Generate alternate language links for hreflang
@@ -51,28 +54,28 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
   return {
     ...metadata,
-    title: t.appFullTitle,
-    description: t.appDescription,
+    title: t('appFullTitle'),
+    description: t('appDescription'),
     alternates: {
       languages: langAlts,
     },
     appleWebApp: {
-      title: t.appTitle,
+      title: t('appTitle'),
     },
-    applicationName: t.appTitle,
+    applicationName: t('appTitle'),
     openGraph: {
-      title: t.appFullTitle,
-      description: t.appDescription,
+      title: t('appFullTitle'),
+      description: t('appDescription'),
       url: `${baseUrl}/${currLang.code}`,
-      siteName: t.appTitle,
+      siteName: t('appTitle'),
       type: 'website',
       locale: currLang.code,
       alternateLocale: allLanguages.filter((l) => l.code !== currLang.code).map((l) => l.code),
     },
     twitter: {
       card: 'summary_large_image',
-      title: t.appFullTitle,
-      description: t.appDescription,
+      title: t('appFullTitle'),
+      description: t('appDescription'),
       site: '@SalaselApp',
       images: [`${baseUrl}/img/logo.webp`],
     },
@@ -82,10 +85,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 const LanguageLayout: React.FC<Readonly<LanguageLayoutProps>> = async ({ children, params }) => {
   const { lang: langCode } = await params
   const lang = getLanguage(langCode)
+  const messages = await getMessages()
 
   return (
     <html lang={lang.code} dir={lang.dir}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+      </body>
     </html>
   )
 }

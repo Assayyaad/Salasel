@@ -1,6 +1,8 @@
-import type { Translations } from '@/app/types'
+'use client'
 
+import React from 'react'
 import Link from 'next/link'
+import { useLocale, useTranslations } from 'next-intl'
 
 export interface SidebarContentCardProps {
   lessonNumber: number
@@ -11,7 +13,6 @@ export interface SidebarContentCardProps {
   playlistId: string
   completed: boolean
   onToggle: (videoId: string) => void
-  t: Translations
 }
 
 const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
@@ -23,8 +24,10 @@ const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
   playlistId,
   completed,
   onToggle,
-  t,
 }) => {
+  const t = useTranslations()
+  const locale = useLocale()
+
   const handleCheckboxChange = (e: React.MouseEvent) => {
     e.preventDefault()
     onToggle(videoId)
@@ -32,14 +35,14 @@ const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
 
   return (
     <Link
-      href={`/${t.__language.code}/playlist/${playlistId}/${videoId}`}
+      href={`/${locale}/playlist/${playlistId}/${videoId}`}
       className={`block group relative transition-colors cursor-pointer p-3 ${highlight ? 'bg-gray-50 dark:bg-gray-700/30' : ''} ${completed ? 'bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-800/50' : 'hover:bg-gray-50 dark:hover:bg-gray-700/30'}`}
     >
       <div className="grid grid-cols-[1fr_auto] items-center gap-3">
         <div className="flex items-center">
           <div className="mr-3">
             <p className="text-xs font-medium text-primary mb-0.5">
-              {t.episodeLabel} {lessonNumber}
+              {t('episodeLabel')} {lessonNumber}
             </p>
             <h3 className="text-sm font-semibold text-text-light dark:text-text-dark truncate group-hover:text-primary transition-colors">
               {title}

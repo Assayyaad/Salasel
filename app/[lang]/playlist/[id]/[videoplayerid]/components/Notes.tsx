@@ -1,9 +1,8 @@
 'use client'
 
-import type { Translations } from '@/app/types'
-
 import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useNotesStore } from '@/app/store/useNotesStore'
 import { useVideoPlayerStore, formatTimestamp } from '@/app/store/useVideoPlayerStore'
 import NotesExportMenu from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/NotesExportMenu'
@@ -13,12 +12,12 @@ export interface NotesProps {
   playlistTitle: string
   videoId: string
   videoTitle: string
-  t: Translations
 }
 
-const Notes: React.FC<NotesProps> = ({ playlistId, playlistTitle, videoId, videoTitle, t }) => {
+const Notes: React.FC<NotesProps> = ({ playlistId, playlistTitle, videoId, videoTitle }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const t = useTranslations()
   const { getVideoNotes, addNote, updateNote, deleteNote, loadNotes } = useNotesStore()
   const { getCurrentTime } = useVideoPlayerStore()
 
@@ -84,7 +83,7 @@ const Notes: React.FC<NotesProps> = ({ playlistId, playlistTitle, videoId, video
   }
 
   const handleDeleteNote = (noteId: string) => {
-    if (confirm(t.notesDeleteConfirmation)) {
+    if (confirm(t('notesDeleteConfirmation'))) {
       deleteNote(noteId)
     }
   }
@@ -102,7 +101,7 @@ const Notes: React.FC<NotesProps> = ({ playlistId, playlistTitle, videoId, video
           value={newNoteContent}
           onChange={(e) => setNewNoteContent(e.target.value)}
           className="w-full h-24 p-3 text-sm bg-gray-50 dark:bg-gray-900 border border-border-light dark:border-border-dark rounded-md focus:ring-1 focus:ring-primary focus:border-primary outline-none resize-none mb-2"
-          placeholder={t.notesPlaceholder}
+          placeholder={t('notesPlaceholder')}
         />
         <div className="flex gap-2">
           <NotesExportMenu
@@ -110,20 +109,19 @@ const Notes: React.FC<NotesProps> = ({ playlistId, playlistTitle, videoId, video
             playlistTitle={playlistTitle}
             videoId={videoId}
             videoTitle={videoTitle}
-            t={t}
           />
           <button
             onClick={handleAddNote}
             className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium text-white bg-gray-600 dark:bg-gray-700 border border-transparent rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors shadow-sm"
           >
             <span className="material-icons-round text-base">add</span>
-            {t.notesAddButton}
+            {t('notesAddButton')}
           </button>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto pr-1 space-y-4">
         {notes.length === 0 ? (
-          <div className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">{t.notesEmptyMessage}</div>
+          <div className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">{t('notesEmptyMessage')}</div>
         ) : (
           notes.map((note) => (
             <div
@@ -137,7 +135,7 @@ const Notes: React.FC<NotesProps> = ({ playlistId, playlistTitle, videoId, video
                     <button
                       onClick={handleUpdateTimestamp}
                       className="text-xs text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
-                      title={t.notesUpdateTimestamp}
+                      title={t('notesUpdateTimestamp')}
                     >
                       <span className="material-icons-round text-sm">update</span>
                     </button>
@@ -154,13 +152,13 @@ const Notes: React.FC<NotesProps> = ({ playlistId, playlistTitle, videoId, video
                         onClick={handleSaveEdit}
                         className="px-3 py-1 text-xs bg-primary text-white rounded hover:bg-primary/90"
                       >
-                        {t.notesSaveButton}
+                        {t('notesSaveButton')}
                       </button>
                       <button
                         onClick={handleCancelEdit}
                         className="px-3 py-1 text-xs bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
                       >
-                        {t.notesCancelButton}
+                        {t('notesCancelButton')}
                       </button>
                     </div>
                   </div>

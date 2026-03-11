@@ -1,20 +1,21 @@
 'use client'
 
-import type { Translations, Videos } from '@/app/types'
+import type { Videos } from '@/app/types'
 
 import React, { useEffect, useMemo, useSyncExternalStore, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { useNotesStore } from '@/app/store/useNotesStore'
 import { exportPlaylistSingle } from '@/app/lib/notesExport'
 
 interface PlaylistNotesExportButtonProps {
   playlistId: string
   playlistTitle: string
-  t: Translations
 }
 
 const subscribe = () => () => {}
 
-const PlaylistNotesExportButton: React.FC<PlaylistNotesExportButtonProps> = ({ playlistId, playlistTitle, t }) => {
+const PlaylistNotesExportButton: React.FC<PlaylistNotesExportButtonProps> = ({ playlistId, playlistTitle }) => {
+  const t = useTranslations()
   const [isLoading, setIsLoading] = useState(false)
   const { notes, loadNotes } = useNotesStore()
   const isClient = useSyncExternalStore(
@@ -69,7 +70,7 @@ const PlaylistNotesExportButton: React.FC<PlaylistNotesExportButtonProps> = ({ p
       className="inline-flex items-center gap-2 px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-500 dark:bg-gray-600 hover:bg-gray-600 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
     >
       <span className="material-icons-round">{isLoading ? 'hourglass_empty' : 'download'}</span>
-      {t.notesExportPlaylist}
+      {t('notesExportPlaylist')}
     </button>
   )
 }

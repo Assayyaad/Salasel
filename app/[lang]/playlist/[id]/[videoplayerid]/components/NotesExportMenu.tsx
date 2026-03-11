@@ -1,8 +1,9 @@
 'use client'
 
-import type { Translations, Videos } from '@/app/types'
+import type { Videos } from '@/app/types'
 
 import React, { useEffect, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { useNotesStore } from '@/app/store/useNotesStore'
 import { exportSingleVideo, exportPlaylistSingle, exportPlaylistZip } from '@/app/lib/notesExport'
 
@@ -11,10 +12,10 @@ export interface NotesExportMenuProps {
   playlistTitle: string
   videoId: string
   videoTitle: string
-  t: Translations
 }
 
-const NotesExportMenu: React.FC<NotesExportMenuProps> = ({ playlistId, playlistTitle, videoId, videoTitle, t }) => {
+const NotesExportMenu: React.FC<NotesExportMenuProps> = ({ playlistId, playlistTitle, videoId, videoTitle }) => {
+  const t = useTranslations()
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -121,7 +122,7 @@ const NotesExportMenu: React.FC<NotesExportMenuProps> = ({ playlistId, playlistT
         className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-white bg-gray-500 dark:bg-gray-600 border border-transparent rounded-md hover:bg-gray-600 dark:hover:bg-gray-500 transition-colors shadow-sm disabled:opacity-50"
       >
         <span className="material-icons-round text-base">{isLoading ? 'hourglass_empty' : 'download'}</span>
-        {t.notesExport}
+        {t('notesExport')}
       </button>
 
       {isOpen && (
@@ -136,7 +137,7 @@ const NotesExportMenu: React.FC<NotesExportMenuProps> = ({ playlistId, playlistT
             disabled={currentVideoNotes.length === 0 || isLoading}
             className="w-full px-3 py-2 text-start text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {t.notesExportSingleVideo}
+            {t('notesExportSingleVideo')}
           </button>
           <button
             role="menuitem"
@@ -144,7 +145,7 @@ const NotesExportMenu: React.FC<NotesExportMenuProps> = ({ playlistId, playlistT
             disabled={!hasPlaylistNotes || isLoading}
             className="w-full px-3 py-2 text-start text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-t border-border-light dark:border-border-dark disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {t.notesExportPlaylistSingle}
+            {t('notesExportPlaylistSingle')}
           </button>
           <button
             role="menuitem"
@@ -152,7 +153,7 @@ const NotesExportMenu: React.FC<NotesExportMenuProps> = ({ playlistId, playlistT
             disabled={!hasPlaylistNotes || isLoading}
             className="w-full px-3 py-2 text-start text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-t border-border-light dark:border-border-dark disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {t.notesExportPlaylistZip}
+            {t('notesExportPlaylistZip')}
           </button>
         </div>
       )}

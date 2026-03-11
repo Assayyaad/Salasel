@@ -1,21 +1,18 @@
 'use client'
 
-import type { Translations } from '@/app/types'
+import React, { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 
-import React, { useState, useEffect, useRef } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-
-export interface SearchBarProps {
-  t: Translations
-}
-
-const SearchBar: React.FC<SearchBarProps> = ({ t }) => {
+const SearchBar: React.FC = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '')
-  const debounceTimer = useRef<NodeJS.Timeout | null>(null)
+  const debounceTimer = React.useRef<NodeJS.Timeout | null>(null)
+  const t = useTranslations()
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Debounce search with 300ms delay
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current)
@@ -46,7 +43,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ t }) => {
         </div>
         <input
           className="block w-full pl-3 pr-10 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md leading-5 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-shadow duration-200"
-          placeholder={t.searchPlaceholder}
+          placeholder={t('searchPlaceholder')}
           type="search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

@@ -1,8 +1,9 @@
 'use client'
 
-import type { CalculatedPlaylist, CalculatedVideo, Translations } from '@/app/types'
+import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 
 import React, { useEffect, useSyncExternalStore, ReactNode } from 'react'
+import { useTranslations } from 'next-intl'
 import ContentCard from '@/app/[lang]/playlist/[id]/components/ContentCard'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import { useNotesStore } from '@/app/store/useNotesStore'
@@ -12,12 +13,12 @@ export type SelectedPlaylistContentVideo = Pick<CalculatedVideo, 'id' | 'title' 
 export interface SelectedPlaylistContentProps {
   playlist: SelectedPlaylistContentPlaylist
   videos: Record<string, SelectedPlaylistContentVideo>
-  t: Translations
 }
 
 const subscribe = () => () => {}
 
-const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist, videos, t }) => {
+const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist, videos }) => {
+  const t = useTranslations()
   const { completedVideos, videoProgress, toggleVideoCompleted } = useProgressStore()
   const { notes, loadNotes } = useNotesStore()
   const isClient = useSyncExternalStore(
@@ -48,7 +49,7 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
   }
 
   if (!playlist) {
-    return <div>{t.loading}</div>
+    return <div>{t('loading')}</div>
   }
 
   if (!isClient) {
@@ -72,7 +73,6 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
         status={getStatus(v.id)}
         notesCount={getNotesCount(v.id)}
         onToggle={() => toggleVideoCompleted(v.playlistId, v.id)}
-        t={t}
         priority={isPriority}
       />,
     )
@@ -81,7 +81,7 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
   return (
     <div className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
       <div className="bg-gray-50 dark:bg-gray-800/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-bold text-text-light dark:text-text-dark">{t.playlistContents}</h2>
+        <h2 className="text-xl font-bold text-text-light dark:text-text-dark">{t('playlistContents')}</h2>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">{cards}</div>
     </div>

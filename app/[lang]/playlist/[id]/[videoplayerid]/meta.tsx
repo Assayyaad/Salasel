@@ -3,7 +3,7 @@ import type { VideoPlayerParams } from '@/app/[lang]/playlist/[id]/[videoplayeri
 
 import { getVideo } from '@/app/db'
 import { videoThumbnailUrl } from '@/app/utils'
-import { getTranslations } from '@/app/translate'
+import { getTranslations } from 'next-intl/server'
 import { allLanguages, defaultLanguage } from '@/app/static'
 
 export interface VideoPlayerMetadataProps {
@@ -12,18 +12,18 @@ export interface VideoPlayerMetadataProps {
 
 export async function generateMetadata({ params }: VideoPlayerMetadataProps): Promise<Metadata> {
   const { lang, id, videoplayerid } = await params
-  const t = getTranslations(lang)
+  const t = await getTranslations({ locale: lang })
   const { playlist, video } = await getVideo(id, videoplayerid)
 
   if (!playlist || !video) {
     return {
-      title: t.videoNotFound,
-      description: t.videoNotFound,
+      title: t('videoNotFound'),
+      description: t('videoNotFound'),
     }
   }
 
   const thumbnailUrl = videoThumbnailUrl(video.id)
-  const title = `${t.appTitle} · ${playlist.name} | ${video.title}`
+  const title = `${t('appTitle')} · ${playlist.name} | ${video.title}`
   const description = `${playlist.name} | ${video.title}`
 
   // Generate alternate language links for hreflang
@@ -80,7 +80,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
         height: 720,
       },
     },
-    keywords: [playlist.name, video.title, ...playlist.categories.map((c) => t.categories[c])],
+    keywords: [playlist.name, video.title, ...playlist.categories.map((c) => t(`categories.${c}`))],
     authors: playlist.participants.map((p) => ({ name: p })),
   }
 }
