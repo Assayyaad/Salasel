@@ -9,6 +9,12 @@ import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { allLanguages } from '@/app/static'
 import FilterSelect from '@/app/[lang]/(home)/components/FilterSelect'
 
+import type { FilterOption } from '@/app/[lang]/(home)/components/FilterSelect'
+
+function rawToOptions(raw: unknown): FilterOption[] {
+  return Object.entries(raw as Record<string, string>).map(([key, value]) => ({ key, value }))
+}
+
 const FilterGrid: React.FC = () => {
   const router = useRouter()
   const pathname = usePathname()

@@ -1,5 +1,4 @@
 import type { HomeParams } from '@/app/[lang]/(home)/params'
-import type { LanguageCode } from '@/app/types'
 
 import React, { Suspense } from 'react'
 import PlaylistGrid from '@/app/[lang]/(home)/components/PlaylistGrid'
@@ -8,6 +7,9 @@ import Librecounter from '@/app/shared/components/Librecounter'
 import SearchBar from '@/app/shared/components/SearchBar'
 import { getPlaylists, searchPlaylists } from '@/app/db'
 import { getTranslations } from 'next-intl/server'
+import { defaultLanguage } from '@/app/static'
+import { isValidLanguage } from '@/app/translate'
+import type { LanguageCode } from '@/app/types'
 
 export { generateStaticParams } from '@/app/[lang]/(home)/params'
 export { generateMetadata } from '@/app/[lang]/(home)/meta'

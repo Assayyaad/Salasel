@@ -4,6 +4,7 @@ import { routing } from './routing'
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale
 
+  // routing.locales is a const tuple; cast to string[] for .includes()
   if (!locale || !(routing.locales as readonly string[]).includes(locale)) {
     locale = routing.defaultLocale
   }
