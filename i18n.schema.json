@@ -209,6 +209,10 @@
       "type": "string",
       "description": "Button text to navigate back"
     },
+    "goUp": {
+      "type": "string",
+      "description": "Link text to navigate up to the parent page in the hierarchy"
+    },
     "playlistNotFound": {
       "type": "string",
       "description": "Error message when playlist is not found"
@@ -280,6 +284,7 @@
     "playlistContents",
     "episodeLabel",
     "goBack",
+    "goUp",
     "playlistNotFound",
     "videoNotFound",
     "noVideosFound",

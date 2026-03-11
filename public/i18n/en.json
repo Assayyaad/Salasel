@@ -63,6 +63,7 @@
   "playlistContents": "Series Contents",
   "episodeLabel": "Episode",
   "goBack": "Go Back",
+  "goUp": "Go Up",
   "playlistNotFound": "Series not found",
   "videoNotFound": "Video not found",
   "noVideosFound": "No videos in series",

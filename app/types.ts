@@ -159,6 +159,7 @@ export interface Translations {
   playlistContents: string
   episodeLabel: string
   goBack: string
+  goUp: string
   playlistNotFound: string
   videoNotFound: string
   noVideosFound: string
