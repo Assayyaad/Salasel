@@ -1,10 +1,9 @@
 'use client'
 
-import type { Translations } from '@/app/types'
-
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useLocale, useTranslations } from 'next-intl'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 
 export type WatchStatus = 'not-started' | 'in-progress' | 'completed'
@@ -15,7 +14,6 @@ export interface ContentCardProps {
   status: WatchStatus
   notesCount: number
   onToggle: (videoId: string) => void
-  t: Translations
   priority?: boolean
 }
 
@@ -26,10 +24,10 @@ const ContentCard: React.FC<ContentCardProps> = ({
   status,
   notesCount,
   onToggle,
-  t,
   priority = false,
 }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
+  const locale = useLocale()
 
   const handleStatusClick = (e: React.MouseEvent) => {
     e.preventDefault() // Prevent navigation when clicking the icon
@@ -41,7 +39,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
 
   return (
     <Link
-      href={`/${t.__language.code}/playlist/${playlistId}/${videoId}`}
+      href={`/${locale}/playlist/${playlistId}/${videoId}`}
       className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completedClasses} ${inProgressClasses}`}
     >
       <div className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-x-4">
@@ -76,31 +74,33 @@ const ContentCard: React.FC<ContentCardProps> = ({
 
         {/* Column 4: Watch Status */}
         <div onClick={handleStatusClick} className="relative z-10 p-2 cursor-pointer">
-          <WatchStatusIcon status={status} t={t} />
+          <WatchStatusIcon status={status} />
         </div>
       </div>
     </Link>
   )
 }
 
-const WatchStatusIcon: React.FC<{ status: WatchStatus; t: Translations }> = ({ status, t }) => {
+const WatchStatusIcon: React.FC<{ status: WatchStatus }> = ({ status }) => {
+  const t = useTranslations()
+
   switch (status) {
     case 'completed':
       return (
-        <span className="material-icons-round text-green-500" title={t.watchStatusCompleted}>
+        <span className="material-icons-round text-green-500" title={t('watchStatusCompleted')}>
           check_circle
         </span>
       )
     case 'in-progress':
       return (
-        <span className="material-icons-round text-xs text-yellow-500" title={t.watchStatusInProgress}>
+        <span className="material-icons-round text-xs text-yellow-500" title={t('watchStatusInProgress')}>
           hourglass_bottom
         </span>
       )
     case 'not-started':
     default:
       return (
-        <span className="material-icons-round text-gray-400" title={t.watchStatusNotStarted}>
+        <span className="material-icons-round text-gray-400" title={t('watchStatusNotStarted')}>
           radio_button_unchecked
         </span>
       )
