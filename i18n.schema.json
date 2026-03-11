@@ -133,6 +133,22 @@
       "type": "string",
       "description": "Button text to cancel action"
     },
+    "notesExport": {
+      "type": "string",
+      "description": "Button text to open the notes export menu"
+    },
+    "notesExportSingleVideo": {
+      "type": "string",
+      "description": "Export option: download notes for the current video only"
+    },
+    "notesExportPlaylistSingle": {
+      "type": "string",
+      "description": "Export option: download all playlist notes as a single file"
+    },
+    "notesExportPlaylistZip": {
+      "type": "string",
+      "description": "Export option: download all playlist notes as a zip archive with separate files"
+    },
     "personalProgressTitle": {
       "type": "string",
       "description": "Title for personal progress section"
@@ -261,6 +277,10 @@
     "notesUpdateTimestamp",
     "notesSaveButton",
     "notesCancelButton",
+    "notesExport",
+    "notesExportSingleVideo",
+    "notesExportPlaylistSingle",
+    "notesExportPlaylistZip",
     "personalProgressTitle",
     "nextToWatch",
     "totalNotes",
