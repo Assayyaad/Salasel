@@ -9,6 +9,12 @@ import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { allLanguages } from '@/app/static'
 import FilterSelect from '@/app/[lang]/(home)/components/FilterSelect'
 
+import type { FilterOption } from '@/app/[lang]/(home)/components/FilterSelect'
+
+function rawToOptions(raw: unknown): FilterOption[] {
+  return Object.entries(raw as Record<string, string>).map(([key, value]) => ({ key, value }))
+}
+
 const FilterGrid: React.FC = () => {
   const router = useRouter()
   const pathname = usePathname()
@@ -39,22 +45,10 @@ const FilterGrid: React.FC = () => {
 
   // Transform data to FilterOption format
   const languageOptions = allLanguages.map((l) => ({ key: l.code, value: l.name }))
-  const contentOptions = Object.entries(t.raw('contents') as Record<string, string>).map(([key, value]) => ({
-    key,
-    value,
-  }))
-  const presentationOptions = Object.entries(t.raw('presentations') as Record<string, string>).map(([key, value]) => ({
-    key,
-    value,
-  }))
-  const categoryOptions = Object.entries(t.raw('categories') as Record<string, string>).map(([key, value]) => ({
-    key,
-    value,
-  }))
-  const classOptions = Object.entries(t.raw('classes') as Record<string, string>).map(([key, value]) => ({
-    key,
-    value,
-  }))
+  const contentOptions = rawToOptions(t.raw('contents'))
+  const presentationOptions = rawToOptions(t.raw('presentations'))
+  const categoryOptions = rawToOptions(t.raw('categories'))
+  const classOptions = rawToOptions(t.raw('classes'))
 
   return (
     <div className="flex flex-wrap justify-center gap-3">
