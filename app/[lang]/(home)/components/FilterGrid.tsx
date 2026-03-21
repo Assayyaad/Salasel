@@ -15,7 +15,8 @@ export interface FilterGridProps {
 const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
   const router = useRouter()
   const pathname = usePathname()
-  const { filters, setLanguage, setContentType, setPresentationStyle, setCategory, setClass } = usePlaylistStore()
+  const { filters, setLanguage, setContentType, setPresentationStyle, setCategory, setClass, setSortBy } =
+    usePlaylistStore()
 
   // Sync language from URL to store on mount and when pathname changes
   useEffect(() => {
@@ -45,6 +46,7 @@ const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
   const presentationOptions = Object.entries(t.presentations).map(([key, value]) => ({ key, value }))
   const categoryOptions = Object.entries(t.categories).map(([key, value]) => ({ key, value }))
   const classOptions = Object.entries(t.classes).map(([key, value]) => ({ key, value }))
+  const sortOptions = Object.entries(t.sorts).map(([key, value]) => ({ key, value }))
 
   return (
     <div className="flex flex-wrap justify-center gap-3">
@@ -90,6 +92,14 @@ const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
         options={classOptions}
         showAllOption
         allOptionLabel={t.filterAllOption}
+      />
+
+      <FilterSelect
+        id="sort-filter"
+        label={t.filterSortLabel}
+        value={filters.sortBy}
+        onChange={(value) => setSortBy(value as Parameters<typeof setSortBy>[0])}
+        options={sortOptions}
       />
     </div>
   )

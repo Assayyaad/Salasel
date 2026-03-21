@@ -30,6 +30,17 @@
   "filterPresentationStyleLabel": "الأسلوب",
   "filterClassLabel": "الفئة",
   "filterAllOption": "الكل",
+  "filterSortLabel": "الترتيب",
+  "sorts": {
+    "longest": "الأطول",
+    "shortest": "الأقصر",
+    "most-videos": "الأكثر مقاطع",
+    "least-videos": "الأقل مقاطع",
+    "oldest": "الأقدم",
+    "newest": "الأحدث",
+    "alphabetical": "أبجدي",
+    "counter-alphabetical": "أبجدي عكسي"
+  },
   "searchTab": "بحث",
   "summaryTab": "ملخص",
   "transcriptionTab": "النص",

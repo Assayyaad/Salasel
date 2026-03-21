@@ -1,4 +1,4 @@
-import type { Languages, ContentTypes, PresentationStyles, Categories, Classes } from '@/app/types'
+import type { Languages, ContentTypes, PresentationStyles, Categories, Classes, SortOption } from '@/app/types'
 
 import { create } from 'zustand'
 
@@ -8,6 +8,7 @@ export interface FilterState {
   category: Categories
   presentationStyle: PresentationStyles | 'all'
   class: Classes | 'all'
+  sortBy: SortOption
 }
 
 export interface PlaylistState {
@@ -17,6 +18,7 @@ export interface PlaylistState {
   setCategory: (category: Categories) => void
   setPresentationStyle: (presentationStyle: PresentationStyles | 'all') => void
   setClass: (classType: Classes | 'all') => void
+  setSortBy: (sortBy: SortOption) => void
   resetFilters: () => void
 }
 
@@ -26,6 +28,7 @@ const defaultFilters: FilterState = {
   presentationStyle: 'all',
   category: 0,
   class: 'all',
+  sortBy: 'newest',
 }
 
 export const usePlaylistStore = create<PlaylistState>((set) => ({
@@ -35,5 +38,6 @@ export const usePlaylistStore = create<PlaylistState>((set) => ({
   setPresentationStyle: (s) => set((state) => ({ filters: { ...state.filters, presentationStyle: s } })),
   setCategory: (c) => set((state) => ({ filters: { ...state.filters, category: c } })),
   setClass: (c) => set((state) => ({ filters: { ...state.filters, class: c } })),
+  setSortBy: (s) => set((state) => ({ filters: { ...state.filters, sortBy: s } })),
   resetFilters: () => set({ filters: defaultFilters }),
 }))
