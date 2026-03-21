@@ -14,9 +14,10 @@ export type PlaylistGridPlaylist = Pick<
 export interface PlaylistGridProps {
   playlists: Record<string, PlaylistGridPlaylist & PlaylistCardPlaylist>
   lang: LanguageCode
+  searchActive?: boolean
 }
 
-const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
+const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, searchActive = false }) => {
   const { filters } = usePlaylistStore()
 
   const cards: ReactNode[] = []
@@ -26,16 +27,16 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
     const pl = playlists[id]
 
     if (
-      // Language filter (mandatory)
-      pl.language === filters.language &&
-      // Content type filter (mandatory)
-      pl.type === filters.contentType &&
-      // Category filter (mandatory)
-      pl.categories.includes(filters.category as Categories) &&
-      // Presentation style filter (optional)
-      (filters.presentationStyle === 'all' || pl.style === filters.presentationStyle) &&
-      // Class filter (optional)
-      (filters.class === 'all' || pl.classes.includes(filters.class as Classes))
+      searchActive || // Language filter (mandatory)
+      (pl.language === filters.language &&
+        // Content type filter (mandatory)
+        pl.type === filters.contentType &&
+        // Category filter (mandatory)
+        pl.categories.includes(filters.category as Categories) &&
+        // Presentation style filter (optional)
+        (filters.presentationStyle === 'all' || pl.style === filters.presentationStyle) &&
+        // Class filter (optional)
+        (filters.class === 'all' || pl.classes.includes(filters.class as Classes)))
     ) {
       // Prioritize first 6 cards for LCP optimization (first 2 rows in 3-column grid)
       const isPriority = cards.length < 6
