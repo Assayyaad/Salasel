@@ -63,9 +63,9 @@ export function sortPlaylists<T extends SortablePlaylist>(playlists: T[], sortBy
     case 'newest':
       return sorted.sort((a, b) => b.startDate - a.startDate)
     case 'alphabetical':
-      return sorted.sort((a, b) => b.name.localeCompare(a.name, locale))
-    case 'counter-alphabetical':
       return sorted.sort((a, b) => a.name.localeCompare(b.name, locale))
+    case 'counter-alphabetical':
+      return sorted.sort((a, b) => b.name.localeCompare(a.name, locale))
     default:
       return sorted
   }

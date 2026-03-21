@@ -101,8 +101,8 @@
         "least-videos": { "type": "string", "description": "Sort by least videos" },
         "oldest": { "type": "string", "description": "Sort by oldest end date" },
         "newest": { "type": "string", "description": "Sort by newest start date" },
-        "alphabetical": { "type": "string", "description": "Sort alphabetically descending" },
-        "counter-alphabetical": { "type": "string", "description": "Sort alphabetically ascending" }
+        "alphabetical": { "type": "string", "description": "Sort alphabetically ascending" },
+        "counter-alphabetical": { "type": "string", "description": "Sort alphabetically descending" }
       }
     },
     "searchTab": {
