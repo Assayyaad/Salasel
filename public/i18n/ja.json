@@ -74,6 +74,8 @@
   "playlistContents": "シリーズの内容",
   "episodeLabel": "エピソード",
   "goBack": "戻る",
+  "goToHome": "ホーム",
+  "goToPlaylist": "シリーズ",
   "playlistNotFound": "シリーズが見つかりません",
   "videoNotFound": "動画が見つかりません",
   "noVideosFound": "シリーズに動画がありません",
