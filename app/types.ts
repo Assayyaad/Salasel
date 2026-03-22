@@ -161,6 +161,10 @@ export interface Translations {
   notesUpdateTimestamp: string
   notesSaveButton: string
   notesCancelButton: string
+  notesExport: string
+  notesExportSingleVideo: string
+  notesExportPlaylistSingle: string
+  notesExportPlaylistZip: string
   personalProgressTitle: string
   nextToWatch: string
   totalNotes: string

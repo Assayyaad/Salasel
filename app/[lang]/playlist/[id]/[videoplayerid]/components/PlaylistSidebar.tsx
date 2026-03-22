@@ -7,17 +7,19 @@ import Notes from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/Notes'
 
 export interface PlaylistSidebarProps {
   playlistId: string
+  playlistTitle: string
   videoId: string
+  videoTitle: string
   t: Translations
 }
 
-const PlaylistSidebar: React.FC<PlaylistSidebarProps> = ({ playlistId, videoId, t }) => {
+const PlaylistSidebar: React.FC<PlaylistSidebarProps> = ({ playlistId, playlistTitle, videoId, videoTitle, t }) => {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t.notesTab}</h2>
       <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm flex flex-col">
-        <div className="flex flex-col p-6 overflow-hidden" style={{ maxHeight: '600px' }}>
-          <Notes playlistId={playlistId} videoId={videoId} t={t} />
+        <div className="flex flex-col p-6" style={{ maxHeight: '600px' }}>
+          <Notes playlistId={playlistId} playlistTitle={playlistTitle} videoId={videoId} videoTitle={videoTitle} t={t} />
         </div>
       </div>
     </div>
