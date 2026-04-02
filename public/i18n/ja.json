@@ -45,6 +45,7 @@
   "notesSaveButton": "保存",
   "notesCancelButton": "キャンセル",
   "notesExport": "ノートをエクスポート",
+  "notesExportPlaylist": "シリーズノートをエクスポート",
   "notesExportSingleVideo": "このビデオのノートをダウンロード",
   "notesExportPlaylistSingle": "シリーズの全ノートをダウンロード（1ファイル）",
   "notesExportPlaylistZip": "シリーズの全ノートをダウンロード（別ファイル）",

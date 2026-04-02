@@ -141,6 +141,7 @@ export interface Translations {
   notesSaveButton: string
   notesCancelButton: string
   notesExport: string
+  notesExportPlaylist: string
   notesExportSingleVideo: string
   notesExportPlaylistSingle: string
   notesExportPlaylistZip: string

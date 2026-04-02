@@ -45,6 +45,7 @@
   "notesSaveButton": "Save",
   "notesCancelButton": "Cancel",
   "notesExport": "Export Notes",
+  "notesExportPlaylist": "Export Series Notes",
   "notesExportSingleVideo": "Download notes for this video",
   "notesExportPlaylistSingle": "Download all series notes (single file)",
   "notesExportPlaylistZip": "Download all series notes (separate files)",
