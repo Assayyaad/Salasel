@@ -26,6 +26,10 @@ const NotesExportMenu: React.FC<NotesExportMenuProps> = ({ playlistId, playlistT
     content: n.content,
   }))
 
+  const hasPlaylistNotes = Object.entries(notes).some(
+    ([key, videoNotes]) => key.startsWith(`${playlistId}-`) && videoNotes.length > 0,
+  )
+
   // Close the menu when clicking outside
   useEffect(() => {
     if (!isOpen) return
@@ -137,7 +141,7 @@ const NotesExportMenu: React.FC<NotesExportMenuProps> = ({ playlistId, playlistT
           <button
             role="menuitem"
             onClick={handleExportPlaylistSingle}
-            disabled={isLoading}
+            disabled={!hasPlaylistNotes || isLoading}
             className="w-full px-3 py-2 text-start text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-t border-border-light dark:border-border-dark disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {t.notesExportPlaylistSingle}
@@ -145,7 +149,7 @@ const NotesExportMenu: React.FC<NotesExportMenuProps> = ({ playlistId, playlistT
           <button
             role="menuitem"
             onClick={handleExportPlaylistZip}
-            disabled={isLoading}
+            disabled={!hasPlaylistNotes || isLoading}
             className="w-full px-3 py-2 text-start text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-t border-border-light dark:border-border-dark disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {t.notesExportPlaylistZip}
