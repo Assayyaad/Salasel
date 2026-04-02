@@ -5,6 +5,7 @@ import type { CalculatedPlaylist, CalculatedVideo, Translations } from '@/app/ty
 import React, { useMemo, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { useProgressStore } from '@/app/store/useProgressStore'
+import PlaylistNotesExportButton from '@/app/[lang]/playlist/[id]/components/PlaylistNotesExportButton'
 
 export type PersonalProgressPlaylist = Pick<CalculatedPlaylist, 'id' | 'name' | 'videoCount'>
 export type PersonalProgressVideo = Pick<CalculatedVideo, 'id' | 'title'>
@@ -119,8 +120,8 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos, t
         </div>
       </div>
 
-      {/* Action Button */}
-      <div className="mt-6">
+      {/* Action Buttons */}
+      <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href={`/${t.__language.code}/playlist/${playlist.id}/${continueWatchingId}`}
           className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all transform hover:scale-105 cursor-pointer"
@@ -128,6 +129,7 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos, t
           <span className="material-icons-round mr-2">play_arrow</span>
           {playlistProgress > 0 ? t.continueWatching : t.startWatching}
         </Link>
+        <PlaylistNotesExportButton playlistId={playlist.id} playlistTitle={playlist.name} t={t} />
       </div>
     </div>
   )

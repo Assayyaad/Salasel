@@ -2,9 +2,10 @@
 
 import type { CalculatedPlaylist, CalculatedVideo, Translations } from '@/app/types'
 
-import React, { useSyncExternalStore, ReactNode } from 'react'
+import React, { useEffect, useSyncExternalStore, ReactNode } from 'react'
 import ContentCard from '@/app/[lang]/playlist/[id]/components/ContentCard'
 import { useProgressStore } from '@/app/store/useProgressStore'
+import { useNotesStore } from '@/app/store/useNotesStore'
 
 export type SelectedPlaylistContentPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
 export type SelectedPlaylistContentVideo = Pick<CalculatedVideo, 'id' | 'title' | 'playlistId'>
@@ -17,7 +18,8 @@ export interface SelectedPlaylistContentProps {
 const subscribe = () => () => {}
 
 const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playlist, videos, t }) => {
-  const { completedVideos, videoProgress, notes, toggleVideoCompleted } = useProgressStore()
+  const { completedVideos, videoProgress, toggleVideoCompleted } = useProgressStore()
+  const { notes, loadNotes } = useNotesStore()
   const isClient = useSyncExternalStore(
     subscribe,
     () => true,
@@ -36,9 +38,13 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
     return 'not-started'
   }
 
+  useEffect(() => {
+    loadNotes()
+  }, [loadNotes])
+
   const getNotesCount = (videoId: string): number => {
     if (!isClient) return 0
-    return notes[videoId]?.length || 0
+    return notes[`${playlist.id}-${videoId}`]?.length || 0
   }
 
   if (!playlist) {

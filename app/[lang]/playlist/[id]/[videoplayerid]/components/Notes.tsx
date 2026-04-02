@@ -6,14 +6,17 @@ import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useNotesStore } from '@/app/store/useNotesStore'
 import { useVideoPlayerStore, formatTimestamp } from '@/app/store/useVideoPlayerStore'
+import NotesExportMenu from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/NotesExportMenu'
 
 export interface NotesProps {
   playlistId: string
+  playlistTitle: string
   videoId: string
+  videoTitle: string
   t: Translations
 }
 
-const Notes: React.FC<NotesProps> = ({ playlistId, videoId, t }) => {
+const Notes: React.FC<NotesProps> = ({ playlistId, playlistTitle, videoId, videoTitle, t }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { getVideoNotes, addNote, updateNote, deleteNote, loadNotes } = useNotesStore()
@@ -101,10 +104,17 @@ const Notes: React.FC<NotesProps> = ({ playlistId, videoId, t }) => {
           className="w-full h-24 p-3 text-sm bg-gray-50 dark:bg-gray-900 border border-border-light dark:border-border-dark rounded-md focus:ring-1 focus:ring-primary focus:border-primary outline-none resize-none mb-2"
           placeholder={t.notesPlaceholder}
         />
-        <div className="flex justify-end">
+        <div className="flex gap-2">
+          <NotesExportMenu
+            playlistId={playlistId}
+            playlistTitle={playlistTitle}
+            videoId={videoId}
+            videoTitle={videoTitle}
+            t={t}
+          />
           <button
             onClick={handleAddNote}
-            className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-white bg-gray-600 dark:bg-gray-700 border border-transparent rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors shadow-sm"
+            className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium text-white bg-gray-600 dark:bg-gray-700 border border-transparent rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors shadow-sm"
           >
             <span className="material-icons-round text-base">add</span>
             {t.notesAddButton}
