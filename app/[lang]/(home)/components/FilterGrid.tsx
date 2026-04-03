@@ -3,8 +3,8 @@
 import type { Languages } from '@/app/types'
 
 import React, { useEffect } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
+import { useRouter, usePathname } from '@/i18n/navigation'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { allLanguages } from '@/app/static'
 import FilterSelect from '@/app/[lang]/(home)/components/FilterSelect'
@@ -18,30 +18,20 @@ function rawToOptions(raw: unknown): FilterOption[] {
 const FilterGrid: React.FC = () => {
   const router = useRouter()
   const pathname = usePathname()
+  const locale = useLocale()
   const { filters, setLanguage, setContentType, setPresentationStyle, setCategory, setClass, setSortBy } =
     usePlaylistStore()
   const t = useTranslations()
 
-  // Sync language from URL to store on mount and when pathname changes
+  // Sync locale to store so playlist filtering stays in sync with UI language
   useEffect(() => {
-    const pathSegments = pathname.split('/')
-    if (pathSegments.length > 1) {
-      const currentLang = pathSegments[1] as Languages
-      if (currentLang !== filters.language) {
-        setLanguage(currentLang)
-      }
+    if (locale !== filters.language) {
+      setLanguage(locale as Languages)
     }
-  }, [pathname, filters.language, setLanguage])
+  }, [locale, filters.language, setLanguage])
 
-  // Handle language change by updating the route
   const handleLanguageChange = (newLang: string) => {
-    // Extract current language from pathname (format: /[lang]/...)
-    const pathSegments = pathname.split('/')
-    if (pathSegments.length > 1) {
-      pathSegments[1] = newLang
-      const newPath = pathSegments.join('/')
-      router.push(newPath)
-    }
+    router.replace(pathname, { locale: newLang })
   }
 
   // Transform data to FilterOption format
@@ -120,7 +110,6 @@ const FilterGrid: React.FC = () => {
         onChange={(value) => setSortBy(value as Parameters<typeof setSortBy>[0])}
         options={sortOptions}
       />
-
     </div>
   )
 }
