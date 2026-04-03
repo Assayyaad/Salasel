@@ -128,7 +128,7 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos })
           href={`/${locale}/playlist/${playlist.id}/${continueWatchingId}`}
           className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all transform hover:scale-105 cursor-pointer"
         >
-          <span className="material-icons-round mr-2">play_arrow</span>
+          <span className="material-icons-round me-2">play_arrow</span>
           {playlistProgress > 0 ? t('continueWatching') : t('startWatching')}
         </Link>
         <PlaylistNotesExportButton playlistId={playlist.id} playlistTitle={playlist.name} />
