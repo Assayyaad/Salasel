@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import { useLocale, useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 
 export type WatchStatus = 'not-started' | 'in-progress' | 'completed'
@@ -27,7 +27,6 @@ const ContentCard: React.FC<ContentCardProps> = ({
   priority = false,
 }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
-  const locale = useLocale()
 
   const handleStatusClick = (e: React.MouseEvent) => {
     e.preventDefault() // Prevent navigation when clicking the icon
@@ -39,7 +38,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
 
   return (
     <Link
-      href={`/${locale}/playlist/${playlistId}/${videoId}`}
+      href={`/playlist/${playlistId}/${videoId}`}
       className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completedClasses} ${inProgressClasses}`}
     >
       <div className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-x-4">

@@ -2,7 +2,7 @@ import type { CalculatedPlaylist, LanguageCode } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 
 export type PlaylistCardPlaylist = Pick<CalculatedPlaylist, 'id' | 'name' | 'description' | 'thumbnailId'>
@@ -16,7 +16,7 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang, priority = 
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
 
   return (
-    <Link href={`/${lang}/playlist/${playlist.id}`} className="block group">
+    <Link href={`/playlist/${playlist.id}`} className="block group">
       <article className="h-full bg-slate-800/50 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-slate-700 hover:border-primary">
         <div className="aspect-video w-full overflow-hidden relative">
           <Image

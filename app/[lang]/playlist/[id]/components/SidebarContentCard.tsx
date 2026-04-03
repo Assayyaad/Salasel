@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
-import { useLocale, useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 export interface SidebarContentCardProps {
   lessonNumber: number
@@ -26,7 +26,6 @@ const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
   onToggle,
 }) => {
   const t = useTranslations()
-  const locale = useLocale()
 
   const handleCheckboxChange = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -35,7 +34,7 @@ const SidebarContentCard: React.FC<SidebarContentCardProps> = ({
 
   return (
     <Link
-      href={`/${locale}/playlist/${playlistId}/${videoId}`}
+      href={`/playlist/${playlistId}/${videoId}`}
       className={`block group relative transition-colors cursor-pointer p-3 ${highlight ? 'bg-gray-50 dark:bg-gray-700/30' : ''} ${completed ? 'bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-800/50' : 'hover:bg-gray-50 dark:hover:bg-gray-700/30'}`}
     >
       <div className="grid grid-cols-[1fr_auto] items-center gap-3">

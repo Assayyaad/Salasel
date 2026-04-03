@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 
 const SearchBar: React.FC = () => {
   const router = useRouter()

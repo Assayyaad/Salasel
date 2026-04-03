@@ -3,8 +3,8 @@
 import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 
 import React, { useMemo, useSyncExternalStore } from 'react'
-import Link from 'next/link'
-import { useLocale, useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import PlaylistNotesExportButton from '@/app/[lang]/playlist/[id]/components/PlaylistNotesExportButton'
 
@@ -19,7 +19,6 @@ const subscribe = () => () => {}
 
 const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos }) => {
   const t = useTranslations()
-  const locale = useLocale()
   const { completedVideos, notes, videoProgress: videoProgressMap } = useProgressStore()
   const isClient = useSyncExternalStore(
     subscribe,
@@ -125,7 +124,7 @@ const PersonalProgress: React.FC<PersonalProgressProps> = ({ playlist, videos })
       {/* Action Buttons */}
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
-          href={`/${locale}/playlist/${playlist.id}/${continueWatchingId}`}
+          href={`/playlist/${playlist.id}/${continueWatchingId}`}
           className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all transform hover:scale-105 cursor-pointer"
         >
           <span className="material-icons-round me-2">play_arrow</span>

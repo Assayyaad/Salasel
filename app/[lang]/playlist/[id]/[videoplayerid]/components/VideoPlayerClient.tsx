@@ -3,7 +3,8 @@
 import type { CalculatedPlaylist, CalculatedVideo } from '@/app/types'
 
 import React, { useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import PlaylistSidebar from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/PlaylistSidebar'
 import VideoPlayer from '@/app/[lang]/playlist/[id]/[videoplayerid]/components/VideoPlayer'
@@ -49,7 +50,12 @@ const VideoPlayerClient: React.FC<VideoPlayerClientProps> = ({ playlist, video }
     <main className="w-full max-w-full mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-16">
       <div className="flex flex-col gap-6">
         <VideoPlayer playlist={playlist} video={video} timestamp={timestamp} />
-        <PlaylistSidebar playlistId={playlist.id} playlistTitle={playlist.name} videoId={video.id} videoTitle={video.title} />
+        <PlaylistSidebar
+          playlistId={playlist.id}
+          playlistTitle={playlist.name}
+          videoId={video.id}
+          videoTitle={video.title}
+        />
       </div>
     </main>
   )
