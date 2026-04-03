@@ -4,6 +4,7 @@ import type { CalculatedPlaylist, LanguageCode, Categories, Classes } from '@/ap
 import type { PlaylistCardPlaylist } from '@/app/[lang]/(home)/components/PlaylistCard'
 
 import React from 'react'
+import { useLocale } from 'next-intl'
 import PlaylistCard from '@/app/[lang]/(home)/components/PlaylistCard'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { sortPlaylists } from '@/app/utils'
@@ -20,6 +21,7 @@ export interface PlaylistGridProps {
 
 const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, searchActive = false }) => {
   const { filters } = usePlaylistStore()
+  const locale = useLocale()
 
   const filtered = searchActive
     ? Object.values(playlists)
@@ -27,7 +29,7 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, searchActi
         (
           pl, // Language filter (mandatory)
         ) =>
-          pl.language === filters.language &&
+          pl.language === locale &&
           // Content type filter (mandatory)
           pl.type === filters.contentType &&
           // Category filter (mandatory)
