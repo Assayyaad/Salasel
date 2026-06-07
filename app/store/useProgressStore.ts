@@ -1,30 +1,15 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-export interface Note {
-  content: string
-  timestamp: number
-}
-
 export interface ProgressState {
   completedVideos: Record<string, Set<string>> // playlistId -> Set<videoId>
-  notes: Record<string, Note[]> // videoId -> array of notes
-  videoProgress: Record<string, number> // videoId -> progress percentage
-  videoTimestamps: Record<string, number> // videoId -> timestamp in seconds
   toggleVideoCompleted: (playlistId: string, videoId: string) => void
-  setVideoProgress: (videoId: string, progress: number) => void
-  setVideoTimestamp: (videoId: string, timestamp: number) => void
-  addNote: (videoId: string, note: Note) => void
-  removeNote: (videoId: string, timestamp: number) => void
 }
 
 export const useProgressStore = create<ProgressState>()(
   persist(
     (set) => ({
       completedVideos: {},
-      notes: {},
-      videoProgress: {},
-      videoTimestamps: {},
       toggleVideoCompleted: (playlistId, videoId) =>
         set((state) => {
           const playlistCompleted = new Set(state.completedVideos[playlistId] || [])
@@ -40,34 +25,6 @@ export const useProgressStore = create<ProgressState>()(
             },
           }
         }),
-      setVideoProgress: (videoId, progress) =>
-        set((state) => ({
-          videoProgress: {
-            ...state.videoProgress,
-            [videoId]: progress,
-          },
-        })),
-      setVideoTimestamp: (videoId, timestamp) =>
-        set((state) => ({
-          videoTimestamps: {
-            ...state.videoTimestamps,
-            [videoId]: timestamp,
-          },
-        })),
-      addNote: (videoId, note) =>
-        set((state) => ({
-          notes: {
-            ...state.notes,
-            [videoId]: [...(state.notes[videoId] || []), note],
-          },
-        })),
-      removeNote: (videoId, timestamp) =>
-        set((state) => ({
-          notes: {
-            ...state.notes,
-            [videoId]: state.notes[videoId].filter((note) => note.timestamp !== timestamp),
-          },
-        })),
     }),
     {
       name: 'progress-storage',
