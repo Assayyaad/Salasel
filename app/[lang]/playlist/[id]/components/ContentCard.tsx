@@ -1,50 +1,28 @@
-'use client'
-
 import type { Translations } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
 
-export type WatchStatus = 'not-started' | 'in-progress' | 'completed'
 export interface ContentCardProps {
   title: string
   videoId: string
   playlistId: string
-  status: WatchStatus
-  notesCount: number
-  onToggle: (videoId: string) => void
   t: Translations
   priority?: boolean
 }
 
-const ContentCard: React.FC<ContentCardProps> = ({
-  title,
-  videoId,
-  playlistId,
-  status,
-  notesCount,
-  onToggle,
-  t,
-  priority = false,
-}) => {
+const ContentCard: React.FC<ContentCardProps> = ({ title, videoId, playlistId, priority = false }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
 
-  const handleStatusClick = (e: React.MouseEvent) => {
-    e.preventDefault() // Prevent navigation when clicking the icon
-    onToggle(videoId)
-  }
-
-  const inProgressClasses = status === 'in-progress' ? 'bg-yellow-50/50 dark:bg-yellow-900/10' : ''
-  const completedClasses = status === 'completed' ? 'bg-green-50/50 dark:bg-green-900/10' : ''
-
   return (
-    <Link
-      href={`/${t.__language.code}/playlist/${playlistId}/${videoId}`}
-      className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completedClasses} ${inProgressClasses}`}
+    <a
+      href={`https://www.youtube.com/watch?v=${videoId}&list=${playlistId}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30"
     >
-      <div className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-x-4">
+      <div className="grid grid-cols-[auto_1fr] items-center gap-x-4">
         {/* Column 1: Thumbnail */}
         <div className="w-28 md:w-32 aspect-video bg-gray-200 dark:bg-gray-700 rounded-md overflow-hidden relative shadow-sm">
           <Image
@@ -67,44 +45,9 @@ const ContentCard: React.FC<ContentCardProps> = ({
             {title}
           </h3>
         </div>
-
-        {/* Column 3: Notes Count */}
-        <div className="flex items-center space-x-1 text-muted-light dark:text-muted-dark">
-          <span className="material-icons-round text-base">description</span>
-          <span>{notesCount}</span>
-        </div>
-
-        {/* Column 4: Watch Status */}
-        <div onClick={handleStatusClick} className="relative z-10 p-2 cursor-pointer">
-          <WatchStatusIcon status={status} t={t} />
-        </div>
       </div>
-    </Link>
+    </a>
   )
-}
-
-const WatchStatusIcon: React.FC<{ status: WatchStatus; t: Translations }> = ({ status, t }) => {
-  switch (status) {
-    case 'completed':
-      return (
-        <span className="material-icons-round text-green-500" title={t.watchStatusCompleted}>
-          check_circle
-        </span>
-      )
-    case 'in-progress':
-      return (
-        <span className="material-icons-round text-xs text-yellow-500" title={t.watchStatusInProgress}>
-          hourglass_bottom
-        </span>
-      )
-    case 'not-started':
-    default:
-      return (
-        <span className="material-icons-round text-gray-400" title={t.watchStatusNotStarted}>
-          radio_button_unchecked
-        </span>
-      )
-  }
 }
 
 export default ContentCard
