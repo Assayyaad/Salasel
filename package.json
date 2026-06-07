@@ -17,12 +17,9 @@
     "*.{js,jsx,ts,tsx,json,css,md,mjs}": "prettier --write"
   },
   "dependencies": {
-    "@types/video.js": "^7.3.58",
     "next": "^16.1.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "video.js": "^8.23.7",
-    "videojs-youtube": "^3.0.1",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
