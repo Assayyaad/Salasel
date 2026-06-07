@@ -1,3 +1,5 @@
+'use client'
+
 import type { Translations } from '@/app/types'
 
 import React, { useState } from 'react'

@@ -126,27 +126,6 @@ export interface Translations {
   filterPresentationStyleLabel: string
   filterClassLabel: string
   filterAllOption: string
-  searchTab: string
-  summaryTab: string
-  transcriptionTab: string
-  notesTab: string
-  watchStatusCompleted: string
-  watchStatusInProgress: string
-  watchStatusNotStarted: string
-  notesDeleteConfirmation: string
-  notesPlaceholder: string
-  notesAddButton: string
-  notesEmptyMessage: string
-  notesUpdateTimestamp: string
-  notesSaveButton: string
-  notesCancelButton: string
-  personalProgressTitle: string
-  nextToWatch: string
-  totalNotes: string
-  currentVideoProgress: string
-  playlistProgress: string
-  continueWatching: string
-  startWatching: string
   withParticipation: string
   videosLabel: string
   durationLabel: string

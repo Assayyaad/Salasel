@@ -77,90 +77,6 @@
       "type": "string",
       "description": "Option to show all items (no filter)"
     },
-    "searchTab": {
-      "type": "string",
-      "description": "Tab label for search functionality"
-    },
-    "summaryTab": {
-      "type": "string",
-      "description": "Tab label for content summary"
-    },
-    "transcriptionTab": {
-      "type": "string",
-      "description": "Tab label for video transcription"
-    },
-    "notesTab": {
-      "type": "string",
-      "description": "Tab label for user notes"
-    },
-    "watchStatusCompleted": {
-      "type": "string",
-      "description": "Status label for completed videos"
-    },
-    "watchStatusInProgress": {
-      "type": "string",
-      "description": "Status label for videos currently being watched"
-    },
-    "watchStatusNotStarted": {
-      "type": "string",
-      "description": "Status label for videos not yet started"
-    },
-    "notesDeleteConfirmation": {
-      "type": "string",
-      "description": "Confirmation message when deleting a note"
-    },
-    "notesPlaceholder": {
-      "type": "string",
-      "description": "Placeholder text for note input field"
-    },
-    "notesAddButton": {
-      "type": "string",
-      "description": "Button text to add a new note"
-    },
-    "notesEmptyMessage": {
-      "type": "string",
-      "description": "Message shown when there are no notes"
-    },
-    "notesUpdateTimestamp": {
-      "type": "string",
-      "description": "Label for updating note timestamp"
-    },
-    "notesSaveButton": {
-      "type": "string",
-      "description": "Button text to save changes"
-    },
-    "notesCancelButton": {
-      "type": "string",
-      "description": "Button text to cancel action"
-    },
-    "personalProgressTitle": {
-      "type": "string",
-      "description": "Title for personal progress section"
-    },
-    "nextToWatch": {
-      "type": "string",
-      "description": "Label for next video to watch"
-    },
-    "totalNotes": {
-      "type": "string",
-      "description": "Label for total number of notes"
-    },
-    "currentVideoProgress": {
-      "type": "string",
-      "description": "Label for current video progress"
-    },
-    "playlistProgress": {
-      "type": "string",
-      "description": "Label for overall playlist progress"
-    },
-    "continueWatching": {
-      "type": "string",
-      "description": "Button text to continue watching a video"
-    },
-    "startWatching": {
-      "type": "string",
-      "description": "Button text to start watching a video"
-    },
     "withParticipation": {
       "type": "string",
       "description": "Label prefix for participant names"
@@ -247,27 +163,6 @@
     "filterPresentationStyleLabel",
     "filterClassLabel",
     "filterAllOption",
-    "searchTab",
-    "summaryTab",
-    "transcriptionTab",
-    "notesTab",
-    "watchStatusCompleted",
-    "watchStatusInProgress",
-    "watchStatusNotStarted",
-    "notesDeleteConfirmation",
-    "notesPlaceholder",
-    "notesAddButton",
-    "notesEmptyMessage",
-    "notesUpdateTimestamp",
-    "notesSaveButton",
-    "notesCancelButton",
-    "personalProgressTitle",
-    "nextToWatch",
-    "totalNotes",
-    "currentVideoProgress",
-    "playlistProgress",
-    "continueWatching",
-    "startWatching",
     "withParticipation",
     "videosLabel",
     "durationLabel",
