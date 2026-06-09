@@ -128,6 +128,12 @@ export interface Translations {
   filterAllOption: string
   filterAdvancedLabel: string
   filterBookmarksLabel: string
+  continueWatchingLabel: string
+  viewAllLabel: string
+  showLessLabel: string
+  hideLabel: string
+  showLabel: string
+  playlistsCountLabel: string
   withParticipation: string
   videosLabel: string
   durationLabel: string

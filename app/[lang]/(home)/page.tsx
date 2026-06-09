@@ -3,6 +3,7 @@ import type { HomeParams } from '@/app/[lang]/(home)/params'
 import React, { Suspense } from 'react'
 import PlaylistGrid from '@/app/[lang]/(home)/components/PlaylistGrid'
 import FilterGrid from '@/app/[lang]/(home)/components/FilterGrid'
+import RecentlyWatched from '@/app/[lang]/(home)/components/RecentlyWatched'
 import Librecounter from '@/app/shared/components/Librecounter'
 import SearchBar from '@/app/shared/components/SearchBar'
 import { getPlaylists, searchPlaylists } from '@/app/db'
@@ -44,6 +45,7 @@ const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
       <div className="relative mb-12">
         <FilterGrid t={t} />
       </div>
+      <RecentlyWatched playlists={playlists} lang={t.__language.code} t={t} />
       <PlaylistGrid playlists={filteredPlaylists} lang={t.__language.code} />
     </main>
   )

@@ -3,13 +3,16 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 
 export interface ProgressState {
   completedVideos: Record<string, Set<string>> // playlistId -> Set<videoId>
+  recentPlaylists: string[] // ordered by most recent, capped at 10
   toggleVideoCompleted: (playlistId: string, videoId: string) => void
+  recordPlaylistVisit: (playlistId: string) => void
 }
 
 export const useProgressStore = create<ProgressState>()(
   persist(
     (set) => ({
       completedVideos: {},
+      recentPlaylists: [],
       toggleVideoCompleted: (playlistId, videoId) =>
         set((state) => {
           const playlistCompleted = new Set(state.completedVideos[playlistId] || [])
@@ -24,6 +27,11 @@ export const useProgressStore = create<ProgressState>()(
               [playlistId]: playlistCompleted,
             },
           }
+        }),
+      recordPlaylistVisit: (playlistId) =>
+        set((state) => {
+          const filtered = state.recentPlaylists.filter((id) => id !== playlistId)
+          return { recentPlaylists: [playlistId, ...filtered].slice(0, 10) }
         }),
     }),
     {

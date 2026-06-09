@@ -3,6 +3,7 @@ import type { SelectedPlaylistParams } from '@/app/[lang]/playlist/[id]/params'
 import React from 'react'
 import SelectedPlaylistCard from '@/app/[lang]/playlist/[id]/components/SelectedPlaylistCard'
 import SelectedPlaylistContent from '@/app/[lang]/playlist/[id]/components/SelectedPlaylistContent'
+import RecordVisit from '@/app/[lang]/playlist/[id]/components/RecordVisit'
 import { getPlaylist, getVideos } from '@/app/db'
 import { getTranslations } from '@/app/translate'
 
@@ -32,6 +33,7 @@ const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ param
 
   return (
     <>
+      <RecordVisit playlistId={playlist.id} />
       <SelectedPlaylistCard playlist={playlist} t={t} />
       <SelectedPlaylistContent playlist={playlist} videos={videos} t={t} />
     </>

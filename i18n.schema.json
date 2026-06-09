@@ -85,6 +85,30 @@
       "type": "string",
       "description": "Pill label to filter bookmarked playlists"
     },
+    "continueWatchingLabel": {
+      "type": "string",
+      "description": "Section heading for recently watched playlists strip"
+    },
+    "viewAllLabel": {
+      "type": "string",
+      "description": "Button label to expand the full recently watched list"
+    },
+    "showLessLabel": {
+      "type": "string",
+      "description": "Button label to collapse the recently watched list"
+    },
+    "hideLabel": {
+      "type": "string",
+      "description": "Button label to hide the recently watched section"
+    },
+    "showLabel": {
+      "type": "string",
+      "description": "Button label to show the recently watched section again"
+    },
+    "playlistsCountLabel": {
+      "type": "string",
+      "description": "Playlist count label in recently watched header, use {n} as placeholder"
+    },
     "withParticipation": {
       "type": "string",
       "description": "Label prefix for participant names"
@@ -173,6 +197,12 @@
     "filterAllOption",
     "filterAdvancedLabel",
     "filterBookmarksLabel",
+    "continueWatchingLabel",
+    "viewAllLabel",
+    "showLessLabel",
+    "hideLabel",
+    "showLabel",
+    "playlistsCountLabel",
     "withParticipation",
     "videosLabel",
     "durationLabel",
