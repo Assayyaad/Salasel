@@ -6,6 +6,7 @@ import type { PlaylistCardPlaylist } from '@/app/[lang]/(home)/components/Playli
 import React, { ReactNode } from 'react'
 import PlaylistCard from '@/app/[lang]/(home)/components/PlaylistCard'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
+import { useBookmarkStore } from '@/app/store/useBookmarkStore'
 
 export type PlaylistGridPlaylist = Pick<
   CalculatedPlaylist,
@@ -18,6 +19,7 @@ export interface PlaylistGridProps {
 
 const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
   const { filters } = usePlaylistStore()
+  const { isBookmarked } = useBookmarkStore()
 
   const cards: ReactNode[] = []
   for (const id in playlists) {
@@ -28,6 +30,8 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
     if (
       // Language filter (mandatory)
       pl.language === filters.language &&
+      // Bookmark filter (optional)
+      (!filters.bookmarkedOnly || isBookmarked(pl.id)) &&
       // Content type filter (optional)
       (filters.contentType === 'all' || pl.type === filters.contentType) &&
       // Category filter (optional)

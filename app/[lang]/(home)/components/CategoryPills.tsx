@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import type { Translations } from '@/app/types'
 import { Categories } from '@/app/types'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
@@ -9,7 +10,7 @@ export interface CategoryPillsProps {
 }
 
 const CategoryPills: React.FC<CategoryPillsProps> = ({ t }) => {
-  const { filters, setCategory } = usePlaylistStore()
+  const { filters, setCategory, setBookmarkedOnly } = usePlaylistStore()
 
   const categories = Object.entries(t.categories) as [string, string][]
 
@@ -20,10 +21,27 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({ t }) => {
         : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-600'
     }`
 
+  const handleAll = () => {
+    setCategory('all')
+    setBookmarkedOnly(false)
+  }
+
+  const handleCategory = (value: Categories) => {
+    setCategory(value)
+    setBookmarkedOnly(false)
+  }
+
+  const handleBookmarks = () => {
+    setCategory('all')
+    setBookmarkedOnly(true)
+  }
+
+  const isAllActive = !filters.bookmarkedOnly && filters.category === 'all'
+
   return (
     <div className="flex flex-wrap justify-center gap-2">
       {/* All pill */}
-      <button onClick={() => setCategory('all')} className={pillClass(filters.category === 'all')}>
+      <button onClick={handleAll} className={pillClass(isAllActive)}>
         {t.filterAllOption}
       </button>
 
@@ -31,11 +49,36 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({ t }) => {
       {categories.map(([key, label]) => {
         const value = Number(key) as Categories
         return (
-          <button key={key} onClick={() => setCategory(value)} className={pillClass(filters.category === value)}>
+          <button
+            key={key}
+            onClick={() => handleCategory(value)}
+            className={pillClass(!filters.bookmarkedOnly && filters.category === value)}
+          >
             {label}
           </button>
         )
       })}
+
+      {/* Bookmarks pill */}
+      <button onClick={handleBookmarks} className={pillClass(filters.bookmarkedOnly)}>
+        <span className="flex items-center gap-1.5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill={filters.bookmarkedOnly ? 'currentColor' : 'none'}
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+          </svg>
+          {t.filterBookmarksLabel}
+        </span>
+      </button>
     </div>
   )
 }

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
+import BookmarkButton from '@/app/[lang]/(home)/components/BookmarkButton'
 
 export type PlaylistCardPlaylist = Pick<CalculatedPlaylist, 'id' | 'name' | 'description' | 'thumbnailId'>
 export interface PlaylistCardProps {
@@ -30,6 +31,9 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang, priority = 
             onError={() => setImageUrl(fallbackThumbnailUrl(playlist.thumbnailId))}
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+          <div className="absolute top-2 end-2">
+            <BookmarkButton playlistId={playlist.id} />
+          </div>
         </div>
         <div className="p-4">
           <h2 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">

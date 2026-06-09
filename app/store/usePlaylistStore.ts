@@ -8,6 +8,7 @@ export interface FilterState {
   category: Categories | 'all'
   presentationStyle: PresentationStyles | 'all'
   class: Classes | 'all'
+  bookmarkedOnly: boolean
 }
 
 export interface PlaylistState {
@@ -17,6 +18,7 @@ export interface PlaylistState {
   setCategory: (category: Categories | 'all') => void
   setPresentationStyle: (presentationStyle: PresentationStyles | 'all') => void
   setClass: (classType: Classes | 'all') => void
+  setBookmarkedOnly: (bookmarkedOnly: boolean) => void
   resetFilters: () => void
 }
 
@@ -26,6 +28,7 @@ const defaultFilters: FilterState = {
   presentationStyle: 'all',
   category: 'all',
   class: 'all',
+  bookmarkedOnly: false,
 }
 
 export const usePlaylistStore = create<PlaylistState>((set) => ({
@@ -35,5 +38,6 @@ export const usePlaylistStore = create<PlaylistState>((set) => ({
   setPresentationStyle: (s) => set((state) => ({ filters: { ...state.filters, presentationStyle: s } })),
   setCategory: (c) => set((state) => ({ filters: { ...state.filters, category: c } })),
   setClass: (c) => set((state) => ({ filters: { ...state.filters, class: c } })),
+  setBookmarkedOnly: (b) => set((state) => ({ filters: { ...state.filters, bookmarkedOnly: b } })),
   resetFilters: () => set({ filters: defaultFilters }),
 }))

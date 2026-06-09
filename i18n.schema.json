@@ -81,6 +81,10 @@
       "type": "string",
       "description": "Toggle label to reveal advanced filters"
     },
+    "filterBookmarksLabel": {
+      "type": "string",
+      "description": "Pill label to filter bookmarked playlists"
+    },
     "withParticipation": {
       "type": "string",
       "description": "Label prefix for participant names"
@@ -168,6 +172,7 @@
     "filterClassLabel",
     "filterAllOption",
     "filterAdvancedLabel",
+    "filterBookmarksLabel",
     "withParticipation",
     "videosLabel",
     "durationLabel",
