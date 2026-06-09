@@ -28,8 +28,8 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
     const pl = playlists[id]
 
     if (
-      // Language filter (mandatory)
-      pl.language === filters.language &&
+      // Language filter (optional — 'all' shows every language)
+      (filters.language === 'all' || pl.language === filters.language) &&
       // Bookmark filter (optional)
       (!filters.bookmarkedOnly || isBookmarked(pl.id)) &&
       // Content type filter (optional)

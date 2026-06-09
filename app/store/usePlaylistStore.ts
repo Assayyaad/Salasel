@@ -3,7 +3,7 @@ import type { Languages, ContentTypes, PresentationStyles, Categories, Classes }
 import { create } from 'zustand'
 
 export interface FilterState {
-  language: Languages
+  language: Languages | 'all'
   contentType: ContentTypes | 'all'
   category: Categories | 'all'
   presentationStyle: PresentationStyles | 'all'
@@ -13,7 +13,7 @@ export interface FilterState {
 
 export interface PlaylistState {
   filters: FilterState
-  setLanguage: (language: Languages) => void
+  setLanguage: (language: Languages | 'all') => void
   setContentType: (contentType: ContentTypes | 'all') => void
   setCategory: (category: Categories | 'all') => void
   setPresentationStyle: (presentationStyle: PresentationStyles | 'all') => void
@@ -23,7 +23,7 @@ export interface PlaylistState {
 }
 
 const defaultFilters: FilterState = {
-  language: 'ar',
+  language: 'all',
   contentType: 'all',
   presentationStyle: 'all',
   category: 'all',

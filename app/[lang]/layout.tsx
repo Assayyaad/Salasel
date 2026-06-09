@@ -5,6 +5,7 @@ import React from 'react'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { allLanguages, defaultLanguage, metadata } from '@/app/static'
 import { getLanguage, getTranslations } from '@/app/translate'
+import LanguageSwitcher from '@/app/shared/components/LanguageSwitcher'
 import '@/app/globals.css'
 
 export { viewport } from '@/app/static'
@@ -85,7 +86,12 @@ const LanguageLayout: React.FC<Readonly<LanguageLayoutProps>> = async ({ childre
 
   return (
     <html lang={lang.code} dir={lang.dir}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <div className={`fixed top-3 z-50 ${lang.dir === 'rtl' ? 'left-4' : 'right-4'}`}>
+          <LanguageSwitcher currentLang={lang.code} dir={lang.dir} />
+        </div>
+        {children}
+      </body>
     </html>
   )
 }

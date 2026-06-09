@@ -28,7 +28,7 @@ const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
   const filteredPlaylists = searchPlaylists(playlists, searchQuery)
 
   return (
-    <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
       <div className="text-center mb-10">
         <h1 className="text-6xl font-bold tracking-tight text-white mb-2">{t.appTitle}</h1>
         <p className="text-slate-400 mt-4 max-w-2xl mx-auto">

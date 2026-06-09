@@ -1,9 +1,8 @@
 'use client'
 
-import type { Languages, Translations } from '@/app/types'
+import type { Translations } from '@/app/types'
 
-import React, { useEffect, useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import React, { useState } from 'react'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { allLanguages } from '@/app/static'
 import FilterSelect from '@/app/[lang]/(home)/components/FilterSelect'
@@ -14,31 +13,8 @@ export interface FilterGridProps {
 }
 
 const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
-  const router = useRouter()
-  const pathname = usePathname()
   const { filters, setLanguage, setContentType, setPresentationStyle, setCategory, setClass } = usePlaylistStore()
   const [showAdvanced, setShowAdvanced] = useState(false)
-
-  // Sync language from URL to store on mount and when pathname changes
-  useEffect(() => {
-    const pathSegments = pathname.split('/')
-    if (pathSegments.length > 1) {
-      const currentLang = pathSegments[1] as Languages
-      if (currentLang !== filters.language) {
-        setLanguage(currentLang)
-      }
-    }
-  }, [pathname, filters.language, setLanguage])
-
-  // Handle language change by updating the route
-  const handleLanguageChange = (newLang: string) => {
-    const pathSegments = pathname.split('/')
-    if (pathSegments.length > 1) {
-      pathSegments[1] = newLang
-      const newPath = pathSegments.join('/')
-      router.push(newPath)
-    }
-  }
 
   // Transform data to FilterOption format
   const languageOptions = allLanguages.map((l) => ({ key: l.code, value: l.name }))
@@ -83,8 +59,10 @@ const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
             id="language-filter"
             label={t.filterLanguageLabel}
             value={filters.language}
-            onChange={handleLanguageChange}
+            onChange={(value) => setLanguage(value as typeof filters.language)}
             options={languageOptions}
+            showAllOption
+            allOptionLabel={t.filterAllOption}
           />
 
           <FilterSelect
