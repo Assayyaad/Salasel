@@ -126,6 +126,7 @@ export interface Translations {
   filterPresentationStyleLabel: string
   filterClassLabel: string
   filterAllOption: string
+  filterAdvancedLabel: string
   withParticipation: string
   videosLabel: string
   durationLabel: string

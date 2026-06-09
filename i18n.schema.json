@@ -77,6 +77,10 @@
       "type": "string",
       "description": "Option to show all items (no filter)"
     },
+    "filterAdvancedLabel": {
+      "type": "string",
+      "description": "Toggle label to reveal advanced filters"
+    },
     "withParticipation": {
       "type": "string",
       "description": "Label prefix for participant names"
@@ -163,6 +167,7 @@
     "filterPresentationStyleLabel",
     "filterClassLabel",
     "filterAllOption",
+    "filterAdvancedLabel",
     "withParticipation",
     "videosLabel",
     "durationLabel",

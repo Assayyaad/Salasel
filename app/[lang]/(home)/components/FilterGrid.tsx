@@ -2,11 +2,12 @@
 
 import type { Languages, Translations } from '@/app/types'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 import { allLanguages } from '@/app/static'
 import FilterSelect from '@/app/[lang]/(home)/components/FilterSelect'
+import CategoryPills from '@/app/[lang]/(home)/components/CategoryPills'
 
 export interface FilterGridProps {
   t: Translations
@@ -16,6 +17,7 @@ const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
   const router = useRouter()
   const pathname = usePathname()
   const { filters, setLanguage, setContentType, setPresentationStyle, setCategory, setClass } = usePlaylistStore()
+  const [showAdvanced, setShowAdvanced] = useState(false)
 
   // Sync language from URL to store on mount and when pathname changes
   useEffect(() => {
@@ -30,7 +32,6 @@ const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
 
   // Handle language change by updating the route
   const handleLanguageChange = (newLang: string) => {
-    // Extract current language from pathname (format: /[lang]/...)
     const pathSegments = pathname.split('/')
     if (pathSegments.length > 1) {
       pathSegments[1] = newLang
@@ -47,50 +48,86 @@ const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
   const classOptions = Object.entries(t.classes).map(([key, value]) => ({ key, value }))
 
   return (
-    <div className="flex flex-wrap justify-center gap-3">
-      <FilterSelect
-        id="language-filter"
-        label={t.filterLanguageLabel}
-        value={filters.language}
-        onChange={handleLanguageChange}
-        options={languageOptions}
-      />
+    <div className="flex flex-col items-center gap-4">
+      {/* Simple view: category pills */}
+      <CategoryPills t={t} />
 
-      <FilterSelect
-        id="content-type-filter"
-        label={t.filterContentTypeLabel}
-        value={filters.contentType}
-        onChange={(value) => setContentType(Number(value))}
-        options={contentOptions}
-      />
+      {/* Toggle button */}
+      <button
+        onClick={() => setShowAdvanced((prev) => !prev)}
+        className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 transition-colors cursor-pointer focus:outline-none"
+        aria-expanded={showAdvanced}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={`transition-transform ${showAdvanced ? 'rotate-180' : ''}`}
+          aria-hidden="true"
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+        {t.filterAdvancedLabel}
+      </button>
 
-      <FilterSelect
-        id="category-filter"
-        label={t.filterCategoryLabel}
-        value={filters.category}
-        onChange={(value) => setCategory(Number(value))}
-        options={categoryOptions}
-      />
+      {/* Advanced filters */}
+      {showAdvanced && (
+        <div className="flex flex-wrap justify-center gap-3 pt-1">
+          <FilterSelect
+            id="language-filter"
+            label={t.filterLanguageLabel}
+            value={filters.language}
+            onChange={handleLanguageChange}
+            options={languageOptions}
+          />
 
-      <FilterSelect
-        id="presentation-style-filter"
-        label={t.filterPresentationStyleLabel}
-        value={filters.presentationStyle}
-        onChange={(value) => setPresentationStyle(value === 'all' ? 'all' : Number(value))}
-        options={presentationOptions}
-        showAllOption
-        allOptionLabel={t.filterAllOption}
-      />
+          <FilterSelect
+            id="content-type-filter"
+            label={t.filterContentTypeLabel}
+            value={filters.contentType}
+            onChange={(value) => setContentType(value === 'all' ? 'all' : Number(value))}
+            options={contentOptions}
+            showAllOption
+            allOptionLabel={t.filterAllOption}
+          />
 
-      <FilterSelect
-        id="class-filter"
-        label={t.filterClassLabel}
-        value={filters.class}
-        onChange={(value) => setClass(value === 'all' ? 'all' : Number(value))}
-        options={classOptions}
-        showAllOption
-        allOptionLabel={t.filterAllOption}
-      />
+          <FilterSelect
+            id="category-filter"
+            label={t.filterCategoryLabel}
+            value={filters.category}
+            onChange={(value) => setCategory(value === 'all' ? 'all' : Number(value))}
+            options={categoryOptions}
+            showAllOption
+            allOptionLabel={t.filterAllOption}
+          />
+
+          <FilterSelect
+            id="presentation-style-filter"
+            label={t.filterPresentationStyleLabel}
+            value={filters.presentationStyle}
+            onChange={(value) => setPresentationStyle(value === 'all' ? 'all' : Number(value))}
+            options={presentationOptions}
+            showAllOption
+            allOptionLabel={t.filterAllOption}
+          />
+
+          <FilterSelect
+            id="class-filter"
+            label={t.filterClassLabel}
+            value={filters.class}
+            onChange={(value) => setClass(value === 'all' ? 'all' : Number(value))}
+            options={classOptions}
+            showAllOption
+            allOptionLabel={t.filterAllOption}
+          />
+        </div>
+      )}
     </div>
   )
 }

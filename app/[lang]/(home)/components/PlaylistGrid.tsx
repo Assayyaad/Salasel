@@ -28,10 +28,10 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
     if (
       // Language filter (mandatory)
       pl.language === filters.language &&
-      // Content type filter (mandatory)
-      pl.type === filters.contentType &&
-      // Category filter (mandatory)
-      pl.categories.includes(filters.category as any) &&
+      // Content type filter (optional)
+      (filters.contentType === 'all' || pl.type === filters.contentType) &&
+      // Category filter (optional)
+      (filters.category === 'all' || pl.categories.includes(filters.category as any)) &&
       // Presentation style filter (optional)
       (filters.presentationStyle === 'all' || pl.style === filters.presentationStyle) &&
       // Class filter (optional)

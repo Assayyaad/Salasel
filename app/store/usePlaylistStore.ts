@@ -4,8 +4,8 @@ import { create } from 'zustand'
 
 export interface FilterState {
   language: Languages
-  contentType: ContentTypes
-  category: Categories
+  contentType: ContentTypes | 'all'
+  category: Categories | 'all'
   presentationStyle: PresentationStyles | 'all'
   class: Classes | 'all'
 }
@@ -13,8 +13,8 @@ export interface FilterState {
 export interface PlaylistState {
   filters: FilterState
   setLanguage: (language: Languages) => void
-  setContentType: (contentType: ContentTypes) => void
-  setCategory: (category: Categories) => void
+  setContentType: (contentType: ContentTypes | 'all') => void
+  setCategory: (category: Categories | 'all') => void
   setPresentationStyle: (presentationStyle: PresentationStyles | 'all') => void
   setClass: (classType: Classes | 'all') => void
   resetFilters: () => void
@@ -22,9 +22,9 @@ export interface PlaylistState {
 
 const defaultFilters: FilterState = {
   language: 'ar',
-  contentType: 0,
+  contentType: 'all',
   presentationStyle: 'all',
-  category: 0,
+  category: 'all',
   class: 'all',
 }
 
