@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Librecounter from '@/app/shared/components/Librecounter'
 import { formatDate, videoThumbnailUrl, fallbackThumbnailUrl, formatTime } from '@/app/utils'
 import { defaultLabel } from '@/app/static'
+import { useBookmarkStore } from '@/app/store/useBookmarkStore'
 
 export type SelectedPlaylistCardPlaylist = Pick<
   CalculatedPlaylist,
@@ -32,6 +33,8 @@ export interface SelectedPlaylistCardProps {
 const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
+  const { isBookmarked, toggleBookmark } = useBookmarkStore()
+  const bookmarked = isBookmarked(playlist.id)
 
   if (!playlist) {
     return <div>{t.loading}</div> // Or some other loading state
@@ -45,6 +48,31 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
           <h1 className="text-3xl font-extrabold text-text-light dark:text-text-dark mb-2 tracking-tight">
             {playlist.name}
           </h1>
+          {/* Bookmark button */}
+          <div>
+            <button
+              onClick={() => toggleBookmark(playlist.id)}
+              aria-label={bookmarked ? 'Remove bookmark' : 'Bookmark playlist'}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary bg-slate-800 border-slate-600 text-slate-300 hover:border-primary hover:text-primary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill={bookmarked ? 'currentColor' : 'none'}
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={bookmarked ? 'text-primary' : ''}
+                aria-hidden="true"
+              >
+                <path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+              </svg>
+              {t.filterBookmarksLabel}
+            </button>
+          </div>
           <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
             {playlist.description} <Librecounter />
           </p>
