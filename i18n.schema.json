@@ -169,6 +169,10 @@
       "type": "string",
       "description": "Message when playlist has no videos"
     },
+    "completedLabel": {
+      "type": "string",
+      "description": "Badge label shown on a fully completed playlist card"
+    },
     "appTitle": {
       "type": "string",
       "description": "Short application title"
@@ -218,6 +222,7 @@
     "playlistNotFound",
     "videoNotFound",
     "noVideosFound",
+    "completedLabel",
     "appTitle",
     "appFullTitle",
     "appDescription"

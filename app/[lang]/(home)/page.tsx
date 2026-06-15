@@ -46,7 +46,7 @@ const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
         <FilterGrid t={t} />
       </div>
       <RecentlyWatched playlists={playlists} lang={t.__language.code} t={t} />
-      <PlaylistGrid playlists={filteredPlaylists} lang={t.__language.code} />
+      <PlaylistGrid playlists={filteredPlaylists} lang={t.__language.code} t={t} />
     </main>
   )
 }

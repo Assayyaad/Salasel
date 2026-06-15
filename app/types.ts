@@ -149,6 +149,7 @@ export interface Translations {
   playlistNotFound: string
   videoNotFound: string
   noVideosFound: string
+  completedLabel: string
   appTitle: string
   appFullTitle: string
   appDescription: string
