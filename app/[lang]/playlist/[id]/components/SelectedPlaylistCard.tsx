@@ -70,7 +70,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
               >
                 <path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
               </svg>
-              {t.filterBookmarksLabel}
+              {t.bookmarkLabel}
             </button>
           </div>
           <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">

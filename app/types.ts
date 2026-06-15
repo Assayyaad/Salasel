@@ -128,6 +128,7 @@ export interface Translations {
   filterAllOption: string
   filterAdvancedLabel: string
   filterBookmarksLabel: string
+  bookmarkLabel: string
   continueWatchingLabel: string
   viewAllLabel: string
   showLessLabel: string

@@ -85,6 +85,10 @@
       "type": "string",
       "description": "Pill label to filter bookmarked playlists"
     },
+    "bookmarkLabel": {
+      "type": "string",
+      "description": "Action label on the bookmark button on the playlist detail page"
+    },
     "continueWatchingLabel": {
       "type": "string",
       "description": "Section heading for recently watched playlists strip"
@@ -201,6 +205,7 @@
     "filterAllOption",
     "filterAdvancedLabel",
     "filterBookmarksLabel",
+    "bookmarkLabel",
     "continueWatchingLabel",
     "viewAllLabel",
     "showLessLabel",
