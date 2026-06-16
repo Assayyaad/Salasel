@@ -6,8 +6,8 @@ export interface SelectedPlaylistParams {
   id: string
 }
 
-export function generateStaticParams(): SelectedPlaylistParams[] {
-  const playlists = getPlaylists()
+export async function generateStaticParams(): Promise<SelectedPlaylistParams[]> {
+  const playlists = await getPlaylists()
   const params: SelectedPlaylistParams[] = []
 
   for (const id in playlists) {

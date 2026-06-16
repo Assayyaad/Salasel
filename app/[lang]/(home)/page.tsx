@@ -20,7 +20,7 @@ export interface HomeProps {
 const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
   const { lang } = await params
   const t = getTranslations(lang)
-  const playlists = getPlaylists()
+  const playlists = await getPlaylists()
 
   // Apply search filter if query exists
   const resolvedSearchParams = await searchParams

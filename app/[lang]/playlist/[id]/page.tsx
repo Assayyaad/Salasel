@@ -19,7 +19,7 @@ export interface SelectedPlaylistPageProps {
 const SelectedPlaylistPage: React.FC<SelectedPlaylistPageProps> = async ({ params }) => {
   const { lang, id } = await params
   const t = getTranslations(lang)
-  const playlist = getPlaylist(id)
+  const playlist = await getPlaylist(id)
 
   if (!playlist) {
     return <div>{t.playlistNotFound}</div>

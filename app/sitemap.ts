@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  const playlists = getPlaylists()
+  const playlists = await getPlaylists()
 
   for (const id in playlists) {
     if (!Object.hasOwn(playlists, id)) continue
