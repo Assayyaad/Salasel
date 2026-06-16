@@ -47,6 +47,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
             className="w-full h-full object-cover"
             src={imageUrl}
             fill={true}
+            sizes="(max-width: 768px) 112px, 128px"
             priority={priority}
             fetchPriority={priority ? 'high' : undefined}
             onError={() => setImageUrl(fallbackThumbnailUrl(videoId))}
