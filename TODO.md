@@ -2,29 +2,11 @@
 
 ## 1. Fix slow navigation performance
 
-- [ ] Profile why home → playlist/:id navigation is slow (likely Supabase round-trip on every navigation)
-- [ ] Cache `getPlaylists()` result — consider Next.js `unstable_cache` or route-level caching
-- [ ] Cache `getVideos(playlistId)` per playlist — same approach
-- [ ] Verify `export const revalidate` is set appropriately on playlist page
-- [ ] Consider prefetching playlist data on hover (PlaylistCard link)
-
-## 2. User progress → Supabase
-
-- [ ] Set up anonymous auth: call `supabase.auth.signInAnonymously()` on first app load, persist session
-- [ ] Create `api/progress.ts` — `getCompletedVideos(playlistId)`, `toggleVideoCompleted(playlistId, videoId)`
-- [ ] Update `SelectedPlaylistContent.tsx` to fetch/mutate via Supabase instead of `useProgressStore`
-- [ ] Update `useProgressStore` — keep `recentPlaylists` only, remove `completedVideos` and `toggleVideoCompleted`
-- [ ] Create `api/recent.ts` — `recordPlaylistVisit(playlistId)` calling the `record_playlist_visit` RPC
-- [ ] Update `RecordVisit.tsx` to call the Supabase RPC instead of the store
-- [ ] Update `RecentlyWatched.tsx` to fetch recent playlists from Supabase instead of the store
-- [ ] Remove `useProgressStore` entirely once all consumers are migrated
-
-## 3. Bookmarks → Supabase
-
-- [ ] Create `api/bookmarks.ts` — `getBookmarks()`, `toggleBookmark(playlistId)`
-- [ ] Update `BookmarkButton.tsx` to read/write via Supabase instead of `useBookmarkStore`
-- [ ] Update home page bookmark filter to fetch from Supabase
-- [ ] Remove `useBookmarkStore` once all consumers are migrated
+- [x] Profile why home → playlist/:id navigation is slow (likely Supabase round-trip on every navigation)
+- [x] Cache `getPlaylists()` result — consider Next.js `unstable_cache` or route-level caching
+- [x] Cache `getVideos(playlistId)` per playlist — same approach
+- [x] Verify `export const revalidate` is set appropriately on playlist page
+- [x] Consider prefetching playlist data on hover (PlaylistCard link)
 
 ## 4. i18n performance
 
@@ -50,14 +32,14 @@
 - [ ] Create `.env.local` for dev pointing to local Supabase instance (`supabase start`)
 - [ ] Document local dev setup in README
 
-## 7. Browser extension → Supabase progress tracking
+## 7. Browser extension — "continue watching" prompt (local only)
 
-- [ ] Share anon session token between the web app and the extension (via `chrome.storage`)
-- [ ] In extension: import Supabase JS client (bundle it or use CDN)
-- [ ] Detect video completion on YouTube (ended event or progress ≥ 95%)
-- [ ] On completion: call `supabase.from('user_progress').upsert(...)` with the video + playlist ID
-- [ ] Handle playlist ID — extract `list=` param from YouTube URL
-- [ ] Sync session on extension install: prompt user to visit salasel.app first to establish anon identity
+- [ ] On a salasel.app tab: read the user's single most recent watched playlist (most recent entry + its progress / last-stopped video) from the site's local storage
+- [ ] Persist that single "most recent" record locally in the extension via `chrome.storage` (no server, no Supabase)
+- [ ] On YouTube home page: the distraction block/hide is already implemented — keep it as-is
+- [ ] Add a "continue watching" div on the YouTube home page that surfaces the stored most-recent playlist and prompts the user whether they want to continue watching
+- [ ] If the user chooses to continue: the div links out to the exact stop point — `youtube.com/watch?v={videoId}&list={playlistId}` derived from the locally stored most-recent playlist + progress
+- [ ] If there is no stored record (user never visited salasel.app / no progress yet): show nothing extra, just the existing block behavior
 
 ## 8. Extension popup — "Hide" keyword
 
