@@ -24,6 +24,16 @@ cd Salasel
 npm install
 ```
 
+3. **إعداد متغيرات البيئة:**
+
+أنشئ ملف `.env` في جذر المشروع بالمحتوى التالي:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+SUPABASE_SERVICE_ROLE_KEY=eyJ...   # للسيدر فقط، لا يُستخدم في التطبيق
+```
+
 ## التشغيل
 
 ### وضع التطوير
