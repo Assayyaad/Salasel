@@ -10,8 +10,6 @@ import { getTranslations } from '@/app/translate'
 export { generateStaticParams } from '@/app/[lang]/playlist/[id]/params'
 export { generateMetadata } from '@/app/[lang]/playlist/[id]/meta'
 
-export const revalidate = 3600 // Revalidate every hour
-
 export interface SelectedPlaylistPageProps {
   params: Promise<SelectedPlaylistParams>
 }
