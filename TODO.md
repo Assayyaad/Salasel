@@ -8,12 +8,6 @@
 - [x] Verify `export const revalidate` is set appropriately on playlist page
 - [x] Consider prefetching playlist data on hover (PlaylistCard link)
 
-## 4. i18n performance
-
-- [ ] Investigate why i18n feels slow — likely `require()` in `translationsMap` re-running or layout rehydration
-- [ ] Move translations loading to a cached utility so it doesn't re-fetch on every render
-- [ ] Verify `getTranslations()` is not called inside client components (should always be server-side)
-
 ## 5. Admin page
 
 - [ ] Create `/admin` route (protect with Supabase auth — separate non-anonymous sign-in)
@@ -25,12 +19,15 @@
 
 ## 6. Dev environment for Supabase
 
-- [ ] Set up Supabase CLI (`npm install -g supabase`)
-- [ ] `supabase init` and `supabase link --project-ref <ref>`
-- [ ] Pull current schema: `supabase db pull` → generates `supabase/migrations/`
-- [ ] Add `supabase/seed.sql` or keep using `npm run seed` for local seeding
-- [ ] Create `.env.local` for dev pointing to local Supabase instance (`supabase start`)
-- [ ] Document local dev setup in README
+- [x] Set up Supabase CLI (pinned as a devDependency, run via `npx supabase`)
+- [x] Slimmed local stack to DB + REST + Studio only (`supabase/config.toml`)
+- [x] Define schema as migrations in `supabase/migrations/` (baseline + drop-unused-tables, with grants)
+- [x] Single `APP_ENV` switch in `.env` selects local vs prod for dev/build/start
+- [x] `npm run seed:local` / `npm run seed` for local vs prod seeding
+- [x] `.env.example` template committed; real `.env` gitignored
+- [x] Document local setup, schema migrations, and prod push in README
+- [ ] Reconcile remote: mark baseline as applied, then push the drop migration:
+      `npx supabase migration repair --status applied 20260623000000 && npx supabase db push`
 
 ## 7. Browser extension — "continue watching" prompt (local only)
 

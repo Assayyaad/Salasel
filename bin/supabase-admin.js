@@ -2,11 +2,18 @@
 // Never imported by the Next.js app.
 const { createClient } = require('@supabase/supabase-js')
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+// Mirror the app's APP_ENV switch: 'development' targets the local Docker
+// stack, anything else targets production.
+const isDev = process.env.APP_ENV === 'development'
+
+const supabaseUrl = isDev ? process.env.DEV_SUPABASE_URL : process.env.PROD_SUPABASE_URL
+const serviceRoleKey = isDev ? process.env.DEV_SUPABASE_SERVICE_ROLE_KEY : process.env.PROD_SUPABASE_SERVICE_ROLE_KEY
 
 if (!supabaseUrl || !serviceRoleKey) {
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY')
+  throw new Error(
+    `Missing Supabase config for APP_ENV="${process.env.APP_ENV || 'production'}". ` +
+      'Check DEV_/PROD_ SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env',
+  )
 }
 
 /**

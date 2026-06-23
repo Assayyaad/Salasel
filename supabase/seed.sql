@@ -1,0 +1,11 @@
+-- Salasel local seed
+--
+-- This file runs automatically on `supabase db reset`.
+-- Actual content (playlists + videos) is seeded from the CSV/JSON pipeline
+-- via the Node script instead, so re-runs stay in sync with `data/`:
+--
+--   npm run build:data   # regenerate public/*.json from data/*.csv
+--   npm run seed:local   # upsert into the local Supabase instance
+--
+-- Keep this file for any future static/reference rows that should always
+-- exist in a fresh local database.
