@@ -8,8 +8,15 @@ export interface BookmarkButtonProps {
 }
 
 const BookmarkButton: React.FC<BookmarkButtonProps> = ({ playlistId }) => {
-  const { isBookmarked, toggleBookmark } = useBookmarkStore()
-  const bookmarked = isBookmarked(playlistId)
+  const [isClient, setIsClient] = React.useState(false)
+  const bookmarkedPlaylists = useBookmarkStore((state) => state.bookmarkedPlaylists)
+  const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark)
+
+  React.useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  const bookmarked = isClient && bookmarkedPlaylists.has(playlistId)
 
   return (
     <button
