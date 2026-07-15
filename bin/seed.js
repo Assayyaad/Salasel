@@ -91,12 +91,14 @@ async function seedVideos() {
     const filePath = path.join(videosDir, file)
 
     try {
+      let position = 0
       const parsed = await readFileRecords(filePath, (row) => ({
         id: row.id,
         playlist_id: playlistId,
         title: row.title,
         duration: timeToNum(row.duration),
         uploaded_at: dateToNum(row.uploadedAt),
+        position: position++,
       }))
 
       if (parsed.length === 0) {

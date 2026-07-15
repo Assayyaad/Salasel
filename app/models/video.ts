@@ -7,6 +7,7 @@ export interface VideoRow {
   title: string
   duration: number
   uploaded_at: number
+  position: number
 }
 
 export function rowToVideo(row: VideoRow): CalculatedVideo {
@@ -16,5 +17,6 @@ export function rowToVideo(row: VideoRow): CalculatedVideo {
     title: row.title,
     duration: row.duration,
     uploadedAt: row.uploaded_at,
+    position: row.position,
   }
 }

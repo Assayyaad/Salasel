@@ -14,6 +14,8 @@ export interface FetchedVideo {
 export interface CalculatedVideo extends FetchedVideo {
   /** معرف سلسلة المقطع من يوتيوب */
   playlistId: string
+  /** ترتيب المقطع ضمن السلسلة (يبدأ من 0) */
+  position: number
 }
 
 /** Playlist with fetched data */

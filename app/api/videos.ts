@@ -18,7 +18,7 @@ const VIDEOS_REVALIDATE = 60 * 60 // 1 hour
  */
 export const getVideos = unstable_cache(
   async (playlistId: string): Promise<Videos> => {
-    const { data, error } = await supabase.from('videos').select('*').eq('playlist_id', playlistId).order('uploaded_at')
+    const { data, error } = await supabase.from('videos').select('*').eq('playlist_id', playlistId).order('position')
 
     if (error) {
       console.error(`getVideos error (${playlistId}):`, error.message)
