@@ -58,6 +58,34 @@ export interface CalculatedPlaylist extends FilledPlaylist {
   endDate: number
 }
 
+// ============================================================================
+// Notes (handoff from the Salasel browser extension)
+// ============================================================================
+
+/** A single video's note, as delivered by the Salasel browser extension */
+export interface NoteRecord {
+  /** YouTube video id (the ?v= value) */
+  videoId: string
+  /** YouTube playlist id (?list=) if taken in a playlist context, else null */
+  playlistId: string | null
+  /** The note body, plain text (may contain newlines) */
+  text: string
+  /** Epoch milliseconds of the last edit */
+  updatedAt: number
+}
+
+/** Full notes snapshot the extension writes to localStorage["salasel-notes-inbox"] */
+export interface NotesHandoffPayload {
+  /** Constant marker, lets the app ignore unrelated writes */
+  source: 'salasel-extension'
+  /** Schema version for future migrations */
+  version: 1
+  /** Epoch ms when the extension wrote this payload */
+  exportedAt: number
+  /** Map keyed by videoId */
+  notes: Record<string, NoteRecord>
+}
+
 export type StringifiedPlaylist = Record<keyof FilledPlaylist, string>
 export type StringifiedVideo = Record<keyof FetchedVideo, string> & {
   duration: StrTime
@@ -153,6 +181,9 @@ export interface Translations {
   videoNotFound: string
   noVideosFound: string
   completedLabel: string
+  downloadNoteLabel: string
+  downloadPlaylistNotesLabel: string
+  noNotesLabel: string
   appTitle: string
   appFullTitle: string
   appDescription: string
