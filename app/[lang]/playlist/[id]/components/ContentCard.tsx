@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { videoThumbnailUrl, fallbackThumbnailUrl, downloadTextFile } from '@/app/utils'
 import { buildVideoNoteMarkdown, videoNoteFileName, hasContent, MARKDOWN_MIME } from '@/app/notes'
+import { useProgressStore } from '@/app/store/useProgressStore'
 
 export interface ContentCardProps {
   title: string
@@ -29,6 +30,12 @@ const ContentCard: React.FC<ContentCardProps> = ({
   priority = false,
 }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
+  const recordLastWatched = useProgressStore((s) => s.recordLastWatched)
+
+  const handleOpen = () => {
+    if (!playlistId || !videoId) return
+    recordLastWatched(playlistId, videoId)
+  }
 
   const handleToggle = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -48,6 +55,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
       href={`https://www.youtube.com/watch?v=${videoId}&list=${playlistId}`}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleOpen}
       className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completed ? 'bg-green-50/50 dark:bg-green-900/10' : ''}`}
     >
       <div className="grid grid-cols-[auto_1fr_auto] items-center gap-x-4">
