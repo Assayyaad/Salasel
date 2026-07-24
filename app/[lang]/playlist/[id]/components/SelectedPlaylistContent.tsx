@@ -7,7 +7,7 @@ import ContentCard from '@/app/[lang]/playlist/[id]/components/ContentCard'
 import { useProgressStore } from '@/app/store/useProgressStore'
 import { useNotesStore } from '@/app/store/useNotesStore'
 import { downloadTextFile } from '@/app/utils'
-import { buildPlaylistNotesFile, playlistNotesFileName } from '@/app/notes'
+import { buildPlaylistNotesMarkdown, playlistNotesFileName, hasContent, MARKDOWN_MIME } from '@/app/notes'
 
 export type SelectedPlaylistContentPlaylist = Pick<CalculatedPlaylist, 'id' | 'name'>
 export type SelectedPlaylistContentVideo = Pick<CalculatedVideo, 'id' | 'title' | 'playlistId'>
@@ -30,23 +30,21 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
   const completedCount = isClient ? (completedVideos[playlist.id]?.size ?? 0) : 0
   const progressPercent = totalVideos > 0 ? Math.round((completedCount / totalVideos) * 100) : 0
 
-  // Notes belonging to videos in this playlist, newest first.
+  // Non-empty notes belonging to videos in this playlist, newest first.
   const playlistNotes = isClient
     ? Object.values(notes)
-        .filter((n) => n.playlistId === playlist.id)
+        .filter((n) => n.playlistId === playlist.id && hasContent(n))
         .sort((a, b) => b.updatedAt - a.updatedAt)
     : []
   const hasNotes = playlistNotes.length > 0
 
   const handleDownloadPlaylistNotes = () => {
     if (!hasNotes) return
-    const content = buildPlaylistNotesFile(
-      playlist.name,
-      playlistNotes,
-      (videoId) => videos[videoId]?.title,
-      t.__language.code,
+    downloadTextFile(
+      playlistNotesFileName(playlist.id),
+      buildPlaylistNotesMarkdown(playlist.id, playlistNotes),
+      MARKDOWN_MIME,
     )
-    downloadTextFile(playlistNotesFileName(playlist.name), content)
   }
 
   if (!playlist) {

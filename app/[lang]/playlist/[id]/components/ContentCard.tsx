@@ -5,7 +5,7 @@ import type { NoteRecord, Translations } from '@/app/types'
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { videoThumbnailUrl, fallbackThumbnailUrl, downloadTextFile } from '@/app/utils'
-import { buildVideoNoteFile, videoNoteFileName } from '@/app/notes'
+import { buildVideoNoteMarkdown, videoNoteFileName, hasContent, MARKDOWN_MIME } from '@/app/notes'
 
 export interface ContentCardProps {
   title: string
@@ -39,9 +39,8 @@ const ContentCard: React.FC<ContentCardProps> = ({
   const handleDownloadNote = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    if (!note) return
-    const content = buildVideoNoteFile(note, title, t.__language.code)
-    downloadTextFile(videoNoteFileName(title), content)
+    if (!note || !hasContent(note)) return
+    downloadTextFile(videoNoteFileName(note.videoId), buildVideoNoteMarkdown(note), MARKDOWN_MIME)
   }
 
   return (
@@ -78,7 +77,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
 
         {/* Column 3: Download note (if any) + completed checkbox */}
         <div className="relative z-10 flex items-center gap-1 shrink-0">
-          {note && (
+          {note && hasContent(note) && (
             <button
               type="button"
               onClick={handleDownloadNote}

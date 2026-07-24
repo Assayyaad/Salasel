@@ -25,25 +25,13 @@ export function formatTime(seconds: number): string {
 }
 
 /**
- * Sanitize a string so it can be used safely as a file name.
- * Strips path separators and control/reserved characters, collapses whitespace.
+ * Trigger a client-side download of a text file. No-op during SSR.
+ * `mimeType` defaults to plain text; pass `text/markdown;charset=utf-8` for .md.
  */
-export function sanitizeFileName(name: string): string {
-  const cleaned = name
-    // eslint-disable-next-line no-control-regex
-    .replace(/[\u0000-\u001f/\\:*?"<>|]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-  return cleaned.slice(0, 120) || 'note'
-}
-
-/**
- * Trigger a client-side download of a plain-text file. No-op during SSR.
- */
-export function downloadTextFile(fileName: string, content: string): void {
+export function downloadTextFile(fileName: string, content: string, mimeType = 'text/plain;charset=utf-8'): void {
   if (typeof window === 'undefined') return
 
-  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const blob = new Blob([content], { type: mimeType })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -52,29 +40,6 @@ export function downloadTextFile(fileName: string, content: string): void {
   a.click()
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
-}
-
-/**
- * Format an epoch-milliseconds timestamp into a localized date-time string.
- * Used for note `updatedAt` values delivered by the extension.
- */
-export function formatNoteTimestamp(epochMs: number, locale: string): string {
-  if (!Number.isFinite(epochMs) || epochMs <= 0) {
-    return defaultLabel
-  }
-
-  try {
-    const date = new Date(epochMs)
-    return new Intl.DateTimeFormat(locale, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(date)
-  } catch {
-    return defaultLabel
-  }
 }
 
 export function formatDate(seconds: number): string {
