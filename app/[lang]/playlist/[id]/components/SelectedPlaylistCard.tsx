@@ -2,7 +2,7 @@
 
 import type { CalculatedPlaylist, Translations } from '@/app/types'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Librecounter from '@/app/shared/components/Librecounter'
 import { formatDate, videoThumbnailUrl, fallbackThumbnailUrl, formatTime } from '@/app/utils'
@@ -34,17 +34,13 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
   const [isLoading, setIsLoading] = useState(true)
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
   const [expanded, setExpanded] = useState(false)
-  const [isClamped, setIsClamped] = useState(false)
-  const descriptionRef = useRef<HTMLParagraphElement>(null)
   const { isBookmarked, toggleBookmark } = useBookmarkStore()
   const bookmarked = isBookmarked(playlist.id)
 
-  // Detect whether the description overflows the clamped height
-  useEffect(() => {
-    const el = descriptionRef.current
-    if (!el) return
-    setIsClamped(el.scrollHeight > el.clientHeight + 1)
-  }, [playlist.description])
+  const DESCRIPTION_LIMIT = 100
+  const isTruncatable = playlist.description.length > DESCRIPTION_LIMIT
+  const displayedDescription =
+    isTruncatable && !expanded ? `${playlist.description.slice(0, DESCRIPTION_LIMIT).trimEnd()}…` : playlist.description
 
   if (!playlist) {
     return <div>{t.loading}</div> // Or some other loading state
@@ -52,7 +48,7 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
 
   return (
     <div className="bg-card-light dark:bg-card-dark rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-      <div className="flex flex-col lg:flex-row">
+      <div className="flex flex-col lg:flex-row lg:items-center">
         <div className="p-6 lg:w-1/2 flex flex-col justify-center space-y-4">
           {/* 1. Reordered Information */}
           <h1 className="text-3xl font-extrabold text-text-light dark:text-text-dark mb-2 tracking-tight">
@@ -84,13 +80,10 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
             </button>
           </div>
           <div>
-            <p
-              ref={descriptionRef}
-              className={`text-base text-gray-600 dark:text-gray-300 leading-relaxed ${expanded ? '' : 'line-clamp-3'}`}
-            >
-              {playlist.description} <Librecounter />
+            <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+              {displayedDescription} <Librecounter />
             </p>
-            {(isClamped || expanded) && (
+            {isTruncatable && (
               <button
                 type="button"
                 onClick={() => setExpanded((v) => !v)}
