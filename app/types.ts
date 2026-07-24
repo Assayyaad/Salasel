@@ -86,6 +86,50 @@ export interface NotesHandoffPayload {
   notes: Record<string, NoteRecord>
 }
 
+// ============================================================================
+// Feedback (Discord webhook)
+// ============================================================================
+
+/** Kind of feedback a user can submit from the app */
+export enum FeedbackType {
+  /** Suggest a new playlist/series to add to the index */
+  PlaylistSuggestion = 'playlist',
+  /** Suggest an improvement to the app in general */
+  AppSuggestion = 'app',
+  /** Report a problem or complaint */
+  Complaint = 'complaint',
+  /** Anything else */
+  General = 'general',
+}
+
+/** Max length of a feedback message (shared by client counter + server cap). */
+export const FEEDBACK_MESSAGE_MAX_LENGTH = 2000
+
+/** Max length of the optional contact field. */
+export const FEEDBACK_CONTACT_MAX_LENGTH = 200
+
+/** All valid feedback type values, for runtime validation */
+export const feedbackTypes: readonly FeedbackType[] = Object.freeze([
+  FeedbackType.PlaylistSuggestion,
+  FeedbackType.AppSuggestion,
+  FeedbackType.Complaint,
+  FeedbackType.General,
+])
+
+/** Payload posted from the feedback widget to the feedback API route */
+export interface FeedbackPayload {
+  /** Which kind of feedback this is */
+  type: FeedbackType
+  /** The feedback body, plain text */
+  message: string
+  /** Optional way to reach the user back (email, handle, etc.) */
+  contact?: string
+  /** The page the user submitted from, for context */
+  pageUrl?: string
+  /** UI language the user was using */
+  lang?: string
+}
+
 export type StringifiedPlaylist = Record<keyof FilledPlaylist, string>
 export type StringifiedVideo = Record<keyof FetchedVideo, string> & {
   duration: StrTime
@@ -184,6 +228,25 @@ export interface Translations {
   downloadNoteLabel: string
   downloadPlaylistNotesLabel: string
   noNotesLabel: string
+  feedback: {
+    buttonLabel: string
+    title: string
+    typeLabel: string
+    typePlaylist: string
+    typeApp: string
+    typeComplaint: string
+    typeGeneral: string
+    messageLabel: string
+    messagePlaceholder: string
+    contactLabel: string
+    contactPlaceholder: string
+    submitLabel: string
+    submittingLabel: string
+    successMessage: string
+    errorMessage: string
+    rateLimitMessage: string
+    closeLabel: string
+  }
   appTitle: string
   appFullTitle: string
   appDescription: string

@@ -189,6 +189,51 @@
       "type": "string",
       "description": "Message shown when no notes exist for a playlist or video"
     },
+    "feedback": {
+      "type": "object",
+      "description": "Strings for the feedback widget (Discord webhook)",
+      "required": [
+        "buttonLabel",
+        "title",
+        "typeLabel",
+        "typePlaylist",
+        "typeApp",
+        "typeComplaint",
+        "typeGeneral",
+        "messageLabel",
+        "messagePlaceholder",
+        "contactLabel",
+        "contactPlaceholder",
+        "submitLabel",
+        "submittingLabel",
+        "successMessage",
+        "errorMessage",
+        "rateLimitMessage",
+        "closeLabel"
+      ],
+      "properties": {
+        "buttonLabel": { "type": "string", "description": "Label/tooltip for the floating feedback button" },
+        "title": { "type": "string", "description": "Feedback modal title" },
+        "typeLabel": { "type": "string", "description": "Label for the feedback type selector" },
+        "typePlaylist": { "type": "string", "description": "Feedback type: suggest a playlist" },
+        "typeApp": { "type": "string", "description": "Feedback type: suggest an app improvement" },
+        "typeComplaint": { "type": "string", "description": "Feedback type: complaint" },
+        "typeGeneral": { "type": "string", "description": "Feedback type: general" },
+        "messageLabel": { "type": "string", "description": "Label for the feedback message field" },
+        "messagePlaceholder": { "type": "string", "description": "Placeholder for the feedback message field" },
+        "contactLabel": { "type": "string", "description": "Label for the optional contact field" },
+        "contactPlaceholder": { "type": "string", "description": "Placeholder for the optional contact field" },
+        "submitLabel": { "type": "string", "description": "Submit button label" },
+        "submittingLabel": { "type": "string", "description": "Submit button label while sending" },
+        "successMessage": { "type": "string", "description": "Message shown after a successful submission" },
+        "errorMessage": { "type": "string", "description": "Message shown when submission fails" },
+        "rateLimitMessage": {
+          "type": "string",
+          "description": "Message shown when the user is rate limited (too many submissions)"
+        },
+        "closeLabel": { "type": "string", "description": "Label for the modal close button" }
+      }
+    },
     "appTitle": {
       "type": "string",
       "description": "Short application title"
@@ -243,6 +288,7 @@
     "downloadNoteLabel",
     "downloadPlaylistNotesLabel",
     "noNotesLabel",
+    "feedback",
     "appTitle",
     "appFullTitle",
     "appDescription"

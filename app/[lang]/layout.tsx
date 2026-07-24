@@ -7,6 +7,7 @@ import { allLanguages, defaultLanguage, metadata } from '@/app/static'
 import { getLanguage, getTranslations } from '@/app/translate'
 import LanguageSwitcher from '@/app/shared/components/LanguageSwitcher'
 import NotesInbox from '@/app/shared/components/NotesInbox'
+import FeedbackWidget from '@/app/shared/components/FeedbackWidget'
 import '@/app/globals.css'
 
 export { viewport } from '@/app/static'
@@ -84,6 +85,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 const LanguageLayout: React.FC<Readonly<LanguageLayoutProps>> = async ({ children, params }) => {
   const { lang: langCode } = await params
   const lang = getLanguage(langCode)
+  const t: Translations = getTranslations(langCode)
 
   return (
     <html lang={lang.code} dir={lang.dir}>
@@ -93,6 +95,7 @@ const LanguageLayout: React.FC<Readonly<LanguageLayoutProps>> = async ({ childre
           <LanguageSwitcher currentLang={lang.code} dir={lang.dir} />
         </div>
         {children}
+        <FeedbackWidget t={t} lang={lang.code} />
       </body>
     </html>
   )
