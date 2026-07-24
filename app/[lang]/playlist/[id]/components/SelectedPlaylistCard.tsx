@@ -2,7 +2,7 @@
 
 import type { CalculatedPlaylist, Translations } from '@/app/types'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Librecounter from '@/app/shared/components/Librecounter'
 import { formatDate, videoThumbnailUrl, fallbackThumbnailUrl, formatTime } from '@/app/utils'
@@ -33,8 +33,18 @@ export interface SelectedPlaylistCardProps {
 const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(playlist.thumbnailId))
+  const [expanded, setExpanded] = useState(false)
+  const [isClamped, setIsClamped] = useState(false)
+  const descriptionRef = useRef<HTMLParagraphElement>(null)
   const { isBookmarked, toggleBookmark } = useBookmarkStore()
   const bookmarked = isBookmarked(playlist.id)
+
+  // Detect whether the description overflows the clamped height
+  useEffect(() => {
+    const el = descriptionRef.current
+    if (!el) return
+    setIsClamped(el.scrollHeight > el.clientHeight + 1)
+  }, [playlist.description])
 
   if (!playlist) {
     return <div>{t.loading}</div> // Or some other loading state
@@ -73,9 +83,23 @@ const SelectedPlaylistCard: React.FC<SelectedPlaylistCardProps> = ({ playlist, t
               {t.bookmarkLabel}
             </button>
           </div>
-          <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-            {playlist.description} <Librecounter />
-          </p>
+          <div>
+            <p
+              ref={descriptionRef}
+              className={`text-base text-gray-600 dark:text-gray-300 leading-relaxed ${expanded ? '' : 'line-clamp-3'}`}
+            >
+              {playlist.description} <Librecounter />
+            </p>
+            {(isClamped || expanded) && (
+              <button
+                type="button"
+                onClick={() => setExpanded((v) => !v)}
+                className="mt-1 text-sm font-medium text-primary hover:underline focus:outline-none cursor-pointer"
+              >
+                {expanded ? t.readLessLabel : t.readMoreLabel}
+              </button>
+            )}
+          </div>
 
           {playlist.participants.length > 0 && (
             <div className="text-sm text-muted-light dark:text-muted-dark font-medium">

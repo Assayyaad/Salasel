@@ -208,6 +208,8 @@ export interface Translations {
   showLessLabel: string
   hideLabel: string
   showLabel: string
+  readMoreLabel: string
+  readLessLabel: string
   playlistsCountLabel: string
   withParticipation: string
   videosLabel: string

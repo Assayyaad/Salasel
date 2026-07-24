@@ -109,6 +109,14 @@
       "type": "string",
       "description": "Button label to show the recently watched section again"
     },
+    "readMoreLabel": {
+      "type": "string",
+      "description": "Button label to expand a truncated playlist description"
+    },
+    "readLessLabel": {
+      "type": "string",
+      "description": "Button label to collapse an expanded playlist description"
+    },
     "playlistsCountLabel": {
       "type": "string",
       "description": "Playlist count label in recently watched header, use {n} as placeholder"
@@ -268,6 +276,8 @@
     "showLessLabel",
     "hideLabel",
     "showLabel",
+    "readMoreLabel",
+    "readLessLabel",
     "playlistsCountLabel",
     "withParticipation",
     "videosLabel",

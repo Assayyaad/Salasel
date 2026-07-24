@@ -96,7 +96,7 @@ const PlaylistCard: React.FC<PlaylistCardProps> = ({ playlist, lang, t, priority
           <h2 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
             {playlist.name}
           </h2>
-          <p className="text-sm text-slate-400 mt-1 min-h-[2.5rem]">{playlist.description}</p>
+          <p className="text-sm text-slate-400 mt-1 line-clamp-3 min-h-[3.75rem]">{playlist.description}</p>
         </div>
       </article>
     </Link>

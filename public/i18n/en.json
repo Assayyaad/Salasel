@@ -38,6 +38,8 @@
   "showLessLabel": "Show less",
   "hideLabel": "Hide",
   "showLabel": "Show",
+  "readMoreLabel": "Read more",
+  "readLessLabel": "Read less",
   "playlistsCountLabel": "{n} playlists",
   "withParticipation": "With:",
   "videosLabel": "Videos",
