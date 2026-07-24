@@ -177,6 +177,18 @@
       "type": "string",
       "description": "Badge label shown on a fully completed playlist card"
     },
+    "downloadNoteLabel": {
+      "type": "string",
+      "description": "Label/tooltip for the button that downloads a single video's note"
+    },
+    "downloadPlaylistNotesLabel": {
+      "type": "string",
+      "description": "Label/tooltip for the button that downloads all notes in a playlist"
+    },
+    "noNotesLabel": {
+      "type": "string",
+      "description": "Message shown when no notes exist for a playlist or video"
+    },
     "appTitle": {
       "type": "string",
       "description": "Short application title"
@@ -228,6 +240,9 @@
     "videoNotFound",
     "noVideosFound",
     "completedLabel",
+    "downloadNoteLabel",
+    "downloadPlaylistNotesLabel",
+    "noNotesLabel",
     "appTitle",
     "appFullTitle",
     "appDescription"

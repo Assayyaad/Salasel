@@ -55,6 +55,9 @@
   "videoNotFound": "لم يُعثر على المقطع",
   "noVideosFound": "لا مقاطع في السلسلة",
   "completedLabel": "مكتملة",
+  "downloadNoteLabel": "تنزيل الملاحظات",
+  "downloadPlaylistNotesLabel": "تنزيل كل الملاحظات",
+  "noNotesLabel": "لا توجد ملاحظات",
   "appTitle": "سلاسل",
   "appFullTitle": "سلاسل - تطبيق سلاسل تعليمية وتوعوية وتزكوية",
   "appDescription": "تطبيق سلاسل تعليمية وتوعوية وتزكوية لبناء إنسان متزن ومجتمع متماسك"

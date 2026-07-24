@@ -1,16 +1,18 @@
 'use client'
 
-import type { Translations } from '@/app/types'
+import type { NoteRecord, Translations } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
+import { videoThumbnailUrl, fallbackThumbnailUrl, downloadTextFile } from '@/app/utils'
+import { buildVideoNoteFile, videoNoteFileName } from '@/app/notes'
 
 export interface ContentCardProps {
   title: string
   videoId: string
   playlistId: string
   completed: boolean
+  note?: NoteRecord
   onToggle: (videoId: string) => void
   t: Translations
   priority?: boolean
@@ -21,7 +23,9 @@ const ContentCard: React.FC<ContentCardProps> = ({
   videoId,
   playlistId,
   completed,
+  note,
   onToggle,
+  t,
   priority = false,
 }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
@@ -30,6 +34,14 @@ const ContentCard: React.FC<ContentCardProps> = ({
     e.preventDefault()
     e.stopPropagation()
     onToggle(videoId)
+  }
+
+  const handleDownloadNote = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!note) return
+    const content = buildVideoNoteFile(note, title, t.__language.code)
+    downloadTextFile(videoNoteFileName(title), content)
   }
 
   return (
@@ -58,20 +70,34 @@ const ContentCard: React.FC<ContentCardProps> = ({
         </div>
 
         {/* Column 2: Title */}
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           <h3 className="text-base font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">
             {title}
           </h3>
         </div>
 
-        {/* Column 3: Completed checkbox */}
-        <div onClick={handleToggle} className="relative z-10 p-2 cursor-pointer shrink-0">
-          <div
-            className={`h-6 w-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-              completed ? 'bg-primary border-primary' : 'border-gray-300 dark:border-gray-600 hover:border-primary'
-            }`}
-          >
-            {completed && <span className="material-icons-round text-white text-sm">done</span>}
+        {/* Column 3: Download note (if any) + completed checkbox */}
+        <div className="relative z-10 flex items-center gap-1 shrink-0">
+          {note && (
+            <button
+              type="button"
+              onClick={handleDownloadNote}
+              aria-label={t.downloadNoteLabel}
+              title={t.downloadNoteLabel}
+              className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border border-primary bg-primary text-white hover:bg-primary/90 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <span className="material-icons-round text-sm">download</span>
+              <span className="hidden sm:inline">{t.downloadNoteLabel}</span>
+            </button>
+          )}
+          <div onClick={handleToggle} className="p-2 cursor-pointer">
+            <div
+              className={`h-6 w-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                completed ? 'bg-primary border-primary' : 'border-gray-300 dark:border-gray-600 hover:border-primary'
+              }`}
+            >
+              {completed && <span className="material-icons-round text-white text-sm">done</span>}
+            </div>
           </div>
         </div>
       </div>
