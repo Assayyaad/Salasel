@@ -66,6 +66,7 @@ const SelectedPlaylistContent: React.FC<SelectedPlaylistContentProps> = ({ playl
         title={v.title}
         videoId={v.id}
         playlistId={v.playlistId}
+        playlistName={playlist.name}
         completed={completed}
         note={note}
         onToggle={(videoId) => toggleVideoCompleted(playlist.id, videoId)}

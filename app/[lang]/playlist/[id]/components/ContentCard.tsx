@@ -12,6 +12,7 @@ export interface ContentCardProps {
   title: string
   videoId: string
   playlistId: string
+  playlistName: string
   completed: boolean
   note?: NoteRecord
   onToggle: (videoId: string) => void
@@ -23,6 +24,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
   title,
   videoId,
   playlistId,
+  playlistName,
   completed,
   note,
   onToggle,
@@ -34,7 +36,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
 
   const handleOpen = () => {
     if (!playlistId || !videoId) return
-    recordLastWatched(playlistId, videoId)
+    recordLastWatched(playlistId, videoId, playlistName)
   }
 
   const handleToggle = (e: React.MouseEvent) => {
