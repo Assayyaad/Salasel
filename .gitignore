@@ -2,7 +2,6 @@
 
 # generated files
 /public/playlists.json
-/public/videos/
 
 # dependencies
 /node_modules

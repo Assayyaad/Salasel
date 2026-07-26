@@ -109,7 +109,7 @@ PROD_SUPABASE_SERVICE_ROLE_KEY=
 ```bash
 npm run db:start    # تشغيل حزمة Supabase المحلية (Docker)
 npm run db:reset    # تطبيق ملفات الترحيل في supabase/migrations من جديد
-npm run build:data  # توليد public/*.json من data/*.csv
+npm run build:data  # توليد public/playlists.json من data/*.csv (لازم قبل التعبئة)
 npm run seed:local  # تعبئة القاعدة المحلية بالبيانات
 npm run dev         # تشغيل التطبيق (يقرأ APP_ENV من .env)
 npm run db:stop     # إيقاف الحزمة المحلية عند الانتهاء

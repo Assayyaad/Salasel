@@ -64,7 +64,6 @@ const captionsDir = path.join(csvDir, 'captions')
 const playlistsFile = path.join(csvDir, 'playlists.csv')
 
 const jsonDir = path.join(process.cwd(), 'public')
-const jsonVideosDir = path.join(jsonDir, 'videos')
 const jsonPlaylistsFile = path.join(jsonDir, 'playlists.json')
 
 module.exports = {
@@ -84,6 +83,5 @@ module.exports = {
   playlistsFile,
 
   jsonDir,
-  jsonVideosDir,
   jsonPlaylistsFile,
 }
