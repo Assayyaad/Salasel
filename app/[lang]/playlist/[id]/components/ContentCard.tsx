@@ -1,19 +1,20 @@
 'use client'
 
-import type { Translations } from '@/app/types'
+import type { NoteRecord, Translations } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import { videoThumbnailUrl, fallbackThumbnailUrl } from '@/app/utils'
+import { videoThumbnailUrl, fallbackThumbnailUrl, downloadTextFile } from '@/app/utils'
+import { buildVideoNoteMarkdown, videoNoteFileName, hasContent, MARKDOWN_MIME } from '@/app/notes'
+import { useProgressStore } from '@/app/store/useProgressStore'
 
-export type WatchStatus = 'not-started' | 'in-progress' | 'completed'
 export interface ContentCardProps {
   title: string
   videoId: string
   playlistId: string
-  status: WatchStatus
-  notesCount: number
+  playlistName: string
+  completed: boolean
+  note?: NoteRecord
   onToggle: (videoId: string) => void
   t: Translations
   priority?: boolean
@@ -23,28 +24,43 @@ const ContentCard: React.FC<ContentCardProps> = ({
   title,
   videoId,
   playlistId,
-  status,
-  notesCount,
+  playlistName,
+  completed,
+  note,
   onToggle,
   t,
   priority = false,
 }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
+  const recordLastWatched = useProgressStore((s) => s.recordLastWatched)
 
-  const handleStatusClick = (e: React.MouseEvent) => {
-    e.preventDefault() // Prevent navigation when clicking the icon
+  const handleOpen = () => {
+    if (!playlistId || !videoId) return
+    recordLastWatched(playlistId, videoId, playlistName)
+  }
+
+  const handleToggle = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     onToggle(videoId)
   }
 
-  const inProgressClasses = status === 'in-progress' ? 'bg-yellow-50/50 dark:bg-yellow-900/10' : ''
-  const completedClasses = status === 'completed' ? 'bg-green-50/50 dark:bg-green-900/10' : ''
+  const handleDownloadNote = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!note || !hasContent(note)) return
+    downloadTextFile(videoNoteFileName(note.videoId), buildVideoNoteMarkdown(note), MARKDOWN_MIME)
+  }
 
   return (
-    <Link
-      href={`/${t.__language.code}/playlist/${playlistId}/${videoId}`}
-      className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completedClasses} ${inProgressClasses}`}
+    <a
+      href={`https://www.youtube.com/watch?v=${videoId}&list=${playlistId}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={handleOpen}
+      className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completed ? 'bg-green-50/50 dark:bg-green-900/10' : ''}`}
     >
-      <div className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-x-4">
+      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-x-4">
         {/* Column 1: Thumbnail */}
         <div className="w-28 md:w-32 aspect-video bg-gray-200 dark:bg-gray-700 rounded-md overflow-hidden relative shadow-sm">
           <Image
@@ -52,6 +68,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
             className="w-full h-full object-cover"
             src={imageUrl}
             fill={true}
+            sizes="(max-width: 768px) 112px, 128px"
             priority={priority}
             fetchPriority={priority ? 'high' : undefined}
             onError={() => setImageUrl(fallbackThumbnailUrl(videoId))}
@@ -62,49 +79,39 @@ const ContentCard: React.FC<ContentCardProps> = ({
         </div>
 
         {/* Column 2: Title */}
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           <h3 className="text-base font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">
             {title}
           </h3>
         </div>
 
-        {/* Column 3: Notes Count */}
-        <div className="flex items-center space-x-1 text-muted-light dark:text-muted-dark">
-          <span className="material-icons-round text-base">description</span>
-          <span>{notesCount}</span>
-        </div>
-
-        {/* Column 4: Watch Status */}
-        <div onClick={handleStatusClick} className="relative z-10 p-2 cursor-pointer">
-          <WatchStatusIcon status={status} t={t} />
+        {/* Column 3: Download note (if any) + completed checkbox */}
+        <div className="relative z-10 flex items-center gap-1 shrink-0">
+          {note && hasContent(note) && (
+            <button
+              type="button"
+              onClick={handleDownloadNote}
+              aria-label={t.downloadNoteLabel}
+              title={t.downloadNoteLabel}
+              className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border border-primary bg-primary text-white hover:bg-primary/90 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <span className="material-icons-round text-sm">download</span>
+              <span className="hidden sm:inline">{t.downloadNoteLabel}</span>
+            </button>
+          )}
+          <div onClick={handleToggle} className="p-2 cursor-pointer">
+            <div
+              className={`h-6 w-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                completed ? 'bg-primary border-primary' : 'border-gray-300 dark:border-gray-600 hover:border-primary'
+              }`}
+            >
+              {completed && <span className="material-icons-round text-white text-sm">done</span>}
+            </div>
+          </div>
         </div>
       </div>
-    </Link>
+    </a>
   )
-}
-
-const WatchStatusIcon: React.FC<{ status: WatchStatus; t: Translations }> = ({ status, t }) => {
-  switch (status) {
-    case 'completed':
-      return (
-        <span className="material-icons-round text-green-500" title={t.watchStatusCompleted}>
-          check_circle
-        </span>
-      )
-    case 'in-progress':
-      return (
-        <span className="material-icons-round text-xs text-yellow-500" title={t.watchStatusInProgress}>
-          hourglass_bottom
-        </span>
-      )
-    case 'not-started':
-    default:
-      return (
-        <span className="material-icons-round text-gray-400" title={t.watchStatusNotStarted}>
-          radio_button_unchecked
-        </span>
-      )
-  }
 }
 
 export default ContentCard

@@ -1,10 +1,9 @@
-/** @import { CalculatedPlaylist, CalculatedVideo } from '../../types.js' */
+/** @import { CalculatedPlaylist } from '../../types.js' */
 
-const path = require('path')
 const fs = require('fs-extra')
 const csvDb = require('./csv.js')
-const { jsonPlaylistsFile, jsonVideosDir } = require('../../static.js')
-const { calcPlaylist, calcVideo } = require('../util/youtube.js')
+const { jsonPlaylistsFile } = require('../../static.js')
+const { calcPlaylist } = require('../util/youtube.js')
 
 /**
  * Writes all playlists to the JSON file
@@ -23,25 +22,11 @@ async function writePlaylists(playlists) {
 }
 
 /**
- * Writes videos for a specific playlist to JSON
- * @param {string} playlistId - Playlist ID
- * @param {CalculatedVideo[]} videos - Array of video objects
- * @returns {Promise<void>}
- * @private
- */
-async function writeVideos(playlistId, videos) {
-  await fs.ensureDir(jsonVideosDir)
-  const videoPath = path.join(jsonVideosDir, `${playlistId}.json`)
-  const videosObj = videos.reduce((acc, v) => {
-    acc[v.id] = v
-    return acc
-  }, /** @type {Record<string, CalculatedVideo>} */ ({}))
-  const content = JSON.stringify(videosObj)
-  await fs.writeFile(videoPath, content, 'utf8')
-}
-
-/**
- * Converts all CSV data to JSON format
+ * Converts playlist CSV data to the JSON file consumed by the seed script.
+ *
+ * Videos are read only to compute each playlist's derived fields (video_count,
+ * duration, start/end dates) — the seed script reads video rows straight from
+ * the CSV files, so no per-video JSON is written.
  * @returns {Promise<{playlistCount: number, videoCount: number}>} Conversion summary
  */
 async function convertCsvToJson() {
@@ -59,21 +44,16 @@ async function convertCsvToJson() {
   const newPlaylists = []
   let totalVideos = 0
 
-  // Process each playlist and its videos
-  const writePromises = []
+  // Process each playlist, deriving aggregate fields from its videos
   for (let i = 0; i < playlists.length; i++) {
     const pl = playlists[i]
     const videos = videosArrays[i]
 
     newPlaylists.push(calcPlaylist(pl, videos))
     totalVideos += videos.length
-
-    const newVideos = videos.map((v) => calcVideo(v, pl))
-    writePromises.push(writeVideos(pl.id, newVideos))
   }
 
-  writePromises.push(writePlaylists(newPlaylists))
-  await Promise.all(writePromises)
+  await writePlaylists(newPlaylists)
 
   return {
     playlistCount: playlists.length,

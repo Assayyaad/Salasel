@@ -77,89 +77,49 @@
       "type": "string",
       "description": "Option to show all items (no filter)"
     },
-    "searchTab": {
+    "filterAdvancedLabel": {
       "type": "string",
-      "description": "Tab label for search functionality"
+      "description": "Toggle label to reveal advanced filters"
     },
-    "summaryTab": {
+    "filterBookmarksLabel": {
       "type": "string",
-      "description": "Tab label for content summary"
+      "description": "Pill label to filter bookmarked playlists"
     },
-    "transcriptionTab": {
+    "bookmarkLabel": {
       "type": "string",
-      "description": "Tab label for video transcription"
+      "description": "Action label on the bookmark button on the playlist detail page"
     },
-    "notesTab": {
+    "continueWatchingLabel": {
       "type": "string",
-      "description": "Tab label for user notes"
+      "description": "Section heading for recently watched playlists strip"
     },
-    "watchStatusCompleted": {
+    "viewAllLabel": {
       "type": "string",
-      "description": "Status label for completed videos"
+      "description": "Button label to expand the full recently watched list"
     },
-    "watchStatusInProgress": {
+    "showLessLabel": {
       "type": "string",
-      "description": "Status label for videos currently being watched"
+      "description": "Button label to collapse the recently watched list"
     },
-    "watchStatusNotStarted": {
+    "hideLabel": {
       "type": "string",
-      "description": "Status label for videos not yet started"
+      "description": "Button label to hide the recently watched section"
     },
-    "notesDeleteConfirmation": {
+    "showLabel": {
       "type": "string",
-      "description": "Confirmation message when deleting a note"
+      "description": "Button label to show the recently watched section again"
     },
-    "notesPlaceholder": {
+    "readMoreLabel": {
       "type": "string",
-      "description": "Placeholder text for note input field"
+      "description": "Button label to expand a truncated playlist description"
     },
-    "notesAddButton": {
+    "readLessLabel": {
       "type": "string",
-      "description": "Button text to add a new note"
+      "description": "Button label to collapse an expanded playlist description"
     },
-    "notesEmptyMessage": {
+    "playlistsCountLabel": {
       "type": "string",
-      "description": "Message shown when there are no notes"
-    },
-    "notesUpdateTimestamp": {
-      "type": "string",
-      "description": "Label for updating note timestamp"
-    },
-    "notesSaveButton": {
-      "type": "string",
-      "description": "Button text to save changes"
-    },
-    "notesCancelButton": {
-      "type": "string",
-      "description": "Button text to cancel action"
-    },
-    "personalProgressTitle": {
-      "type": "string",
-      "description": "Title for personal progress section"
-    },
-    "nextToWatch": {
-      "type": "string",
-      "description": "Label for next video to watch"
-    },
-    "totalNotes": {
-      "type": "string",
-      "description": "Label for total number of notes"
-    },
-    "currentVideoProgress": {
-      "type": "string",
-      "description": "Label for current video progress"
-    },
-    "playlistProgress": {
-      "type": "string",
-      "description": "Label for overall playlist progress"
-    },
-    "continueWatching": {
-      "type": "string",
-      "description": "Button text to continue watching a video"
-    },
-    "startWatching": {
-      "type": "string",
-      "description": "Button text to start watching a video"
+      "description": "Playlist count label in recently watched header, use {n} as placeholder"
     },
     "withParticipation": {
       "type": "string",
@@ -221,6 +181,67 @@
       "type": "string",
       "description": "Message when playlist has no videos"
     },
+    "completedLabel": {
+      "type": "string",
+      "description": "Badge label shown on a fully completed playlist card"
+    },
+    "downloadNoteLabel": {
+      "type": "string",
+      "description": "Label/tooltip for the button that downloads a single video's note"
+    },
+    "downloadPlaylistNotesLabel": {
+      "type": "string",
+      "description": "Label/tooltip for the button that downloads all notes in a playlist"
+    },
+    "noNotesLabel": {
+      "type": "string",
+      "description": "Message shown when no notes exist for a playlist or video"
+    },
+    "feedback": {
+      "type": "object",
+      "description": "Strings for the feedback widget (Discord webhook)",
+      "required": [
+        "buttonLabel",
+        "title",
+        "typeLabel",
+        "typePlaylist",
+        "typeApp",
+        "typeComplaint",
+        "typeGeneral",
+        "messageLabel",
+        "messagePlaceholder",
+        "contactLabel",
+        "contactPlaceholder",
+        "submitLabel",
+        "submittingLabel",
+        "successMessage",
+        "errorMessage",
+        "rateLimitMessage",
+        "closeLabel"
+      ],
+      "properties": {
+        "buttonLabel": { "type": "string", "description": "Label/tooltip for the floating feedback button" },
+        "title": { "type": "string", "description": "Feedback modal title" },
+        "typeLabel": { "type": "string", "description": "Label for the feedback type selector" },
+        "typePlaylist": { "type": "string", "description": "Feedback type: suggest a playlist" },
+        "typeApp": { "type": "string", "description": "Feedback type: suggest an app improvement" },
+        "typeComplaint": { "type": "string", "description": "Feedback type: complaint" },
+        "typeGeneral": { "type": "string", "description": "Feedback type: general" },
+        "messageLabel": { "type": "string", "description": "Label for the feedback message field" },
+        "messagePlaceholder": { "type": "string", "description": "Placeholder for the feedback message field" },
+        "contactLabel": { "type": "string", "description": "Label for the optional contact field" },
+        "contactPlaceholder": { "type": "string", "description": "Placeholder for the optional contact field" },
+        "submitLabel": { "type": "string", "description": "Submit button label" },
+        "submittingLabel": { "type": "string", "description": "Submit button label while sending" },
+        "successMessage": { "type": "string", "description": "Message shown after a successful submission" },
+        "errorMessage": { "type": "string", "description": "Message shown when submission fails" },
+        "rateLimitMessage": {
+          "type": "string",
+          "description": "Message shown when the user is rate limited (too many submissions)"
+        },
+        "closeLabel": { "type": "string", "description": "Label for the modal close button" }
+      }
+    },
     "appTitle": {
       "type": "string",
       "description": "Short application title"
@@ -247,27 +268,17 @@
     "filterPresentationStyleLabel",
     "filterClassLabel",
     "filterAllOption",
-    "searchTab",
-    "summaryTab",
-    "transcriptionTab",
-    "notesTab",
-    "watchStatusCompleted",
-    "watchStatusInProgress",
-    "watchStatusNotStarted",
-    "notesDeleteConfirmation",
-    "notesPlaceholder",
-    "notesAddButton",
-    "notesEmptyMessage",
-    "notesUpdateTimestamp",
-    "notesSaveButton",
-    "notesCancelButton",
-    "personalProgressTitle",
-    "nextToWatch",
-    "totalNotes",
-    "currentVideoProgress",
-    "playlistProgress",
-    "continueWatching",
-    "startWatching",
+    "filterAdvancedLabel",
+    "filterBookmarksLabel",
+    "bookmarkLabel",
+    "continueWatchingLabel",
+    "viewAllLabel",
+    "showLessLabel",
+    "hideLabel",
+    "showLabel",
+    "readMoreLabel",
+    "readLessLabel",
+    "playlistsCountLabel",
     "withParticipation",
     "videosLabel",
     "durationLabel",
@@ -283,6 +294,11 @@
     "playlistNotFound",
     "videoNotFound",
     "noVideosFound",
+    "completedLabel",
+    "downloadNoteLabel",
+    "downloadPlaylistNotesLabel",
+    "noNotesLabel",
+    "feedback",
     "appTitle",
     "appFullTitle",
     "appDescription"
