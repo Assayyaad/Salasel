@@ -24,6 +24,24 @@ export function formatTime(seconds: number): string {
   }
 }
 
+/**
+ * Trigger a client-side download of a text file. No-op during SSR.
+ * `mimeType` defaults to plain text; pass `text/markdown;charset=utf-8` for .md.
+ */
+export function downloadTextFile(fileName: string, content: string, mimeType = 'text/plain;charset=utf-8'): void {
+  if (typeof window === 'undefined') return
+
+  const blob = new Blob([content], { type: mimeType })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = fileName
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+}
+
 export function formatDate(seconds: number): string {
   if (seconds <= 0) {
     return defaultLabel

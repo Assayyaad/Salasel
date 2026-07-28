@@ -13,7 +13,7 @@ export interface SelectedPlaylistMetadataProps {
 export async function generateMetadata({ params }: SelectedPlaylistMetadataProps): Promise<Metadata> {
   const { lang, id } = await params
   const t = getTranslations(lang)
-  const playlist = getPlaylist(id)
+  const playlist = await getPlaylist(id)
 
   if (!playlist) {
     return {
