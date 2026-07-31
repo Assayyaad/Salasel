@@ -8,6 +8,12 @@ export const NOTES_INBOX_KEY = 'salasel-notes-inbox'
 /** DOM event the extension dispatches after writing the inbox key */
 export const NOTES_UPDATED_EVENT = 'salasel:notes-updated'
 
+/** localStorage key the app writes its full notes snapshot to, for the extension to read */
+export const NOTES_OUTBOX_KEY = 'salasel-notes-outbox'
+
+/** DOM event the app dispatches after writing the outbox key */
+export const NOTES_APP_UPDATED_EVENT = 'salasel:app-notes-updated'
+
 export interface NotesState {
   /** Canonical app notes, keyed by videoId */
   notes: Record<string, NoteRecord>
@@ -42,7 +48,7 @@ export const useNotesStore = create<NotesState>()(
   persist(
     (set, get) => ({
       notes: {},
-      upsertNote: (note) =>
+      upsertNote: (note) => {
         set((state) => {
           if (!isValidRecord(note)) return state
           const incoming = normalizeRecord(note)
@@ -50,7 +56,10 @@ export const useNotesStore = create<NotesState>()(
           // Last-write-wins: keep whichever has the larger updatedAt.
           if (existing && existing.updatedAt >= incoming.updatedAt) return state
           return { notes: { ...state.notes, [incoming.videoId]: incoming } }
-        }),
+        })
+        // Publish to the extension after a local edit (app -> extension direction).
+        exportNotesToExtension(get().notes)
+      },
       importSnapshot: (incoming) =>
         set((state) => {
           if (!incoming || typeof incoming !== 'object') return state
@@ -106,4 +115,35 @@ export function importNotesFromExtension(): void {
 
   const incoming = payload.notes && typeof payload.notes === 'object' ? payload.notes : {}
   useNotesStore.getState().importSnapshot(incoming)
+}
+
+/**
+ * Write the app's full notes snapshot to localStorage["salasel-notes-outbox"]
+ * and notify the extension via a `salasel:app-notes-updated` event. This is the
+ * app -> extension direction; the extension reads this key and merges with
+ * last-write-wins on `updatedAt` (same rule the app uses for the inbox). The
+ * payload shape mirrors NotesHandoffPayload so both sides share one schema.
+ * Never throws.
+ */
+export function exportNotesToExtension(notes: Record<string, NoteRecord>): void {
+  if (typeof window === 'undefined') return
+
+  const payload: NotesHandoffPayload = {
+    source: 'salasel-extension',
+    version: 1,
+    exportedAt: Date.now(),
+    notes,
+  }
+
+  try {
+    window.localStorage.setItem(NOTES_OUTBOX_KEY, JSON.stringify(payload))
+  } catch {
+    return
+  }
+
+  try {
+    window.dispatchEvent(new CustomEvent(NOTES_APP_UPDATED_EVENT))
+  } catch {
+    // Ignore environments without CustomEvent support.
+  }
 }

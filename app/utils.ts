@@ -8,6 +8,31 @@ export function fallbackThumbnailUrl(id: string): string {
   return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
 }
 
+/** Outbound YouTube watch URL for a video, optionally within a playlist. */
+export function youtubeWatchUrl(videoId: string, playlistId?: string): string {
+  const base = `https://www.youtube.com/watch?v=${videoId}`
+  return playlistId ? `${base}&list=${playlistId}` : base
+}
+
+/**
+ * Privacy-friendly YouTube embed URL with distractions minimised:
+ * - youtube-nocookie.com domain (no tracking cookies until playback)
+ * - rel=0 keeps related videos to the same channel
+ * - modestbranding=1 / iv_load_policy=3 trim branding and annotations
+ * Note: YouTube still shows end-screen suggestions by design; these cannot be
+ * fully removed from an official embed.
+ */
+export function youtubeEmbedUrl(videoId: string, playlistId?: string): string {
+  const params = new URLSearchParams({
+    rel: '0',
+    modestbranding: '1',
+    iv_load_policy: '3',
+    playsinline: '1',
+  })
+  if (playlistId) params.set('list', playlistId)
+  return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`
+}
+
 export function formatTime(seconds: number): string {
   if (seconds <= 0) {
     return defaultLabel

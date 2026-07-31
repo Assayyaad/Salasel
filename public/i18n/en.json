@@ -3,7 +3,7 @@
   "contents": {
     "0": "Educational",
     "1": "Awareness",
-    "2": "Purification"
+    "2": "Purification (Tazkiyah)"
   },
   "presentations": {
     "0": "Narration",
@@ -12,9 +12,9 @@
     "3": "Story"
   },
   "categories": {
-    "0": "Nature",
-    "1": "Self",
-    "2": "Religion"
+    "0": "Nature (Fitra)",
+    "1": "Self (Nafs)",
+    "2": "Religion (Din)"
   },
   "classes": {
     "0": "Kids",
@@ -60,6 +60,15 @@
   "downloadNoteLabel": "Download notes",
   "downloadPlaylistNotesLabel": "Download all notes",
   "noNotesLabel": "No notes",
+  "watchOnYoutubeLabel": "Watch on YouTube",
+  "moveNotesSideLabel": "Move notes panel",
+  "languagePickerTitle": "Choose your language",
+  "languagePickerDescription": "Pick your preferred display language. You can change it anytime.",
+  "notesLabel": "My notes",
+  "notesPlaceholder": "Write your notes for this video here...",
+  "noteSavedLabel": "Saved",
+  "noteSavingLabel": "Saving...",
+  "videoUnavailableLabel": "This video can't play here. Watch it on YouTube.",
   "feedback": {
     "buttonLabel": "Send feedback",
     "title": "Share your feedback",

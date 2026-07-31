@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { allLanguages } from '@/app/static'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
+import { usePreferencesStore } from '@/app/store/usePreferencesStore'
 import type { Language } from '@/app/types'
 
 export interface LanguageSwitcherProps {
@@ -17,6 +18,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ currentLang, dir })
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const { setLanguage } = usePlaylistStore()
+  const setPreferredLanguage = usePreferencesStore((s) => s.setPreferredLanguage)
 
   const current = allLanguages.find((l) => l.code === currentLang) ?? allLanguages[0]
 
@@ -25,6 +27,8 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ currentLang, dir })
     if (lang.code === currentLang) return
     // Sync the playlist content filter to match the new UI language
     setLanguage(lang.code)
+    // Remember the explicit choice so it persists across visits
+    setPreferredLanguage(lang.code)
     const segments = pathname.split('/')
     segments[1] = lang.code
     router.push(segments.join('/'))
