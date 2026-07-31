@@ -3,7 +3,7 @@
   "contents": {
     "0": "Educational",
     "1": "Awareness",
-    "2": "Purification"
+    "2": "Purification (Tazkiyah)"
   },
   "presentations": {
     "0": "Narration",
@@ -12,9 +12,9 @@
     "3": "Story"
   },
   "categories": {
-    "0": "Nature",
-    "1": "Self",
-    "2": "Religion"
+    "0": "Nature (Fitra)",
+    "1": "Self (Nafs)",
+    "2": "Religion (Din)"
   },
   "classes": {
     "0": "Kids",
