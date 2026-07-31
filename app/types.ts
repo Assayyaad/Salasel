@@ -230,6 +230,15 @@ export interface Translations {
   downloadNoteLabel: string
   downloadPlaylistNotesLabel: string
   noNotesLabel: string
+  watchOnYoutubeLabel: string
+  moveNotesSideLabel: string
+  languagePickerTitle: string
+  languagePickerDescription: string
+  notesLabel: string
+  notesPlaceholder: string
+  noteSavedLabel: string
+  noteSavingLabel: string
+  videoUnavailableLabel: string
   feedback: {
     buttonLabel: string
     title: string

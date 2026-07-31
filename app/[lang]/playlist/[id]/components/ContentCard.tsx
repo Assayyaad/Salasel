@@ -4,7 +4,8 @@ import type { NoteRecord, Translations } from '@/app/types'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { videoThumbnailUrl, fallbackThumbnailUrl, downloadTextFile } from '@/app/utils'
+import Link from 'next/link'
+import { videoThumbnailUrl, fallbackThumbnailUrl, downloadTextFile, youtubeWatchUrl } from '@/app/utils'
 import { buildVideoNoteMarkdown, videoNoteFileName, hasContent, MARKDOWN_MIME } from '@/app/notes'
 import { useProgressStore } from '@/app/store/useProgressStore'
 
@@ -33,6 +34,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
 }) => {
   const [imageUrl, setImageUrl] = useState(videoThumbnailUrl(videoId))
   const recordLastWatched = useProgressStore((s) => s.recordLastWatched)
+  const lang = t.__language.code
 
   const handleOpen = () => {
     if (!playlistId || !videoId) return
@@ -53,10 +55,8 @@ const ContentCard: React.FC<ContentCardProps> = ({
   }
 
   return (
-    <a
-      href={`https://www.youtube.com/watch?v=${videoId}&list=${playlistId}`}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      href={`/${lang}/playlist/${playlistId}/${videoId}`}
       onClick={handleOpen}
       className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completed ? 'bg-green-50/50 dark:bg-green-900/10' : ''}`}
     >
@@ -85,8 +85,20 @@ const ContentCard: React.FC<ContentCardProps> = ({
           </h3>
         </div>
 
-        {/* Column 3: Download note (if any) + completed checkbox */}
+        {/* Column 3: YouTube link + download note (if any) + completed checkbox */}
         <div className="relative z-10 flex items-center gap-1 shrink-0">
+          <a
+            href={youtubeWatchUrl(videoId, playlistId)}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            aria-label={t.watchOnYoutubeLabel}
+            title={t.watchOnYoutubeLabel}
+            className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border border-slate-600 bg-slate-800 text-slate-300 hover:border-red-500 hover:text-red-500 transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <span>YouTube</span>
+            <span className="material-icons-round text-sm">open_in_new</span>
+          </a>
           {note && hasContent(note) && (
             <button
               type="button"
@@ -110,7 +122,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   )
 }
 

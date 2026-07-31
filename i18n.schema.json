@@ -197,6 +197,42 @@
       "type": "string",
       "description": "Message shown when no notes exist for a playlist or video"
     },
+    "watchOnYoutubeLabel": {
+      "type": "string",
+      "description": "Label for the button/link that opens the video on YouTube"
+    },
+    "moveNotesSideLabel": {
+      "type": "string",
+      "description": "Label/tooltip for the button that moves the notes panel to the other side"
+    },
+    "languagePickerTitle": {
+      "type": "string",
+      "description": "Title of the first-visit language selection dialog"
+    },
+    "languagePickerDescription": {
+      "type": "string",
+      "description": "Description text in the first-visit language selection dialog"
+    },
+    "notesLabel": {
+      "type": "string",
+      "description": "Heading for the in-app note-taking area under the player"
+    },
+    "notesPlaceholder": {
+      "type": "string",
+      "description": "Placeholder text for the in-app note textarea"
+    },
+    "noteSavedLabel": {
+      "type": "string",
+      "description": "Status shown when an in-app note has been saved"
+    },
+    "noteSavingLabel": {
+      "type": "string",
+      "description": "Status shown while an in-app note is being saved"
+    },
+    "videoUnavailableLabel": {
+      "type": "string",
+      "description": "Message shown when a video cannot be embedded and must be watched on YouTube"
+    },
     "feedback": {
       "type": "object",
       "description": "Strings for the feedback widget (Discord webhook)",
@@ -298,6 +334,15 @@
     "downloadNoteLabel",
     "downloadPlaylistNotesLabel",
     "noNotesLabel",
+    "watchOnYoutubeLabel",
+    "moveNotesSideLabel",
+    "languagePickerTitle",
+    "languagePickerDescription",
+    "notesLabel",
+    "notesPlaceholder",
+    "noteSavedLabel",
+    "noteSavingLabel",
+    "videoUnavailableLabel",
     "feedback",
     "appTitle",
     "appFullTitle",
