@@ -97,21 +97,11 @@ const RecentlyWatched: React.FC<RecentlyWatchedProps> = ({ playlists, lang, t })
         {/* Content panel — seamlessly extends below header */}
         {!hidden && (
           <div className="bg-slate-900/40 border-t border-slate-700/60 p-4">
-            {expanded ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                {visible.map((pl) => (
-                  <RecentCard key={pl.id} playlist={pl} lang={lang} />
-                ))}
-              </div>
-            ) : (
-              <div className="flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {visible.map((pl) => (
-                  <div key={pl.id} className="flex-none w-36 sm:w-40">
-                    <RecentCard playlist={pl} lang={lang} />
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              {visible.map((pl) => (
+                <RecentCard key={pl.id} playlist={pl} lang={lang} />
+              ))}
+            </div>
           </div>
         )}
       </div>
