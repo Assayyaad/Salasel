@@ -60,9 +60,9 @@ const ContentCard: React.FC<ContentCardProps> = ({
       onClick={handleOpen}
       className={`block group relative transition-colors cursor-pointer p-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 ${completed ? 'bg-green-50/50 dark:bg-green-900/10' : ''}`}
     >
-      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-x-4">
-        {/* Column 1: Thumbnail */}
-        <div className="w-28 md:w-32 aspect-video bg-gray-200 dark:bg-gray-700 rounded-md overflow-hidden relative shadow-sm">
+      <div className="flex items-start gap-4">
+        {/* Thumbnail */}
+        <div className="w-28 md:w-32 shrink-0 aspect-video bg-gray-200 dark:bg-gray-700 rounded-md overflow-hidden relative shadow-sm">
           <Image
             alt={title}
             className="w-full h-full object-cover"
@@ -78,46 +78,46 @@ const ContentCard: React.FC<ContentCardProps> = ({
           </div>
         </div>
 
-        {/* Column 2: Title */}
-        <div className="flex flex-col min-w-0">
+        {/* Title + actions: stacked on mobile, inline on larger screens */}
+        <div className="flex-1 min-w-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <h3 className="text-base font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">
             {title}
           </h3>
-        </div>
 
-        {/* Column 3: YouTube link + download note (if any) + completed checkbox */}
-        <div className="relative z-10 flex items-center gap-1 shrink-0">
-          <a
-            href={youtubeWatchUrl(videoId, playlistId)}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            aria-label={t.watchOnYoutubeLabel}
-            title={t.watchOnYoutubeLabel}
-            className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border border-slate-600 bg-slate-800 text-slate-300 hover:border-red-500 hover:text-red-500 transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <span>YouTube</span>
-            <span className="material-icons-round text-sm">open_in_new</span>
-          </a>
-          {note && hasContent(note) && (
-            <button
-              type="button"
-              onClick={handleDownloadNote}
-              aria-label={t.downloadNoteLabel}
-              title={t.downloadNoteLabel}
-              className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border border-primary bg-primary text-white hover:bg-primary/90 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+          {/* YouTube link + download note (if any) + completed checkbox */}
+          <div className="relative z-10 flex items-center gap-1 shrink-0">
+            <a
+              href={youtubeWatchUrl(videoId, playlistId)}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label={t.watchOnYoutubeLabel}
+              title={t.watchOnYoutubeLabel}
+              className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border border-slate-600 bg-slate-800 text-slate-300 hover:border-red-500 hover:text-red-500 transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
             >
-              <span className="material-icons-round text-sm">download</span>
-              <span className="hidden sm:inline">{t.downloadNoteLabel}</span>
-            </button>
-          )}
-          <div onClick={handleToggle} className="p-2 cursor-pointer">
-            <div
-              className={`h-6 w-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                completed ? 'bg-primary border-primary' : 'border-gray-300 dark:border-gray-600 hover:border-primary'
-              }`}
-            >
-              {completed && <span className="material-icons-round text-white text-sm">done</span>}
+              <span>YouTube</span>
+              <span className="material-icons-round text-sm">open_in_new</span>
+            </a>
+            {note && hasContent(note) && (
+              <button
+                type="button"
+                onClick={handleDownloadNote}
+                aria-label={t.downloadNoteLabel}
+                title={t.downloadNoteLabel}
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border border-primary bg-primary text-white hover:bg-primary/90 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <span className="material-icons-round text-sm">download</span>
+                <span className="hidden sm:inline">{t.downloadNoteLabel}</span>
+              </button>
+            )}
+            <div onClick={handleToggle} className="p-2 cursor-pointer">
+              <div
+                className={`h-6 w-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                  completed ? 'bg-primary border-primary' : 'border-gray-300 dark:border-gray-600 hover:border-primary'
+                }`}
+              >
+                {completed && <span className="material-icons-round text-white text-sm">done</span>}
+              </div>
             </div>
           </div>
         </div>
