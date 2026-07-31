@@ -80,7 +80,10 @@ const ContentCard: React.FC<ContentCardProps> = ({
 
         {/* Title + actions: stacked on mobile, inline on larger screens */}
         <div className="flex-1 min-w-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-          <h3 className="text-base font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">
+          <h3
+            title={title}
+            className="text-base font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors line-clamp-2 sm:line-clamp-none"
+          >
             {title}
           </h3>
 
