@@ -3,7 +3,6 @@ import type { HomeParams } from '@/app/[lang]/(home)/params'
 import React, { Suspense } from 'react'
 import PlaylistGrid from '@/app/[lang]/(home)/components/PlaylistGrid'
 import FilterGrid from '@/app/[lang]/(home)/components/FilterGrid'
-import RecentlyWatched from '@/app/[lang]/(home)/components/RecentlyWatched'
 import Librecounter from '@/app/shared/components/Librecounter'
 import SearchBar from '@/app/shared/components/SearchBar'
 import { getPlaylists, searchPlaylists } from '@/app/db'
@@ -20,7 +19,7 @@ export interface HomeProps {
 const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
   const { lang } = await params
   const t = getTranslations(lang)
-  const playlists = await getPlaylists()
+  const playlists = getPlaylists()
 
   // Apply search filter if query exists
   const resolvedSearchParams = await searchParams
@@ -28,7 +27,7 @@ const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
   const filteredPlaylists = searchPlaylists(playlists, searchQuery)
 
   return (
-    <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
+    <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-10">
         <h1 className="text-6xl font-bold tracking-tight text-white mb-2">{t.appTitle}</h1>
         <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
@@ -45,8 +44,7 @@ const Home: React.FC<HomeProps> = async ({ params, searchParams }) => {
       <div className="relative mb-12">
         <FilterGrid t={t} />
       </div>
-      <RecentlyWatched playlists={playlists} lang={t.__language.code} t={t} />
-      <PlaylistGrid playlists={filteredPlaylists} lang={t.__language.code} t={t} />
+      <PlaylistGrid playlists={filteredPlaylists} lang={t.__language.code} />
     </main>
   )
 }

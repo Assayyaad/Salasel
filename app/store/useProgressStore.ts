@@ -1,29 +1,30 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-export interface LastWatched {
-  playlistId: string // YouTube playlist id (the ?list= value) of the opened video
-  videoId: string // YouTube video id (the ?v= value) the user just opened
-  playlistName: string // human-readable playlist title we display (not the id)
-  thumbnailId?: string // optional: video id used for the card thumbnail
-  updatedAt: number // epoch milliseconds when the user opened it
+export interface Note {
+  content: string
+  timestamp: number
 }
 
 export interface ProgressState {
   completedVideos: Record<string, Set<string>> // playlistId -> Set<videoId>
-  recentPlaylists: string[] // ordered by most recent, capped at 10
-  lastWatched: LastWatched | null // most recent video the user opened inside a playlist
+  notes: Record<string, Note[]> // videoId -> array of notes
+  videoProgress: Record<string, number> // videoId -> progress percentage
+  videoTimestamps: Record<string, number> // videoId -> timestamp in seconds
   toggleVideoCompleted: (playlistId: string, videoId: string) => void
-  recordPlaylistVisit: (playlistId: string) => void
-  recordLastWatched: (playlistId: string, videoId: string, playlistName: string) => void
+  setVideoProgress: (videoId: string, progress: number) => void
+  setVideoTimestamp: (videoId: string, timestamp: number) => void
+  addNote: (videoId: string, note: Note) => void
+  removeNote: (videoId: string, timestamp: number) => void
 }
 
 export const useProgressStore = create<ProgressState>()(
   persist(
     (set) => ({
       completedVideos: {},
-      recentPlaylists: [],
-      lastWatched: null,
+      notes: {},
+      videoProgress: {},
+      videoTimestamps: {},
       toggleVideoCompleted: (playlistId, videoId) =>
         set((state) => {
           const playlistCompleted = new Set(state.completedVideos[playlistId] || [])
@@ -39,14 +40,33 @@ export const useProgressStore = create<ProgressState>()(
             },
           }
         }),
-      recordPlaylistVisit: (playlistId) =>
-        set((state) => {
-          const filtered = state.recentPlaylists.filter((id) => id !== playlistId)
-          return { recentPlaylists: [playlistId, ...filtered].slice(0, 10) }
-        }),
-      recordLastWatched: (playlistId, videoId, playlistName) =>
-        set(() => ({
-          lastWatched: { playlistId, videoId, playlistName, thumbnailId: videoId, updatedAt: Date.now() },
+      setVideoProgress: (videoId, progress) =>
+        set((state) => ({
+          videoProgress: {
+            ...state.videoProgress,
+            [videoId]: progress,
+          },
+        })),
+      setVideoTimestamp: (videoId, timestamp) =>
+        set((state) => ({
+          videoTimestamps: {
+            ...state.videoTimestamps,
+            [videoId]: timestamp,
+          },
+        })),
+      addNote: (videoId, note) =>
+        set((state) => ({
+          notes: {
+            ...state.notes,
+            [videoId]: [...(state.notes[videoId] || []), note],
+          },
+        })),
+      removeNote: (videoId, timestamp) =>
+        set((state) => ({
+          notes: {
+            ...state.notes,
+            [videoId]: state.notes[videoId].filter((note) => note.timestamp !== timestamp),
+          },
         })),
     }),
     {
