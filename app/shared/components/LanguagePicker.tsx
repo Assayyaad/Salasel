@@ -5,7 +5,6 @@ import type { LanguageCode, Translations } from '@/app/types'
 import React, { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { allLanguages, defaultLanguage } from '@/app/static'
-import { isValidLanguage } from '@/app/translate'
 import { usePreferencesStore } from '@/app/store/usePreferencesStore'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
 
@@ -14,22 +13,12 @@ export interface LanguagePickerProps {
   t: Translations
 }
 
-/** Best-guess language from the browser, falling back to the app default. */
-function detectBrowserLanguage(): LanguageCode {
-  if (typeof navigator === 'undefined') return defaultLanguage
-  const candidates = [navigator.language, ...(navigator.languages ?? [])]
-  for (const raw of candidates) {
-    const code = raw?.slice(0, 2).toLowerCase()
-    if (code && isValidLanguage(code)) return code
-  }
-  return defaultLanguage
-}
-
 /**
  * First-visit language gate. If the user has no stored preferred language, a
- * dialog asks them to choose (pre-highlighting their browser language). Once a
- * preference exists, subsequent visits silently redirect to it when the URL
- * language differs. The choice is persisted via usePreferencesStore.
+ * dialog asks them to choose, pre-highlighting the app default (Arabic) rather
+ * than the browser locale. Once a preference exists, subsequent visits silently
+ * redirect to it when the URL language differs. The choice is persisted via
+ * usePreferencesStore.
  */
 const LanguagePicker: React.FC<LanguagePickerProps> = ({ currentLang, t }) => {
   const router = useRouter()
@@ -39,11 +28,9 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({ currentLang, t }) => {
   const setLanguage = usePlaylistStore((s) => s.setLanguage)
 
   const [hydrated, setHydrated] = useState(false)
-  const [highlighted, setHighlighted] = useState<LanguageCode>(currentLang)
 
   useEffect(() => {
     setHydrated(true)
-    setHighlighted(detectBrowserLanguage())
   }, [])
 
   const applyLanguage = (code: LanguageCode) => {
@@ -105,7 +92,7 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({ currentLang, t }) => {
 
         <ul className="flex flex-col gap-1 px-4 pb-5">
           {allLanguages.map((lang) => {
-            const isHighlighted = lang.code === highlighted
+            const isHighlighted = lang.code === defaultLanguage
             return (
               <li key={lang.code}>
                 <button

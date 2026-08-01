@@ -5,7 +5,7 @@ import type { PlaylistCardPlaylist } from '@/app/[lang]/(home)/components/Playli
 
 import React, { ReactNode } from 'react'
 import PlaylistCard from '@/app/[lang]/(home)/components/PlaylistCard'
-import { usePlaylistStore } from '@/app/store/usePlaylistStore'
+import { usePlaylistStore, effectiveLanguage } from '@/app/store/usePlaylistStore'
 import { useBookmarkStore } from '@/app/store/useBookmarkStore'
 
 export type PlaylistGridPlaylist = Pick<
@@ -22,6 +22,9 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, t }) => {
   const { filters } = usePlaylistStore()
   const { isBookmarked } = useBookmarkStore()
 
+  // Defaults to the URL language until the user picks a language explicitly.
+  const languageFilter = effectiveLanguage(filters.language, lang)
+
   const cards: ReactNode[] = []
   for (const id in playlists) {
     if (!Object.hasOwn(playlists, id)) continue
@@ -29,8 +32,8 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, t }) => {
     const pl = playlists[id]
 
     if (
-      // Language filter (optional — 'all' shows every language)
-      (filters.language === 'all' || pl.language === filters.language) &&
+      // Language filter ('all' shows every language)
+      (languageFilter === 'all' || pl.language === languageFilter) &&
       // Bookmark filter (optional)
       (!filters.bookmarkedOnly || isBookmarked(pl.id)) &&
       // Content type filter (optional)
