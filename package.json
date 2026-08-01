@@ -1,14 +1,18 @@
 {
   "name": "salasel",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "build": "next build",
     "build:data": "node -e \"require('./bin/func/cli/cmd/csv-to-json.js').convertToJson().then(() => process.exit(0)).catch(e => { console.error(e); process.exit(1); })\"",
-    "build:app": "next build",
-    "build": "npm run build:data && npm run build:app",
     "start": "next start",
     "cli": "node bin/cli.js",
+    "seed": "APP_ENV=production node bin/seed.js",
+    "seed:local": "APP_ENV=development node bin/seed.js",
+    "db:start": "npx supabase start",
+    "db:stop": "npx supabase stop",
+    "db:reset": "npx supabase db reset",
     "lint": "eslint",
     "format": "prettier --write .",
     "prepare": "husky"
@@ -17,12 +21,10 @@
     "*.{js,jsx,ts,tsx,json,css,md,mjs}": "prettier --write"
   },
   "dependencies": {
-    "@types/video.js": "^7.3.58",
+    "@supabase/supabase-js": "^2.108.2",
     "next": "^16.1.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "video.js": "^8.23.7",
-    "videojs-youtube": "^3.0.1",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
@@ -40,8 +42,10 @@
     "inquirer": "^13.2.2",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
+    "supabase": "^2.107.0",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "youtube-sr": "^4.3.12"
+    "youtube-sr": "^4.3.12",
+    "dotenv": "^16.4.5"
   }
 }

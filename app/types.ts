@@ -14,6 +14,8 @@ export interface FetchedVideo {
 export interface CalculatedVideo extends FetchedVideo {
   /** معرف سلسلة المقطع من يوتيوب */
   playlistId: string
+  /** ترتيب المقطع ضمن السلسلة (يبدأ من 0) */
+  position: number
 }
 
 /** Playlist with fetched data */
@@ -54,6 +56,78 @@ export interface CalculatedPlaylist extends FilledPlaylist {
   startDate: number
   /** تاريخ آخر حلقة */
   endDate: number
+}
+
+// ============================================================================
+// Notes (handoff from the Salasel browser extension)
+// ============================================================================
+
+/** A single video's note, as delivered by the Salasel browser extension */
+export interface NoteRecord {
+  /** YouTube video id (the ?v= value) */
+  videoId: string
+  /** YouTube playlist id (?list=) if taken in a playlist context, else null */
+  playlistId: string | null
+  /** The note body, plain text (may contain newlines) */
+  text: string
+  /** Epoch milliseconds of the last edit */
+  updatedAt: number
+}
+
+/** Full notes snapshot the extension writes to localStorage["salasel-notes-inbox"] */
+export interface NotesHandoffPayload {
+  /** Constant marker, lets the app ignore unrelated writes */
+  source: 'salasel-extension'
+  /** Schema version for future migrations */
+  version: 1
+  /** Epoch ms when the extension wrote this payload */
+  exportedAt: number
+  /** Map keyed by videoId */
+  notes: Record<string, NoteRecord>
+}
+
+// ============================================================================
+// Feedback (Discord webhook)
+// ============================================================================
+
+/** Kind of feedback a user can submit from the app */
+export enum FeedbackType {
+  /** Suggest a new playlist/series to add to the index */
+  PlaylistSuggestion = 'playlist',
+  /** Suggest an improvement to the app in general */
+  AppSuggestion = 'app',
+  /** Report a problem or complaint */
+  Complaint = 'complaint',
+  /** Anything else */
+  General = 'general',
+}
+
+/** Max length of a feedback message (shared by client counter + server cap). */
+export const FEEDBACK_MESSAGE_MAX_LENGTH = 2000
+
+/** Max length of the optional contact field. */
+export const FEEDBACK_CONTACT_MAX_LENGTH = 200
+
+/** All valid feedback type values, for runtime validation */
+export const feedbackTypes: readonly FeedbackType[] = Object.freeze([
+  FeedbackType.PlaylistSuggestion,
+  FeedbackType.AppSuggestion,
+  FeedbackType.Complaint,
+  FeedbackType.General,
+])
+
+/** Payload posted from the feedback widget to the feedback API route */
+export interface FeedbackPayload {
+  /** Which kind of feedback this is */
+  type: FeedbackType
+  /** The feedback body, plain text */
+  message: string
+  /** Optional way to reach the user back (email, handle, etc.) */
+  contact?: string
+  /** The page the user submitted from, for context */
+  pageUrl?: string
+  /** UI language the user was using */
+  lang?: string
 }
 
 export type StringifiedPlaylist = Record<keyof FilledPlaylist, string>
@@ -126,27 +200,17 @@ export interface Translations {
   filterPresentationStyleLabel: string
   filterClassLabel: string
   filterAllOption: string
-  searchTab: string
-  summaryTab: string
-  transcriptionTab: string
-  notesTab: string
-  watchStatusCompleted: string
-  watchStatusInProgress: string
-  watchStatusNotStarted: string
-  notesDeleteConfirmation: string
-  notesPlaceholder: string
-  notesAddButton: string
-  notesEmptyMessage: string
-  notesUpdateTimestamp: string
-  notesSaveButton: string
-  notesCancelButton: string
-  personalProgressTitle: string
-  nextToWatch: string
-  totalNotes: string
-  currentVideoProgress: string
-  playlistProgress: string
-  continueWatching: string
-  startWatching: string
+  filterAdvancedLabel: string
+  filterBookmarksLabel: string
+  bookmarkLabel: string
+  continueWatchingLabel: string
+  viewAllLabel: string
+  showLessLabel: string
+  hideLabel: string
+  showLabel: string
+  readMoreLabel: string
+  readLessLabel: string
+  playlistsCountLabel: string
   withParticipation: string
   videosLabel: string
   durationLabel: string
@@ -162,6 +226,38 @@ export interface Translations {
   playlistNotFound: string
   videoNotFound: string
   noVideosFound: string
+  completedLabel: string
+  downloadNoteLabel: string
+  downloadPlaylistNotesLabel: string
+  noNotesLabel: string
+  watchOnYoutubeLabel: string
+  moveNotesSideLabel: string
+  languagePickerTitle: string
+  languagePickerDescription: string
+  notesLabel: string
+  notesPlaceholder: string
+  noteSavedLabel: string
+  noteSavingLabel: string
+  videoUnavailableLabel: string
+  feedback: {
+    buttonLabel: string
+    title: string
+    typeLabel: string
+    typePlaylist: string
+    typeApp: string
+    typeComplaint: string
+    typeGeneral: string
+    messageLabel: string
+    messagePlaceholder: string
+    contactLabel: string
+    contactPlaceholder: string
+    submitLabel: string
+    submittingLabel: string
+    successMessage: string
+    errorMessage: string
+    rateLimitMessage: string
+    closeLabel: string
+  }
   appTitle: string
   appFullTitle: string
   appDescription: string
