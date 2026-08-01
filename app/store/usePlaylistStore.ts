@@ -3,7 +3,12 @@ import type { Languages, ContentTypes, PresentationStyles, Categories, Classes }
 import { create } from 'zustand'
 
 export interface FilterState {
-  language: Languages | 'all'
+  /**
+   * `null` means the user has not touched the language filter yet, so consumers
+   * fall back to the language in the URL. `'all'` is an explicit user choice to
+   * see every language and must not be re-derived from the URL.
+   */
+  language: Languages | 'all' | null
   contentType: ContentTypes | 'all'
   category: Categories | 'all'
   presentationStyle: PresentationStyles | 'all'
@@ -23,7 +28,7 @@ export interface PlaylistState {
 }
 
 const defaultFilters: FilterState = {
-  language: 'all',
+  language: null,
   contentType: 'all',
   presentationStyle: 'all',
   category: 'all',
@@ -41,3 +46,9 @@ export const usePlaylistStore = create<PlaylistState>((set) => ({
   setBookmarkedOnly: (b) => set((state) => ({ filters: { ...state.filters, bookmarkedOnly: b } })),
   resetFilters: () => set({ filters: defaultFilters }),
 }))
+
+/**
+ * The language filter to actually apply. Until the user picks one explicitly,
+ * this is the language from the URL, so `/ar/` lists Arabic playlists first.
+ */
+export const effectiveLanguage = (filter: FilterState['language'], lang: Languages): Languages | 'all' => filter ?? lang

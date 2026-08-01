@@ -1,9 +1,9 @@
 'use client'
 
-import type { Translations } from '@/app/types'
+import type { Languages, Translations } from '@/app/types'
 
 import React, { useState } from 'react'
-import { usePlaylistStore } from '@/app/store/usePlaylistStore'
+import { usePlaylistStore, effectiveLanguage } from '@/app/store/usePlaylistStore'
 import { allLanguages } from '@/app/static'
 import FilterSelect from '@/app/[lang]/(home)/components/FilterSelect'
 import CategoryPills from '@/app/[lang]/(home)/components/CategoryPills'
@@ -15,6 +15,9 @@ export interface FilterGridProps {
 const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
   const { filters, setLanguage, setContentType, setPresentationStyle, setCategory, setClass } = usePlaylistStore()
   const [showAdvanced, setShowAdvanced] = useState(false)
+
+  // Mirror the grid's fallback so the select shows the language actually applied.
+  const languageFilter = effectiveLanguage(filters.language, t.__language.code)
 
   // Transform data to FilterOption format
   const languageOptions = allLanguages.map((l) => ({ key: l.code, value: l.name }))
@@ -58,8 +61,8 @@ const FilterGrid: React.FC<FilterGridProps> = ({ t }) => {
           <FilterSelect
             id="language-filter"
             label={t.filterLanguageLabel}
-            value={filters.language}
-            onChange={(value) => setLanguage(value as typeof filters.language)}
+            value={languageFilter}
+            onChange={(value) => setLanguage(value as Languages | 'all')}
             options={languageOptions}
             showAllOption
             allOptionLabel={t.filterAllOption}
