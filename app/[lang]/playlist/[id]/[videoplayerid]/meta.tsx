@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import type { VideoPlayerParams } from '@/app/[lang]/playlist/[id]/[videoplayerid]/params'
 
 import { getVideo } from '@/app/db'
-import { videoThumbnailUrl } from '@/app/utils'
+import { videoThumbnailUrl, youtubeWatchUrl } from '@/app/utils'
 import { getTranslations } from '@/app/translate'
 import { allLanguages, defaultLanguage } from '@/app/static'
 
@@ -59,8 +59,8 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
       locale: 'ar_SA',
       videos: [
         {
-          url: `https://www.youtube.com/watch?v=${video.id}`,
-          secureUrl: `https://www.youtube.com/watch?v=${video.id}`,
+          url: youtubeWatchUrl(video.id),
+          secureUrl: youtubeWatchUrl(video.id),
           type: 'text/html',
           width: 1280,
           height: 720,
@@ -75,7 +75,7 @@ export async function generateMetadata({ params }: VideoPlayerMetadataProps): Pr
       images: [thumbnailUrl],
       players: {
         playerUrl: `https://www.youtube.com/embed/${video.id}`,
-        streamUrl: `https://www.youtube.com/watch?v=${video.id}`,
+        streamUrl: youtubeWatchUrl(video.id),
         width: 1280,
         height: 720,
       },

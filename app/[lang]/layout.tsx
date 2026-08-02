@@ -5,6 +5,10 @@ import React from 'react'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { allLanguages, defaultLanguage, metadata } from '@/app/static'
 import { getLanguage, getTranslations } from '@/app/translate'
+import LanguageSwitcher from '@/app/shared/components/LanguageSwitcher'
+import LanguagePicker from '@/app/shared/components/LanguagePicker'
+import NotesInbox from '@/app/shared/components/NotesInbox'
+import FeedbackWidget from '@/app/shared/components/FeedbackWidget'
 import '@/app/globals.css'
 
 export { viewport } from '@/app/static'
@@ -82,10 +86,19 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 const LanguageLayout: React.FC<Readonly<LanguageLayoutProps>> = async ({ children, params }) => {
   const { lang: langCode } = await params
   const lang = getLanguage(langCode)
+  const t: Translations = getTranslations(langCode)
 
   return (
     <html lang={lang.code} dir={lang.dir}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <NotesInbox />
+        <LanguagePicker currentLang={lang.code} t={t} />
+        <div className={`fixed top-3 z-50 ${lang.dir === 'rtl' ? 'left-4' : 'right-4'}`}>
+          <LanguageSwitcher currentLang={lang.code} dir={lang.dir} />
+        </div>
+        {children}
+        <FeedbackWidget t={t} lang={lang.code} />
+      </body>
     </html>
   )
 }

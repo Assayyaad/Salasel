@@ -2,7 +2,6 @@
 
 # generated files
 /public/playlists.json
-/public/videos/
 
 # dependencies
 /node_modules
@@ -43,3 +42,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.kiro/
+PR.md

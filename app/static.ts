@@ -70,17 +70,7 @@ export const metadata: Metadata = {
     'max-snippet': -1,
   },
   other: {
-    'preconnect': [
-      'https://img.youtube.com',
-      'https://www.youtube-nocookie.com',
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
-    ],
-    'dns-prefetch': [
-      '//img.youtube.com',
-      '//www.youtube-nocookie.com',
-      '//fonts.googleapis.com',
-      '//fonts.gstatic.com',
-    ],
+    'preconnect': ['https://img.youtube.com', 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'],
+    'dns-prefetch': ['//img.youtube.com', '//fonts.googleapis.com', '//fonts.gstatic.com'],
   },
 }
