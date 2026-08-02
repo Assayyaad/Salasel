@@ -3,23 +3,23 @@
 import type { Translations } from '@/app/types'
 
 import React from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export interface BackButtonProps {
   t: Translations
 }
 
 const BackButton: React.FC<BackButtonProps> = ({ t }) => {
-  const isRtl = t.__language.dir === 'rtl'
+  const router = useRouter()
 
   return (
-    <Link
-      href={`/${t.__language.code}`}
-      className="inline-flex items-center text-sm font-medium text-slate-400 hover:text-white transition-colors"
+    <button
+      onClick={() => router.back()}
+      className="inline-flex items-center text-sm font-medium text-slate-400 hover:text-white transition-colors cursor-pointer"
     >
-      <span className="material-icons-round mr-2">{isRtl ? 'arrow_forward' : 'arrow_back'}</span>
+      <span className="material-icons-round mr-2">arrow_forward</span>
       {t.goBack}
-    </Link>
+    </button>
   )
 }
 

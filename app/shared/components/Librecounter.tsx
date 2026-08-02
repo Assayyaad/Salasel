@@ -7,7 +7,7 @@ const Librecounter: React.FC = () => {
         src="https://librecounter.org/counter.svg"
         referrerPolicy="unsafe-url"
         alt="Visitor counter"
-        className="w-0 h-0"
+        className="w-4 h-auto"
         width={16}
         height={16}
       />

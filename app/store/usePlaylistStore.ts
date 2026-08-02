@@ -3,32 +3,29 @@ import type { Languages, ContentTypes, PresentationStyles, Categories, Classes }
 import { create } from 'zustand'
 
 export interface FilterState {
-  language: Languages | 'all'
-  contentType: ContentTypes | 'all'
-  category: Categories | 'all'
+  language: Languages
+  contentType: ContentTypes
+  category: Categories
   presentationStyle: PresentationStyles | 'all'
   class: Classes | 'all'
-  bookmarkedOnly: boolean
 }
 
 export interface PlaylistState {
   filters: FilterState
-  setLanguage: (language: Languages | 'all') => void
-  setContentType: (contentType: ContentTypes | 'all') => void
-  setCategory: (category: Categories | 'all') => void
+  setLanguage: (language: Languages) => void
+  setContentType: (contentType: ContentTypes) => void
+  setCategory: (category: Categories) => void
   setPresentationStyle: (presentationStyle: PresentationStyles | 'all') => void
   setClass: (classType: Classes | 'all') => void
-  setBookmarkedOnly: (bookmarkedOnly: boolean) => void
   resetFilters: () => void
 }
 
 const defaultFilters: FilterState = {
-  language: 'all',
-  contentType: 'all',
+  language: 'ar',
+  contentType: 0,
   presentationStyle: 'all',
-  category: 'all',
+  category: 0,
   class: 'all',
-  bookmarkedOnly: false,
 }
 
 export const usePlaylistStore = create<PlaylistState>((set) => ({
@@ -38,6 +35,5 @@ export const usePlaylistStore = create<PlaylistState>((set) => ({
   setPresentationStyle: (s) => set((state) => ({ filters: { ...state.filters, presentationStyle: s } })),
   setCategory: (c) => set((state) => ({ filters: { ...state.filters, category: c } })),
   setClass: (c) => set((state) => ({ filters: { ...state.filters, class: c } })),
-  setBookmarkedOnly: (b) => set((state) => ({ filters: { ...state.filters, bookmarkedOnly: b } })),
   resetFilters: () => set({ filters: defaultFilters }),
 }))

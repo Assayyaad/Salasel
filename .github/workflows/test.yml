@@ -31,6 +31,3 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
-          APP_ENV: production
-          PROD_SUPABASE_URL: ${{ secrets.PROD_SUPABASE_URL }}
-          PROD_SUPABASE_ANON_KEY: ${{ secrets.PROD_SUPABASE_ANON_KEY }}

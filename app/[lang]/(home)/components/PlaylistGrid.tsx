@@ -1,26 +1,23 @@
 'use client'
 
-import type { CalculatedPlaylist, LanguageCode, Translations } from '@/app/types'
+import type { CalculatedPlaylist, LanguageCode } from '@/app/types'
 import type { PlaylistCardPlaylist } from '@/app/[lang]/(home)/components/PlaylistCard'
 
 import React, { ReactNode } from 'react'
 import PlaylistCard from '@/app/[lang]/(home)/components/PlaylistCard'
 import { usePlaylistStore } from '@/app/store/usePlaylistStore'
-import { useBookmarkStore } from '@/app/store/useBookmarkStore'
 
 export type PlaylistGridPlaylist = Pick<
   CalculatedPlaylist,
-  'id' | 'language' | 'type' | 'categories' | 'style' | 'classes' | 'videoCount'
+  'id' | 'language' | 'type' | 'categories' | 'style' | 'classes'
 >
 export interface PlaylistGridProps {
   playlists: Record<string, PlaylistGridPlaylist & PlaylistCardPlaylist>
   lang: LanguageCode
-  t: Translations
 }
 
-const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, t }) => {
+const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang }) => {
   const { filters } = usePlaylistStore()
-  const { isBookmarked } = useBookmarkStore()
 
   const cards: ReactNode[] = []
   for (const id in playlists) {
@@ -29,14 +26,12 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, t }) => {
     const pl = playlists[id]
 
     if (
-      // Language filter (optional — 'all' shows every language)
-      (filters.language === 'all' || pl.language === filters.language) &&
-      // Bookmark filter (optional)
-      (!filters.bookmarkedOnly || isBookmarked(pl.id)) &&
-      // Content type filter (optional)
-      (filters.contentType === 'all' || pl.type === filters.contentType) &&
-      // Category filter (optional)
-      (filters.category === 'all' || pl.categories.includes(filters.category as any)) &&
+      // Language filter (mandatory)
+      pl.language === filters.language &&
+      // Content type filter (mandatory)
+      pl.type === filters.contentType &&
+      // Category filter (mandatory)
+      pl.categories.includes(filters.category as any) &&
       // Presentation style filter (optional)
       (filters.presentationStyle === 'all' || pl.style === filters.presentationStyle) &&
       // Class filter (optional)
@@ -44,7 +39,7 @@ const PlaylistGrid: React.FC<PlaylistGridProps> = ({ playlists, lang, t }) => {
     ) {
       // Prioritize first 6 cards for LCP optimization (first 2 rows in 3-column grid)
       const isPriority = cards.length < 6
-      cards.push(<PlaylistCard key={pl.id} playlist={pl} lang={lang} priority={isPriority} t={t} />)
+      cards.push(<PlaylistCard key={pl.id} playlist={pl} lang={lang} priority={isPriority} />)
     }
   }
 

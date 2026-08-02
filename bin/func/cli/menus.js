@@ -25,12 +25,7 @@ async function mainMenu() {
     { value: 0, name: 'Playlists', description: 'Manage playlists', func: playlistMenu },
     { value: 1, name: 'Videos', description: 'Manage videos', func: videoMenu },
     { value: 2, name: 'Transcripts', description: 'Manage transcripts', func: transcriptMenu },
-    {
-      value: 3,
-      name: 'Build playlists.json',
-      description: 'Generate public/playlists.json from CSV (for seeding)',
-      func: convertToJson,
-    },
+    { value: 3, name: 'Convert CSV to JSON', description: 'Convert CSV files to JSON format', func: convertToJson },
   ])
 }
 

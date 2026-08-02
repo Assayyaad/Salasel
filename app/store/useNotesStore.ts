@@ -1,149 +1,134 @@
 import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
-import type { NoteRecord, NotesHandoffPayload } from '@/app/types'
 
-/** localStorage key the extension writes the full notes snapshot to */
-export const NOTES_INBOX_KEY = 'salasel-notes-inbox'
-
-/** DOM event the extension dispatches after writing the inbox key */
-export const NOTES_UPDATED_EVENT = 'salasel:notes-updated'
-
-/** localStorage key the app writes its full notes snapshot to, for the extension to read */
-export const NOTES_OUTBOX_KEY = 'salasel-notes-outbox'
-
-/** DOM event the app dispatches after writing the outbox key */
-export const NOTES_APP_UPDATED_EVENT = 'salasel:app-notes-updated'
+export interface Note {
+  id: string
+  videoId: string
+  playlistId: string
+  timestamp: string // Format: "MM:SS" or "HH:MM:SS"
+  content: string
+  createdAt: number
+}
 
 export interface NotesState {
-  /** Canonical app notes, keyed by videoId */
-  notes: Record<string, NoteRecord>
-  /** Upsert a single note using last-write-wins on updatedAt */
-  upsertNote: (note: NoteRecord) => void
-  /** Import a full snapshot from the extension (last-write-wins per video) */
-  importSnapshot: (incoming: Record<string, NoteRecord>) => void
-  /** Get the note for a single video, if any */
-  getNote: (videoId: string) => NoteRecord | undefined
-  /** Get all notes whose playlistId matches the given playlist */
-  getNotesForPlaylist: (playlistId: string) => NoteRecord[]
+  notes: Record<string, Note[]> // key: `${playlistId}-${videoId}`
+  addNote: (playlistId: string, videoId: string, timestamp: string, content: string) => void
+  updateNote: (noteId: string, content: string, timestamp: string) => void
+  deleteNote: (noteId: string) => void
+  getVideoNotes: (playlistId: string, videoId: string) => Note[]
+  loadNotes: () => void
 }
 
-/** Validate a single record loosely — extension data is untrusted */
-function isValidRecord(rec: unknown): rec is NoteRecord {
-  if (!rec || typeof rec !== 'object') return false
-  const r = rec as Record<string, unknown>
-  return typeof r.videoId === 'string' && typeof r.text === 'string'
-}
+const STORAGE_KEY = 'salasel-video-notes'
 
-/** Normalize a loosely-validated record into a well-formed NoteRecord */
-function normalizeRecord(rec: NoteRecord): NoteRecord {
-  return {
-    videoId: rec.videoId,
-    playlistId: typeof rec.playlistId === 'string' ? rec.playlistId : null,
-    text: rec.text,
-    updatedAt: typeof rec.updatedAt === 'number' && Number.isFinite(rec.updatedAt) ? rec.updatedAt : 0,
+const loadNotesFromStorage = (): Record<string, Note[]> => {
+  if (typeof window === 'undefined') return {}
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    return stored ? JSON.parse(stored) : {}
+  } catch (error) {
+    console.error('Failed to load notes from localStorage:', error)
+    return {}
   }
 }
 
-export const useNotesStore = create<NotesState>()(
-  persist(
-    (set, get) => ({
-      notes: {},
-      upsertNote: (note) => {
-        set((state) => {
-          if (!isValidRecord(note)) return state
-          const incoming = normalizeRecord(note)
-          const existing = state.notes[incoming.videoId]
-          // Last-write-wins: keep whichever has the larger updatedAt.
-          if (existing && existing.updatedAt >= incoming.updatedAt) return state
-          return { notes: { ...state.notes, [incoming.videoId]: incoming } }
-        })
-        // Publish to the extension after a local edit (app -> extension direction).
-        exportNotesToExtension(get().notes)
-      },
-      importSnapshot: (incoming) =>
-        set((state) => {
-          if (!incoming || typeof incoming !== 'object') return state
-          const next = { ...state.notes }
-          let changed = false
-          for (const [videoId, rec] of Object.entries(incoming)) {
-            if (!isValidRecord(rec)) continue
-            const normalized = normalizeRecord(rec)
-            const existing = next[videoId]
-            // Never delete notes absent from the snapshot; only upsert newer ones.
-            if (existing && existing.updatedAt >= normalized.updatedAt) continue
-            next[videoId] = normalized
-            changed = true
-          }
-          return changed ? { notes: next } : state
+const saveNotesToStorage = (notes: Record<string, Note[]>) => {
+  if (typeof window === 'undefined') return
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes))
+  } catch (error) {
+    console.error('Failed to save notes to localStorage:', error)
+  }
+}
+
+export const useNotesStore = create<NotesState>((set, get) => ({
+  notes: {},
+
+  loadNotes: () => {
+    const notes = loadNotesFromStorage()
+    set({ notes })
+  },
+
+  addNote: (playlistId: string, videoId: string, timestamp: string, content: string) => {
+    const key = `${playlistId}-${videoId}`
+    const newNote: Note = {
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      videoId,
+      playlistId,
+      timestamp,
+      content,
+      createdAt: Date.now(),
+    }
+
+    set((state) => {
+      const videoNotes = state.notes[key] || []
+      const updatedNotes = {
+        ...state.notes,
+        [key]: [...videoNotes, newNote].sort((a, b) => {
+          // Sort by timestamp
+          const timeA = timeToSeconds(a.timestamp)
+          const timeB = timeToSeconds(b.timestamp)
+          return timeA - timeB
         }),
-      getNote: (videoId) => get().notes[videoId],
-      getNotesForPlaylist: (playlistId) =>
-        Object.values(get().notes)
-          .filter((n) => n.playlistId === playlistId)
-          .sort((a, b) => b.updatedAt - a.updatedAt),
-    }),
-    {
-      name: 'notes-storage',
-      storage: createJSONStorage(() => localStorage),
-    },
-  ),
-)
+      }
+      saveNotesToStorage(updatedNotes)
+      return { notes: updatedNotes }
+    })
+  },
 
-/**
- * Read the extension inbox from localStorage, validate it, and import the notes.
- * Safe to call on load and on every `salasel:notes-updated` event. Never throws.
- */
-export function importNotesFromExtension(): void {
-  if (typeof window === 'undefined') return
+  updateNote: (noteId: string, content: string, timestamp: string) => {
+    set((state) => {
+      const updatedNotes = { ...state.notes }
+      for (const key in updatedNotes) {
+        const noteIndex = updatedNotes[key].findIndex((n) => n.id === noteId)
+        if (noteIndex !== -1) {
+          updatedNotes[key][noteIndex] = {
+            ...updatedNotes[key][noteIndex],
+            content,
+            timestamp,
+          }
+          // Re-sort after update
+          updatedNotes[key] = updatedNotes[key].sort((a, b) => {
+            const timeA = timeToSeconds(a.timestamp)
+            const timeB = timeToSeconds(b.timestamp)
+            return timeA - timeB
+          })
+          break
+        }
+      }
+      saveNotesToStorage(updatedNotes)
+      return { notes: updatedNotes }
+    })
+  },
 
-  let raw: string | null
-  try {
-    raw = window.localStorage.getItem(NOTES_INBOX_KEY)
-  } catch {
-    return
+  deleteNote: (noteId: string) => {
+    set((state) => {
+      const updatedNotes = { ...state.notes }
+      for (const key in updatedNotes) {
+        updatedNotes[key] = updatedNotes[key].filter((n) => n.id !== noteId)
+        if (updatedNotes[key].length === 0) {
+          delete updatedNotes[key]
+        }
+      }
+      saveNotesToStorage(updatedNotes)
+      return { notes: updatedNotes }
+    })
+  },
+
+  getVideoNotes: (playlistId: string, videoId: string) => {
+    const key = `${playlistId}-${videoId}`
+    return get().notes[key] || []
+  },
+}))
+
+// Helper function to convert timestamp to seconds for sorting
+const timeToSeconds = (timestamp: string): number => {
+  const parts = timestamp.split(':').map(Number)
+  if (parts.length === 2) {
+    // MM:SS
+    return parts[0] * 60 + parts[1]
+  } else if (parts.length === 3) {
+    // HH:MM:SS
+    return parts[0] * 3600 + parts[1] * 60 + parts[2]
   }
-  if (!raw) return
-
-  let payload: Partial<NotesHandoffPayload>
-  try {
-    payload = JSON.parse(raw)
-  } catch {
-    return
-  }
-
-  if (!payload || payload.source !== 'salasel-extension' || payload.version !== 1) return
-
-  const incoming = payload.notes && typeof payload.notes === 'object' ? payload.notes : {}
-  useNotesStore.getState().importSnapshot(incoming)
-}
-
-/**
- * Write the app's full notes snapshot to localStorage["salasel-notes-outbox"]
- * and notify the extension via a `salasel:app-notes-updated` event. This is the
- * app -> extension direction; the extension reads this key and merges with
- * last-write-wins on `updatedAt` (same rule the app uses for the inbox). The
- * payload shape mirrors NotesHandoffPayload so both sides share one schema.
- * Never throws.
- */
-export function exportNotesToExtension(notes: Record<string, NoteRecord>): void {
-  if (typeof window === 'undefined') return
-
-  const payload: NotesHandoffPayload = {
-    source: 'salasel-extension',
-    version: 1,
-    exportedAt: Date.now(),
-    notes,
-  }
-
-  try {
-    window.localStorage.setItem(NOTES_OUTBOX_KEY, JSON.stringify(payload))
-  } catch {
-    return
-  }
-
-  try {
-    window.dispatchEvent(new CustomEvent(NOTES_APP_UPDATED_EVENT))
-  } catch {
-    // Ignore environments without CustomEvent support.
-  }
+  return 0
 }

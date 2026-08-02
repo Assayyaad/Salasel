@@ -1,4 +1,4 @@
-/** @import { CalculatedPlaylist, FetchedVideo, FilledPlaylist } from '../../types.js'  */
+/** @import { CalculatedPlaylist, CalculatedVideo, FetchedPlaylist, FetchedVideo, FilledPlaylist } from '../../types.js'  */
 
 /**
  * @param {string} str
@@ -104,6 +104,18 @@ function calcPlaylist(playlist, videos) {
   }
 }
 
+/**
+ * @param {FetchedVideo} video
+ * @param {Pick<FetchedPlaylist, 'id'>} playlist
+ * @returns {CalculatedVideo}
+ */
+function calcVideo(video, playlist) {
+  return {
+    ...video,
+    playlistId: playlist.id,
+  }
+}
+
 module.exports = {
   toPlaylistUrl,
   toVideoUrl,
@@ -115,4 +127,5 @@ module.exports = {
   parseDuration,
 
   calcPlaylist,
+  calcVideo,
 }
