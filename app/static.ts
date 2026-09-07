@@ -56,10 +56,6 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://salasel.app/'),
   category: 'Education',
   classification: 'Education',
-  icons: {
-    icon: '/img/logo.webp',
-    apple: '/img/logo.webp',
-  },
   manifest: '/manifest.json',
   keywords: [],
   robots: {
