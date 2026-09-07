@@ -44,3 +44,10 @@ yarn-error.log*
 next-env.d.ts
 .kiro/
 PR.md
+
+# Local design artifacts
+/docs/
+/exports/
+/scripts/
+/public/img/landing-knowledge-path-square.png
+/public/img/salasel-social-share-1200.png
